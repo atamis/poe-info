@@ -2,7 +2,12 @@
   (:require [clj-http.client :as client]
             [clj-http.cookies :as cookies]
             [clojure.data.json :as json]
-            [clojure.string :as string])
+            [clojure.string :as string]
+            [java-time :as jtime]
+
+            [poe-info.util :as util]
+            [poe-info.item :as item]
+            )
   (:gen-class))
 
 (defn enumerate [s]
@@ -15,15 +20,6 @@
 ;; 3: unique
 ;; 4: gem
 
-
-(def frametype->rarity
-  "Convert a frameType to a symbol representing the rarity (including gem)"
-  {0 :normal
-   1 :magic
-   2 :rare
-   3 :unique
-   4 :gem})
-
 (def rarity->str
   "Convert a rarity symbol to a capitalized string"
   {:normal "Normal"
@@ -35,7 +31,7 @@
 (defn frametype->str
   "Combines frametype->rarity and rarity->str"
   [ft]
-  (rarity->str (frametype->rarity ft)))
+  (rarity->str (item/frametype->rarity ft)))
 
 (def item-str-sep "Used to separate blocks in item descriptions" "--------")
 
@@ -133,7 +129,7 @@
   "Get the URL for the given username and tab index (default 0)."
   ([username] (get-stash-item-url username 0))
   ([username index]
-   (str "https://www.pathofexile.com/character-window/get-stash-items?league=Betrayal&tabs=1&tabIndex=" index "&accountName=" username)))
+   (str "https://www.pathofexile.com/character-window/get-stash-items?league=Synthesis&tabs=1&tabIndex=" index "&accountName=" username)))
 
 (defn my-account-url
   "THe URL for the my-account page."
@@ -158,12 +154,27 @@
 
   cs)
 
+
+
+(comment
+
+  (doseq [i [1 2 3]]
+    (println i)
+    (let [filename (format "archive/tab%d-%s.json" i (str (jtime/local-date-time)))]
+      (->> (client/get (get-stash-item-url username i) {:cookie-store cs})
+           :body
+           (spit filename)
+           ))
+    )
+
+  )
+
 (defn -main
   "Count how many items are in tab indexes 1, 2, 3. Loads data from ./poesessid and ./username."
   [& args]
 
   (def cs (make-cs (string/trim (slurp (or (first args) "poesessid")))))
-  (def username (slurp "username"))
+  (def username (.trim (slurp "username")))
 
   (def items
     (->>
@@ -172,4 +183,119 @@
 
   (prn (count items))
   ;(prn cs)
-)
+  )
+
+;; take a list of numbers
+;; return list of numbers indicating the batch size to vendor gems
+;; each batch must sum to at least a multiple of 40
+;; minimize excess over the multiple of 40
+;; batch has maximum size
+
+(def max-batch 3)
+(def target-multiple 40)
+(def large-inventory (* 5 12))
+(def normal-inventory (* 5 11))
+
+(defn gem-maximum-batches
+  "Returns [batches left-overs]"
+  [qualities]
+  (loop [out []
+         cur-batch []
+         qualities qualities]
+    (if (<= target-multiple (reduce + cur-batch))
+      (recur (conj out cur-batch) [] qualities)
+      (if (empty? qualities)
+        [out cur-batch]
+        (recur out (conj cur-batch (first qualities)) (rest qualities))))))
+
+(defn batch-waste
+  [batch]
+  (rem (reduce + batch) target-multiple))
+
+(defn avg-soln-waste
+  [batches]
+  (/ (->> batches
+          (map batch-waste)
+          (reduce +))
+     (count batches)))
+
+(gem-maximum-batches '(20 21 40))
+
+(defn find-indexes
+  [pred seq]
+  (let [pred (if (fn? pred) pred #(= % pred))]
+    (loop [seq seq
+           out '()
+           idx 0]
+      (if (empty? seq)
+        out
+        (let [[car & cdr] seq
+              out (if (pred car) (conj out idx) out)]
+          (recur cdr out (inc idx)))))))
+
+(defn min-index
+  [seq]
+  (first (apply min-key second (map-indexed vector seq))))
+
+(defn running-waste
+  [batches]
+  (loop [batches batches
+         out []
+         sum 0]
+    (if (empty? batches)
+      out
+      (let [[car & cdr] batches
+            sum (reduce + sum car)
+            waste (rem sum target-multiple)]
+        (recur cdr (conj out waste) sum)))))
+
+
+(defn aprox-gem-batches
+  [qualities]
+  (loop [qualities qualities
+         out []]
+    (if (empty? qualities)
+      out
+      (let [inventory (take normal-inventory qualities)
+            [batches left-over] (gem-maximum-batches inventory)
+            batches (conj batches left-over)
+            wastes (running-waste batches)
+            first-best-index (min-index wastes)
+            first-best-waste (nth wastes first-best-index)
+            latest-best-index (apply max (find-indexes first-best-waste wastes))
+            best-batches (take (inc latest-best-index) batches)
+            best-batch (flatten best-batches)
+            remaining (drop (count best-batch) qualities)
+            ]
+        (recur remaining (conj out best-batch))))))
+
+
+(defn load-gem-inventory
+  []
+  (def gems (json/read-str (slurp "gems.json") :key-fn keyword))
+  )
+
+(def stash-width 12)
+(def stash-height 12)
+
+(defn lexigraphic-stash-index
+  [{:keys [x y]}]
+  (+ y (* x stash-height)))
+
+(defn item-quality
+  [{:keys [properties]}]
+  (let [{:keys [values]} (first (filter #(= (:name %) "Quality") properties))
+        [[quality _]] values
+        ]
+    (if quality
+      (let [[_ s] (re-find #"\+(.+)\%" quality)]
+        (Integer/parseInt s)
+        )
+      0)
+    ))
+
+(comment
+  (load-gem-inventory)
+  (map (fn [x] [(count x) (batch-waste x)]) (aprox-gem-batches (map item-quality (sort-by lexigraphic-stash-index (:items gems)))))
+
+  )

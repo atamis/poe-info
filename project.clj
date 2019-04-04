@@ -7,6 +7,8 @@
                  [clj-http "3.9.1"]
                  [org.clojure/data.json "0.2.6"]
                  [cheshire "5.8.1"]
+                 [clojure.java-time "0.3.2"]
+                 [org.clojure/core.match "0.3.0"]
                  ]
   :main ^:skip-aot poe-info.core
   :plugins [[lein-codox "0.10.5"]]
