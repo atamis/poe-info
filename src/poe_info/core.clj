@@ -7,6 +7,7 @@
 
             [poe-info.util :as util]
             [poe-info.item :as item]
+            [poe-info.constants :as constants]
             )
   (:gen-class))
 
@@ -193,8 +194,6 @@
 
 (def max-batch 3)
 (def target-multiple 40)
-(def large-inventory (* 5 12))
-(def normal-inventory (* 5 11))
 
 (defn gem-maximum-batches
   "Returns [batches left-overs]"
@@ -256,7 +255,7 @@
          out []]
     (if (empty? qualities)
       out
-      (let [inventory (take normal-inventory qualities)
+      (let [inventory (take constants/normal-inventory qualities)
             [batches left-over] (gem-maximum-batches inventory)
             batches (conj batches left-over)
             wastes (running-waste batches)
@@ -275,12 +274,9 @@
   (def gems (json/read-str (slurp "gems.json") :key-fn keyword))
   )
 
-(def stash-width 12)
-(def stash-height 12)
-
 (defn lexigraphic-stash-index
   [{:keys [x y]}]
-  (+ y (* x stash-height)))
+  (+ y (* x constants/stash-height)))
 
 (defn item-quality
   [{:keys [properties]}]
