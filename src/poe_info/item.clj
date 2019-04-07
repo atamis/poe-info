@@ -22,3 +22,9 @@
   [{:keys [frameType]}]
   (frametype->rarity frameType)
   )
+
+(def identified? :identified)
+
+(defn size
+  [{:keys [w h]}]
+  (* w h))

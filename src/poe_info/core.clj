@@ -8,8 +8,7 @@
             [poe-info.util :as util]
             [poe-info.item :as item]
             [poe-info.constants :as constants]
-            [poe-info.gems :as gems]
-            )
+            [poe-info.gems :as gems])
   (:gen-class))
 
 (defn enumerate [s]
@@ -156,8 +155,6 @@
 
   cs)
 
-
-
 (comment
 
   (doseq [i [1 2 3]]
@@ -165,11 +162,7 @@
     (let [filename (format "archive/tab%d-%s.json" i (str (jtime/local-date-time)))]
       (->> (client/get (get-stash-item-url username i) {:cookie-store cs})
            :body
-           (spit filename)
-           ))
-    )
-
-  )
+           (spit filename)))))
 
 (defn -main
   "Count how many items are in tab indexes 1, 2, 3. Loads data from ./poesessid and ./username."
@@ -178,12 +171,24 @@
   (def cs (make-cs (string/trim (slurp (or (first args) "poesessid")))))
   (def username (.trim (slurp "username")))
 
+  (def stashes [1 2 3])
+
   (def items
     (->>
-     [1 2 3]
+     stashes
      (mapcat #(get-in (client/get (get-stash-item-url username %) {:cookie-store cs :as :json}) [:body :items]))))
 
-  (prn (count items))
+  (clojure.pprint/pprint
+   {:count (count items)
+    :identified (->> items (map item/identified?) util/histogram)
+    :percent-full (float (/ (->> items (map item/size) (reduce +))
+                            (* (count stashes) constants/quad-stash)))
+    :div-cards (->> items (filter #(= (:category %) {:cards []})) count)
+    :rares (->> items (filter #(= (item/rarity %) :rare))
+                (map :identified)
+                util/histogram)})
   ;(prn cs)
   )
 
+(comment
+  (->> items (filter #(= (:category %) {:currency []})) (map :typeLine) util/histogram))
