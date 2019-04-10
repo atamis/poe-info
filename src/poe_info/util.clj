@@ -20,3 +20,7 @@
   (let [[n m] (split-with (complement pred) seq)
         item (first m)]
     [item (concat n (rest m))]))
+
+
+(defn enumerate [s]
+  (map vector (range) s))
