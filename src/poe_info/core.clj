@@ -10,53 +10,49 @@
             [poe-info.constants :as constants]
             [poe-info.gems :as gems]
             [poe-info.config :as config]
+            [poe-info.api :as api]
             )
   (:gen-class))
 
-
-(defn get-stash-item-url
-  "Get the URL for the given username and tab index (default 0)."
-  ([username] (get-stash-item-url username 0))
-  ([username index]
-   (str "https://www.pathofexile.com/character-window/get-stash-items?league=Synthesis&tabs=1&tabIndex=" index "&accountName=" username)))
-
-(defn my-account-url
-  "THe URL for the my-account page."
-  []
-  "https://www.pathofexile.com/my-account")
-
-(defn find-sess-cookie
-  "Return the cookie object that has the name POESESSID."
-  [cs]
-  (first (filter #(= (.getName %) "POESESSID") (.getCookies cs))))
-
-(defn make-cs
-  "Make a cookie store with the POESESSID cookie set to the given id."
-  [id]
-  (def cs (clj-http.cookies/cookie-store))
-
-  (client/get (my-account-url) {:cookie-store cs})
-
-  (def sess-cookie (find-sess-cookie cs))
-
-  (.setValue sess-cookie id)
-
-  cs)
 
 (comment
 
   (doseq [i [1 2 3]]
     (println i)
     (let [filename (format "archive/tab%d-%s.json" i (str (jtime/local-date-time)))]
-      (->> (client/get (get-stash-item-url username i) {:cookie-store cs})
+      (->> (client/get (api/stash-item-url username i) {:cookie-store cs})
            :body
            (spit filename)))))
 
+(defn histogram-identified
+  "Histogram of whether items are identified or not."
+  [items]
+  (->> items (map item/identified?) util/histogram)
+  )
+
+(defn percent-full
+  "Calculates the percentage of slots full in dump tabs."
+  [stashes items]
+  (float (/ (->> items (map item/size) (reduce +))
+                            (* (count stashes) constants/quad-stash))))
+
+(defn- count-div-cards
+  "Counts the number of divination cards"
+  [items]
+  (->> items (filter #(= (:category %) {:cards []})) count))
+
+(defn- histogram-identified-rares
+  "Histogram of rares and whether they are identified or not."
+  [items]
+  (->> items (filter #(= (item/rarity %) :rare))
+                (map :identified)
+                util/histogram))
+
 (defn -main
-  "Count how many items are in tab indexes 1, 2, 3. Loads data from ./poesessid and ./username."
+  "Count how many items are in tab indexes 1, 2, 3. Loads data from config.edn."
   [& args]
 
-  (def cs (make-cs (config/config :poesessid)))
+  (def cs (api/make-cs (config/config :poesessid)))
   (def username (config/config :username))
 
   (def stashes [1 2 3])
@@ -64,18 +60,16 @@
   (def items
     (->>
      stashes
-     (mapcat #(get-in (client/get (get-stash-item-url username %) {:cookie-store cs :as :json}) [:body :items]))))
+     (map #(api/stash-item-url username %) )
+     (map #(client/get % {:cookie-store cs :as :json}))
+     (mapcat #(get-in % [:body :items]))))
 
   (clojure.pprint/pprint
    {:count (count items)
-    :identified (->> items (map item/identified?) util/histogram)
-    :percent-full (float (/ (->> items (map item/size) (reduce +))
-                            (* (count stashes) constants/quad-stash)))
-    :div-cards (->> items (filter #(= (:category %) {:cards []})) count)
-    :rares (->> items (filter #(= (item/rarity %) :rare))
-                (map :identified)
-                util/histogram)})
-  ;(prn cs)
+    :identified (histogram-identified items)
+    :percent-full (percent-full stashes items)
+    :div-cards (count-div-cards items)
+    :identified-rares (histogram-identified-rares items)})
   )
 
 (comment
