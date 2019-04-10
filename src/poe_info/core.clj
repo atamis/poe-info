@@ -8,7 +8,9 @@
             [poe-info.util :as util]
             [poe-info.item :as item]
             [poe-info.constants :as constants]
-            [poe-info.gems :as gems])
+            [poe-info.gems :as gems]
+            [poe-info.config :as config]
+            )
   (:gen-class))
 
 (defn enumerate [s]
@@ -168,8 +170,8 @@
   "Count how many items are in tab indexes 1, 2, 3. Loads data from ./poesessid and ./username."
   [& args]
 
-  (def cs (make-cs (string/trim (slurp (or (first args) "poesessid")))))
-  (def username (.trim (slurp "username")))
+  (def cs (make-cs (config/config :poesessid)))
+  (def username (config/config :username))
 
   (def stashes [1 2 3])
 
