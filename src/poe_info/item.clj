@@ -2,9 +2,31 @@
   (:require
    [clojure.string :as string]
 
-   [poe-info.util :as util]
-   )
-  )
+   [poe-info.util :as util]))
+
+(def class-id->name
+  "Convert a classId to a symbol for the base class."
+  {0 :scion
+   1 :maurader
+   2 :ranger
+   3 :witch
+   4 :duelist
+   5 :templar
+   6 :shadow})
+
+;; TODO: incomplete mapping.
+(def ascendency->name
+  "Convert an [classId ascendencyClass] and to a symbol representing the ascendency class."
+  {[0 1] :ascendant
+   [1 1] :juggernaut
+   [2 3] :pathfinder
+   [3 3] :necromancer
+   [3 1] :occultist
+   [4 3] :champion
+   [5 2] :hierophant
+   [6 3] :saboteur
+   [6 2] :trickster
+   [6 0] :shadow})
 
 ;; Frametype
 ;; 0: normal
@@ -12,6 +34,7 @@
 ;; 2: rare
 ;; 3: unique
 ;; 4: gem
+
 
 (def frametype->rarity
   "Convert a frameType to a symbol representing the rarity (including gem)"
@@ -22,18 +45,16 @@
    4 :gem})
 
 (defn stash-index
-  "I 100% do not know what's up with :inventoryId, but this
-  unfucks it and puts the real index in :stash-id"
+  "If the item is in a stash tab, returns in the integer index for that stash.
+  Returns nil otherwise (like if the item was equipped on a character.)"
   [{:keys [inventoryId]}]
   (let [[_ s] (re-find #"Stash(.+)"  inventoryId)]
     (when s
-      (dec (Integer/parseInt s))
-      )))
+      (dec (Integer/parseInt s)))))
 
 (defn rarity
   [{:keys [frameType]}]
-  (frametype->rarity frameType)
-  )
+  (frametype->rarity frameType))
 
 (def identified? :identified)
 

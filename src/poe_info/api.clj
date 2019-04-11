@@ -1,11 +1,7 @@
 (ns poe-info.api
   (:require
    [clj-http.client :as client]
-   [clj-http.cookies :as cookies]
-
-   )
-  )
-
+   [clj-http.cookies :as cookies]))
 
 (defn stash-item-url
   "Get the URL for the given username and tab index (default 0)."
@@ -35,3 +31,22 @@
   (.setValue sess-cookie id)
 
   cs)
+
+(defn get-character-items
+  "cs is a cookie store, params is a map with the \"accountName\", \"realm\", and \"character\". This triggers a post request."
+  [cs params & {:as opts}]
+  (let [default {:form-params (select-keys params [:accountName, :realm, :character])
+                 :cookie-store cs
+                 :as :json}
+        options (merge default opts)]
+    (client/post "https://www.pathofexile.com/character-window/get-items"
+                 options)))
+
+(defn get-characters
+  [cs params & {:as opts}]
+  (let [default {:form-params (select-keys params [:accountName :realm])
+                 :cookie-store cs
+                 :as :json}
+        options (merge default opts)]
+    (client/post "https://www.pathofexile.com/character-window/get-characters"
+                 options)))

@@ -48,17 +48,50 @@
    :descrText "Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.",
    :verified false})
 
+(def worn-flask
+  {:y 0,
+   :implicitMods ["Creates a Smoke Cloud on Use"],
+   :properties
+   [{:name "Lasts %0 Seconds", :values [["5.00" 0]], :displayMode 3}
+    {:name "Consumes %0 of %1 Charges on use",
+     :values [["10" 0] ["30" 0]],
+     :displayMode 3}
+    {:name "Currently has %0 Charges", :values [["30" 0]], :displayMode 3}],
+   :category {:flasks []},
+   :requirements [{:name "Level", :values [["14" 0]], :displayMode 0}],
+   :typeLine "Perpetual Stibnite Flask of Warding",
+   :frameType 1,
+   :name "",
+   :w 1,
+   :utilityMods ["100% increased Evasion Rating"],
+   :explicitMods
+   ["39% increased Charge Recovery"
+    "Immune to Curses during Flask effect\nRemoves Curses on use"],
+   :icon
+   "https://web.poecdn.com/gen/image/WzksNCx7ImYiOiJBcnRcLzJESXRlbXNcL0ZsYXNrc1wvc3RpYm5pdGUiLCJzcCI6MC42MDg1LCJsZXZlbCI6MX1d/08305f870e/Item.png",
+   :ilvl 42,
+   :h 2,
+   :id "17b1a09f224b337e64c570ab38c582c7ba5adcf520924d4b55917a1f362a5668",
+   :inventoryId "Flask",
+   :x 2,
+   :identified true,
+   :league "Synthesis",
+   :descrText
+   "Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.",
+   :verified false})
+
 (deftest fixing-stash-index
   (testing "happy"
     (is (= 0 (stash-index {:inventoryId "Stash1"}))))
+
   (testing "full"
-    (is (= 10 (stash-index conq-potency)))))
+    (is (= 10 (stash-index conq-potency)))
+    (is (= nil (stash-index worn-flask)))))
 
 (deftest rarity-test
   (is (= :unique (rarity conq-potency)))
   (is (= :rare (rarity maelstrom-star)))
   #_(testing "rarity"))
-
 
 (deftest frametype->str-test
   (testing "all"
@@ -370,7 +403,7 @@ Corrupted"
 
                        false})))))
 
-(comment 
+(comment
   (deftest vaal-gem
     (testing "Vaal Blight"
       (is (= "Rarity: Gem
@@ -427,8 +460,7 @@ Corrupted"
                          :category {:gems ["activegem"]},
                          :additionalProperties [{:name "Experience", :values [["1/70" 0]], :displayMode 2, :progress 0.014285714365541935, :type 20}],
                          :requirements [{:name "Level", :values [["1" 0]], :displayMode 0}],
-                         :vaal {
-                                :baseTypeName "Blight",
+                         :vaal {:baseTypeName "Blight",
                                 :properties [{:name "Souls Per Use", :values [["30" 0]], :displayMode 0}
                                              {:name "Can Store %0 Use", :values [["1" 0]], :displayMode 3}
                                              {:name "Soul Gain Prevention", :values [["8 sec" 0]], :displayMode 0}
