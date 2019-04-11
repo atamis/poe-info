@@ -75,8 +75,7 @@
   [id & {:as opts}]
   (let [params (select-keys opts
                             [:realm :ladder :ladderLimit :ladderOffset :ladderTrack])
-        params (if (:ladder params) (update params :ladder {false 0 true 1}))
-        ]
+        params (if (:ladder params) (update params :ladder {false 0 true 1}))]
     (-> (str "http://api.pathofexile.com/leagues/" id)
         uri/uri
         (uri/query-map params)
@@ -91,3 +90,20 @@
   "Get a single league rule by id."
   [id]
   (str "http://api.pathofexile.com/league-rules/" id))
+
+;; poeprices.info
+
+(defn b64-encode
+  "Base64 encodes a string, returning a string."
+  [s]
+  (.encodeToString (java.util.Base64/getEncoder) (.getBytes s)))
+
+(defn poeprices-prediction
+  [league item-data & {:as opts}]
+  (let [defaults {:form-params
+                  {:l league
+                   :i (b64-encode item-data)}
+                  :as :json}
+        opts (merge defaults opts)]
+    (client/post "https://poeprices.info/api"
+                 opts)))
