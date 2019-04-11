@@ -116,8 +116,20 @@
             (util/enumerate values))
     (if (empty? values)
       name
-      (let [[value aug?] (first values)]
-        (str name ": " (if (= name "Experience") (reformat-experience value) value) (when (= aug? 1) " (augmented)"))))))
+      (str name ": "
+           (->> values
+                (map (fn [value]
+                       (let [[value aug?] value]
+                         (str
+                          (if (= name "Experience")
+                            (reformat-experience value)
+                            value)
+                          (when (< 0 aug?) " (augmented)")))
+                       ))
+                (clojure.string/join ", ")
+                )
+           )
+      )))
 
 (defn requirement->str
   "Converts a requirement description to a string for an item block."
@@ -134,6 +146,10 @@
         (assoc-in [:vaal :typeLine] vaal-name)
         ))
   )
+
+(defn add-fractured
+  [mods]
+  (map #(str % " (fractured)") mods))
 
 ;; TODO Fix this.
 (defn item->str
@@ -166,7 +182,8 @@
 
       [(:implicitMods item)]
 
-      [(:explicitMods item)]
+      [(when (:fractured item) (add-fractured (:fracturedMods item)))
+       (:explicitMods item)]
 
       [(when (:vaal item) (item->str (:vaal item)))]
 
@@ -174,7 +191,12 @@
 
       [(when (:flavourText item) (map string/trim (:flavourText item)))]
 
-      [(when (:corrupted item) "Corrupted")]]
+      [(when (:corrupted item) "Corrupted")]
+
+      [(when (:fractured item) "Fractured Item")]
+
+
+      ]
      (map #(filter (complement nil?) %))
      (filter (complement empty?))
      (interpose item-str-sep)

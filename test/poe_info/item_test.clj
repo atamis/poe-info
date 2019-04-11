@@ -81,55 +81,6 @@
    :descrText
    "Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.",
    :verified false})
-(def ^:const vaal-blight-api
-  {:y 9,
-   :properties [{:name "Vaal, Spell, Chaos, AoE, Duration, Channelling", :values [], :displayMode 0}
-                {:name "Level", :values [["1" 0]], :displayMode 0, :type 5}
-                {:name "Mana Cost", :values [["2" 0]], :displayMode 0}
-                {:name "Cast Time", :values [["0.30 sec" 0]], :displayMode 0}
-                {:name "Quality", :values [["+8%" 1]], :displayMode 0, :type 6}],
-   :category {:gems ["activegem"]},
-   :additionalProperties [{:name "Experience", :values [["1/70" 0]], :displayMode 2, :progress 0.014285714365541935, :type 20}],
-   :requirements [{:name "Level", :values [["1" 0]], :displayMode 0}],
-   :vaal {:baseTypeName "Blight",
-          :properties [{:name "Souls Per Use", :values [["30" 0]], :displayMode 0}
-                       {:name "Can Store %0 Use", :values [["1" 0]], :displayMode 3}
-                       {:name "Soul Gain Prevention", :values [["8 sec" 0]], :displayMode 0}
-                       {:name "Cast Time", :values [["0.60 sec" 0]], :displayMode 0}],
-          :explicitMods ["Deals 4.3 Base Chaos Damage per second"
-                         "Base duration is 6.00 seconds"
-                         "Base secondary duration is 3.00 seconds"
-                         "Modifiers to Spell Damage apply to this Skill's Damage Over Time effect"
-                         "Modifiers to Skill Effect Duration also apply to this Skill's Soul Gain Prevention"
-                         "4% increased Area of Effect"
-                         "80% reduced Movement Speed"
-                         "Debuff can have up to 20 layers of Damage"
-                         "Hindered Enemies take 20% increased Chaos Damage"],
-          :secDescrText "Apply a powerful debuff to enemies around you which deals chaos damage over time. Then applies two additional layers in a larger area, growing greatly in size each time. Enemies are also substantially hindered for a shorter secondary duration, slowing their movement."},
-   :typeLine "Vaal Blight",
-   :corrupted true,
-   :frameType 4,
-   :support false,
-   :name "",
-   :w 1,
-   :explicitMods ["Deals 1.7 Base Chaos Damage per second"
-                  "Base duration is 2.50 seconds"
-                  "Base secondary duration is 0.80 seconds"
-                  "Modifiers to Spell Damage apply to this Skill's Damage Over Time effect"
-                  "4% increased Area of Effect"
-                  "80% reduced Movement Speed"
-                  "Debuff can have up to 20 layers of Damage"],
-   :icon "https://web.poecdn.com/image/Art/2DItems/Gems/VaalGems/VaalBlightGem.png?scale=1&scaleIndex=1&w=1&h=1&v=6526a746f623ed6b1f9d85b11d44f39a",
-   :ilvl 0,
-   :h 1,
-   :secDescrText "Apply a debuff to enemies in front of you which deals chaos damage over time. Enemies who aren't already debuffed by Blight are also hindered for a shorter secondary duration, slowing their movement. Continued channelling adds layers of damage to the debuff, each with their own duration.",
-   :id "5cc848a5603d064c4141c008b6fe04f952b5e77397a9a243fd4896047df9ab38",
-   :inventoryId "Stash2",
-   :x 1,
-   :identified true,
-   :league "Betrayal",
-   :descrText "Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.",
-   :verified false})
 (def ^:const maelstrom-star-data
   "Rarity: Rare
 Maelström Star
@@ -433,6 +384,191 @@ Hindered Enemies take 20% increased Chaos Damage
 Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.
 --------
 Corrupted")
+(def ^:const vaal-blight-api
+  {:y 9,
+   :properties [{:name "Vaal, Spell, Chaos, AoE, Duration, Channelling", :values [], :displayMode 0}
+                {:name "Level", :values [["1" 0]], :displayMode 0, :type 5}
+                {:name "Mana Cost", :values [["2" 0]], :displayMode 0}
+                {:name "Cast Time", :values [["0.30 sec" 0]], :displayMode 0}
+                {:name "Quality", :values [["+8%" 1]], :displayMode 0, :type 6}],
+   :category {:gems ["activegem"]},
+   :additionalProperties [{:name "Experience", :values [["1/70" 0]], :displayMode 2, :progress 0.014285714365541935, :type 20}],
+   :requirements [{:name "Level", :values [["1" 0]], :displayMode 0}],
+   :vaal {:baseTypeName "Blight",
+          :properties [{:name "Souls Per Use", :values [["30" 0]], :displayMode 0}
+                       {:name "Can Store %0 Use", :values [["1" 0]], :displayMode 3}
+                       {:name "Soul Gain Prevention", :values [["8 sec" 0]], :displayMode 0}
+                       {:name "Cast Time", :values [["0.60 sec" 0]], :displayMode 0}],
+          :explicitMods ["Deals 4.3 Base Chaos Damage per second"
+                         "Base duration is 6.00 seconds"
+                         "Base secondary duration is 3.00 seconds"
+                         "Modifiers to Spell Damage apply to this Skill's Damage Over Time effect"
+                         "Modifiers to Skill Effect Duration also apply to this Skill's Soul Gain Prevention"
+                         "4% increased Area of Effect"
+                         "80% reduced Movement Speed"
+                         "Debuff can have up to 20 layers of Damage"
+                         "Hindered Enemies take 20% increased Chaos Damage"],
+          :secDescrText "Apply a powerful debuff to enemies around you which deals chaos damage over time. Then applies two additional layers in a larger area, growing greatly in size each time. Enemies are also substantially hindered for a shorter secondary duration, slowing their movement."},
+   :typeLine "Vaal Blight",
+   :corrupted true,
+   :frameType 4,
+   :support false,
+   :name "",
+   :w 1,
+   :explicitMods ["Deals 1.7 Base Chaos Damage per second"
+                  "Base duration is 2.50 seconds"
+                  "Base secondary duration is 0.80 seconds"
+                  "Modifiers to Spell Damage apply to this Skill's Damage Over Time effect"
+                  "4% increased Area of Effect"
+                  "80% reduced Movement Speed"
+                  "Debuff can have up to 20 layers of Damage"],
+   :icon "https://web.poecdn.com/image/Art/2DItems/Gems/VaalGems/VaalBlightGem.png?scale=1&scaleIndex=1&w=1&h=1&v=6526a746f623ed6b1f9d85b11d44f39a",
+   :ilvl 0,
+   :h 1,
+   :secDescrText "Apply a debuff to enemies in front of you which deals chaos damage over time. Enemies who aren't already debuffed by Blight are also hindered for a shorter secondary duration, slowing their movement. Continued channelling adds layers of damage to the debuff, each with their own duration.",
+   :id "5cc848a5603d064c4141c008b6fe04f952b5e77397a9a243fd4896047df9ab38",
+   :inventoryId "Stash2",
+   :x 1,
+   :identified true,
+   :league "Betrayal",
+   :descrText "Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.",
+   :verified false})
+(def ^:const fractured-armor-data
+  "Rarity: Rare
+Rift Veil
+Astral Plate
+--------
+Armour: 711
+--------
+Requirements:
+Level: 62
+Str: 180
+--------
+Sockets: R R-R-R
+--------
+Item Level: 78
+--------
++9% to all Elemental Resistances
+--------
+9.6 Life Regenerated per second (fractured)
++41 to Strength
++73 to maximum Life
++25% to Cold Resistance
+Reflects 40 Physical Damage to Melee Attackers
+--------
+Fractured Item")
+(def ^:const fractured-armor-api
+  {:y 20,
+   :implicitMods ["+9% to all Elemental Resistances"],
+   :properties [{:name "Armour", :values [["711" 0]], :displayMode 0, :type 16}],
+   :category {:armour ["chest"]},
+   :requirements
+   [{:name "Level", :values [["62" 0]], :displayMode 0}
+    {:name "Str", :values [["180" 0]], :displayMode 1}],
+   :typeLine "Astral Plate",
+   :frameType 2,
+   :name "Rift Veil",
+   :w 2,
+   :explicitMods
+   ["+41 to Strength"
+    "+73 to maximum Life"
+    "+25% to Cold Resistance"
+    "Reflects 40 Physical Damage to Melee Attackers"],
+   :fracturedMods ["9.6 Life Regenerated per second"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Armours/BodyArmours/BodyStr1C.png?scale=1&w=2&h=3&fractured=1&v=890da62b76971297e9eacccd44123e99",
+   :ilvl 78,
+   :sockets
+   [{:group 0, :attr "S", :sColour "R"}
+    {:group 1, :attr "S", :sColour "R"}
+    {:group 1, :attr "S", :sColour "R"}
+    {:group 1, :attr "S", :sColour "R"}],
+   :socketedItems [],
+   :h 3,
+   :id "70492077169396a63dd10d0fc4ec30b96d054e033e80d0e6493c6a1da821cfe1",
+   :fractured true,
+   :inventoryId "Stash2",
+   :x 20,
+   :identified true,
+   :league "Synthesis",
+   :verified false})
+(def ^:const corrupted-fractured-weapon-data
+  "Rarity: Rare
+Dragon Bane
+Dragoon Sword
+--------
+One Handed Sword
+Physical Damage: 36-75 (augmented)
+Elemental Damage: 46-106 (augmented), 1-42 (augmented)
+Critical Strike Chance: 6.00%
+Attacks per Second: 1.81 (augmented)
+Weapon Range: 12
+--------
+Requirements:
+Level: 72
+Dex: 220
+--------
+Sockets: G G-G
+--------
+Item Level: 79
+--------
+20% chance to cause Bleeding on Hit
+--------
+Adds 1 to 42 Lightning Damage (fractured)
+21% increased Attack Speed (fractured)
++50 to Dexterity
+Adds 4 to 9 Physical Damage
+Adds 46 to 106 Fire Damage
+--------
+Corrupted
+--------
+Fractured Item")
+(def ^:const corrupted-fractured-weapon-api
+  {:y 0,
+   :implicitMods ["20% chance to cause Bleeding on Hit"],
+   :properties
+   [{:name "One Handed Sword", :values [], :displayMode 0}
+    {:name "Physical Damage", :values [["36-75" 1]], :displayMode 0, :type 9}
+    {:name "Elemental Damage",
+     :values [["46-106" 4] ["1-42" 6]],
+     :displayMode 0,
+     :type 10}
+    {:name "Critical Strike Chance",
+     :values [["6.00%" 0]],
+     :displayMode 0,
+     :type 12}
+    {:name "Attacks per Second", :values [["1.81" 1]], :displayMode 0, :type 13}
+    {:name "Weapon Range", :values [["12" 0]], :displayMode 0, :type 14}],
+   :category {:weapons ["onesword"]},
+   :requirements
+   [{:name "Level", :values [["72" 0]], :displayMode 0}
+    {:name "Dex", :values [["220" 0]], :displayMode 1}],
+   :typeLine "Dragoon Sword",
+   :corrupted true,
+   :frameType 2,
+   :name "Dragon Bane",
+   :w 1,
+   :explicitMods
+   ["+50 to Dexterity"
+    "Adds 4 to 9 Physical Damage"
+    "Adds 46 to 106 Fire Damage"],
+   :fracturedMods ["Adds 1 to 42 Lightning Damage" "21% increased Attack Speed"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Weapons/OneHandWeapons/Rapiers/Rapier9.png?scale=1&w=1&h=4&fractured=1&v=8545ae716901cb1ea3c518d5e5630ba6",
+   :ilvl 79,
+   :sockets
+   [{:group 0, :attr "D", :sColour "G"}
+    {:group 1, :attr "D", :sColour "G"}
+    {:group 1, :attr "D", :sColour "G"}],
+   :socketedItems [],
+   :h 4,
+   :id "f70dc35d7a4298304cdf538081ff16aea9511f367dd67dddd2388a4137663350",
+   :fractured true,
+   :inventoryId "Stash40",
+   :x 7,
+   :identified true,
+   :league "Synthesis",
+   :verified false})
 
 (deftest fixing-stash-index
   (testing "happy"
@@ -524,6 +660,16 @@ Item Level: 83
   (testing "Vaal Blight"
     (is (= vaal-blight-data
            (item->str vaal-blight-api)))))
+
+(deftest fractured-armor
+  (testing "Rift Veil Astral Plate"
+    (is (= fractured-armor-data
+           (item->str fractured-armor-api)))))
+
+(deftest corrupted-fractured-weapon
+  (testing "Dragon Bane Dragoon Sword"
+    (is (= corrupted-fractured-weapon-data
+           (item->str corrupted-fractured-weapon-api)))))
 
 (deftest price-strings
   (testing "price->str"
