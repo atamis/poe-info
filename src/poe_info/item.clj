@@ -1,6 +1,7 @@
 (ns poe-info.item
   (:require
    [clojure.string :as string]
+   [clojure.spec.alpha :as s]
 
    [poe-info.util :as util]))
 
@@ -166,3 +167,44 @@
    ;(map empty->nil)
    (filter (complement nil?))
    (string/join "\n")))
+
+(def currencies #{:chrom
+                  :alt
+                  :jewel
+                  :chance
+                  :chisel :cartographer
+                  :fusing :fuse
+                  :alch
+                  :scour
+                  :blessed
+                  :chaos
+                  :regret
+                  :regal
+                  :gcp :gemcutter
+                  :divine
+                  :exalted :exa
+                  :mirror
+                  :perandus
+                  :silver})
+
+(def ^:no-doc currency-strings (->> currencies (map name) (into #{})))
+
+(s/def ::price (s/tuple #{:bo :price} number? currencies))
+
+(defn price->str
+  "Convert a price in the form []"
+  [[policy amt currency :as price]]
+  (s/assert ::price price)
+  (let [policy-str {:bo "b/o" :price "price"}]
+    (format "~%s %s %s" (policy-str policy) (str amt) (name currency))))
+
+(defn str->price
+  [s]
+  (if-let [[_ policy-s amt-s currency-s] (re-find #"~(b/o|price) (.+) (.+)" s)]
+    (let [policy ({"b/o" :bo "price" :price} policy-s)
+          amt (clojure.edn/read-string amt-s)
+          currency (if (contains? currency-strings currency-s)
+                     (keyword currency-s)
+                     currency-s)]
+      [policy amt currency])
+    nil))

@@ -1,6 +1,7 @@
 (ns poe-info.item-test
   (:require [poe-info.item :refer :all]
-            [clojure.test :refer :all]))
+            [clojure.test :refer :all]
+            [poe-info.item :as item]))
 
 (def conq-potency
   {:y 4,
@@ -500,5 +501,17 @@ Corrupted"
                          :descrText "Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.",
                          :verified false}))))))
 
-
-
+(deftest price-strings
+  (testing "price->str"
+    (is (= "~b/o 1 exa" (price->str [:bo 1 :exa])))
+    (is (= "~price 3 alt" (price->str [:price 3 :alt])))
+    (is (= "~price 10/3 chrom" (price->str [:price 10/3 :chrom])))
+    (is (thrown? java.lang.Exception (clojure.spec.alpha/check-asserts true) (price->str [:asdf 10/3 :alt])))
+    
+    )
+  (testing "str->price"
+    (is (= [:bo 1 :exa] (str->price "~b/o 1 exa")))
+    (is (= [:price 3 :alt] (str->price "~price 3 alt")))
+    (is (= [:price 10/3 :chrom] (str->price  "~price 10/3 chrom")))
+    (is (= nil (str->price "not a price")))
+    ))
