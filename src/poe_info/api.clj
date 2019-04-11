@@ -1,13 +1,22 @@
 (ns poe-info.api
-  (:require
-   [clj-http.client :as client]
-   [clj-http.cookies :as cookies]))
+  (:require [clj-http.client :as client]
+            [clj-http.cookies :as cookies]
+            [org.bovinegenius.exploding-fish :as uri]))
+
+;; Private API
+
 
 (defn stash-item-url
   "Get the URL for the given username and tab index (default 0)."
   ([username] (stash-item-url username 0))
   ([username index]
-   (str "https://www.pathofexile.com/character-window/get-stash-items?league=Synthesis&tabs=1&tabIndex=" index "&accountName=" username)))
+   (-> "https://www.pathofexile.com/character-window/get-stash-items"
+       uri/uri
+       (uri/query-map {:league "Synthesis"
+                       :tabIndex index
+                       :accountName username
+                       :tabs 1})
+       str)))
 
 (defn my-account-url
   "THe URL for the my-account page."
@@ -50,3 +59,35 @@
         options (merge default opts)]
     (client/post "https://www.pathofexile.com/character-window/get-characters"
                  options)))
+
+;; Public API
+
+(defn leagues-url
+  "Get a list of current and past leagues."
+  [& {:as opts}]
+  (-> "http://api.pathofexile.com/leagues"
+      uri/uri
+      (uri/query-map (select-keys opts [:type :realm :season :compact :limit :offset]))
+      str))
+
+(defn league-url
+  "Get a single league by id."
+  [id & {:as opts}]
+  (let [params (select-keys opts
+                            [:realm :ladder :ladderLimit :ladderOffset :ladderTrack])
+        params (if (:ladder params) (update params :ladder {false 0 true 1}))
+        ]
+    (-> (str "http://api.pathofexile.com/leagues/" id)
+        uri/uri
+        (uri/query-map params)
+        str)))
+
+(defn league-rules-url
+  "Get a list of all possible league rules."
+  []
+  "http://api.pathofexile.com/league-rules")
+
+(defn league-rule-url
+  "Get a single league rule by id."
+  [id]
+  (str "http://api.pathofexile.com/league-rules/" id))
