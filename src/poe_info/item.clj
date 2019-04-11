@@ -124,49 +124,64 @@
   [{name :name [[value _]] :values}]
   (str name ": " value))
 
+(defn vaal-manip
+  [item]
+  (let [vaal-name (:typeLine item)
+        base-name (-> item :vaal :baseTypeName)
+        ]
+    (-> item
+        (assoc :typeLine base-name)
+        (assoc-in [:vaal :typeLine] vaal-name)
+        ))
+  )
+
+;; TODO Fix this.
 (defn item->str
   "Converts an item description from the API to an item block like the game generates."
   [item]
   ; blocks, interpose separators, flatten, and filter.
-  (->>
-   [[(str "Rarity: " (frametype->str (:frameType item)))
+  (let [item (if (:vaal item) (vaal-manip item) item)]
+    (->>
+     [[(when (:frameType item) (str "Rarity: " (frametype->str (:frameType item))))
 
-     (empty->nil (:name item))
-     (:typeLine item)]
+       (empty->nil (:name item))
+       (:typeLine item)]
 
-    [(when (:properties item)
-       [(map property->mod (:properties item))
-        (when (:additionalProperties item) (map property->mod (:additionalProperties item)))])
+      [(when (:properties item)
+         [(map property->mod (:properties item))
+          (when (:additionalProperties item) (map property->mod (:additionalProperties item)))])
 
-     (:utilityMods item)]
+       (:utilityMods item)]
 
-    [(when (:requirements item)
-       ["Requirements:"
-        (map requirement->str (:requirements item))])]
+      [(when (:requirements item)
+         ["Requirements:"
+          (map requirement->str (:requirements item))])]
 
-    [(:secDescrText item)]
+      [(:secDescrText item)]
 
-    [(when (:sockets item)
-       (str "Sockets: " (sockets->str (:sockets item))))]
+      [(when (:sockets item)
+         (str "Sockets: " (sockets->str (:sockets item))))]
 
-    [(when (and (:ilvl item) (not= (:ilvl item) 0))  (str "Item Level: " (:ilvl item)))]
+      [(when (and (:ilvl item) (not= (:ilvl item) 0))  (str "Item Level: " (:ilvl item)))]
 
-    [(:implicitMods item)]
+      [(:implicitMods item)]
 
-    [(:explicitMods item)]
+      [(:explicitMods item)]
 
-    [(:descrText item)]
+      [(when (:vaal item) (item->str (:vaal item)))]
 
-    [(when (:flavourText item) (map string/trim (:flavourText item)))]
+      [(:descrText item)]
 
-    [(when (:corrupted item) "Corrupted")]]
-   (map #(filter (complement nil?) %))
-   (filter (complement empty?))
-   (interpose item-str-sep)
-   flatten
-   ;(map empty->nil)
-   (filter (complement nil?))
-   (string/join "\n")))
+      [(when (:flavourText item) (map string/trim (:flavourText item)))]
+
+      [(when (:corrupted item) "Corrupted")]]
+     (map #(filter (complement nil?) %))
+     (filter (complement empty?))
+     (interpose item-str-sep)
+     flatten
+                                        ;(map empty->nil)
+     (filter (complement nil?))
+     (string/join "\n"))))
 
 (def currencies #{:chrom
                   :alt

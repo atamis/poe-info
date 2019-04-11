@@ -3,7 +3,7 @@
             [clojure.test :refer :all]
             [poe-info.item :as item]))
 
-(def conq-potency
+(def ^:const conq-potency
   {:y 4,
    :properties [{:name "Limited to", :values [["1" 0]], :displayMode 0}],
    :category {:jewels []},
@@ -30,7 +30,7 @@
    "Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.",
    :verified false})
 
-(def maelstrom-star
+(def ^:const maelstrom-star
   {:y 4,
    :category {:jewels []},
    :typeLine "Cobalt Jewel",
@@ -49,7 +49,7 @@
    :descrText "Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.",
    :verified false})
 
-(def worn-flask
+(def ^:const worn-flask
   {:y 0,
    :implicitMods ["Creates a Smoke Cloud on Use"],
    :properties
@@ -79,6 +79,56 @@
    :league "Synthesis",
    :descrText
    "Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.",
+   :verified false})
+
+(def ^:const vaal-blight-api
+  {:y 9,
+   :properties [{:name "Vaal, Spell, Chaos, AoE, Duration, Channelling", :values [], :displayMode 0}
+                {:name "Level", :values [["1" 0]], :displayMode 0, :type 5}
+                {:name "Mana Cost", :values [["2" 0]], :displayMode 0}
+                {:name "Cast Time", :values [["0.30 sec" 0]], :displayMode 0}
+                {:name "Quality", :values [["+8%" 1]], :displayMode 0, :type 6}],
+   :category {:gems ["activegem"]},
+   :additionalProperties [{:name "Experience", :values [["1/70" 0]], :displayMode 2, :progress 0.014285714365541935, :type 20}],
+   :requirements [{:name "Level", :values [["1" 0]], :displayMode 0}],
+   :vaal {:baseTypeName "Blight",
+          :properties [{:name "Souls Per Use", :values [["30" 0]], :displayMode 0}
+                       {:name "Can Store %0 Use", :values [["1" 0]], :displayMode 3}
+                       {:name "Soul Gain Prevention", :values [["8 sec" 0]], :displayMode 0}
+                       {:name "Cast Time", :values [["0.60 sec" 0]], :displayMode 0}],
+          :explicitMods ["Deals 4.3 Base Chaos Damage per second"
+                         "Base duration is 6.00 seconds"
+                         "Base secondary duration is 3.00 seconds"
+                         "Modifiers to Spell Damage apply to this Skill's Damage Over Time effect"
+                         "Modifiers to Skill Effect Duration also apply to this Skill's Soul Gain Prevention"
+                         "4% increased Area of Effect"
+                         "80% reduced Movement Speed"
+                         "Debuff can have up to 20 layers of Damage"
+                         "Hindered Enemies take 20% increased Chaos Damage"],
+          :secDescrText "Apply a powerful debuff to enemies around you which deals chaos damage over time. Then applies two additional layers in a larger area, growing greatly in size each time. Enemies are also substantially hindered for a shorter secondary duration, slowing their movement."},
+   :typeLine "Vaal Blight",
+   :corrupted true,
+   :frameType 4,
+   :support false,
+   :name "",
+   :w 1,
+   :explicitMods ["Deals 1.7 Base Chaos Damage per second"
+                  "Base duration is 2.50 seconds"
+                  "Base secondary duration is 0.80 seconds"
+                  "Modifiers to Spell Damage apply to this Skill's Damage Over Time effect"
+                  "4% increased Area of Effect"
+                  "80% reduced Movement Speed"
+                  "Debuff can have up to 20 layers of Damage"],
+   :icon "https://web.poecdn.com/image/Art/2DItems/Gems/VaalGems/VaalBlightGem.png?scale=1&scaleIndex=1&w=1&h=1&v=6526a746f623ed6b1f9d85b11d44f39a",
+   :ilvl 0,
+   :h 1,
+   :secDescrText "Apply a debuff to enemies in front of you which deals chaos damage over time. Enemies who aren't already debuffed by Blight are also hindered for a shorter secondary duration, slowing their movement. Continued channelling adds layers of damage to the debuff, each with their own duration.",
+   :id "5cc848a5603d064c4141c008b6fe04f952b5e77397a9a243fd4896047df9ab38",
+   :inventoryId "Stash2",
+   :x 1,
+   :identified true,
+   :league "Betrayal",
+   :descrText "Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.",
    :verified false})
 
 (deftest fixing-stash-index
@@ -404,10 +454,9 @@ Corrupted"
 
                        false})))))
 
-(comment
-  (deftest vaal-gem
-    (testing "Vaal Blight"
-      (is (= "Rarity: Gem
+(deftest vaal-gem
+  (testing "Vaal Blight"
+    (is (= "Rarity: Gem
 Blight
 --------
 Vaal, Spell, Chaos, AoE, Duration, Channelling
@@ -452,66 +501,17 @@ Hindered Enemies take 20% increased Chaos Damage
 Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.
 --------
 Corrupted"
-             (item->str {:y 9,
-                         :properties [{:name "Vaal, Spell, Chaos, AoE, Duration, Channelling", :values [], :displayMode 0}
-                                      {:name "Level", :values [["1" 0]], :displayMode 0, :type 5}
-                                      {:name "Mana Cost", :values [["2" 0]], :displayMode 0}
-                                      {:name "Cast Time", :values [["0.30 sec" 0]], :displayMode 0}
-                                      {:name "Quality", :values [["+8%" 1]], :displayMode 0, :type 6}],
-                         :category {:gems ["activegem"]},
-                         :additionalProperties [{:name "Experience", :values [["1/70" 0]], :displayMode 2, :progress 0.014285714365541935, :type 20}],
-                         :requirements [{:name "Level", :values [["1" 0]], :displayMode 0}],
-                         :vaal {:baseTypeName "Blight",
-                                :properties [{:name "Souls Per Use", :values [["30" 0]], :displayMode 0}
-                                             {:name "Can Store %0 Use", :values [["1" 0]], :displayMode 3}
-                                             {:name "Soul Gain Prevention", :values [["8 sec" 0]], :displayMode 0}
-                                             {:name "Cast Time", :values [["0.60 sec" 0]], :displayMode 0}],
-                                :explicitMods ["Deals 4.3 Base Chaos Damage per second"
-                                               "Base duration is 6.00 seconds"
-                                               "Base secondary duration is 3.00 seconds"
-                                               "Modifiers to Spell Damage apply to this Skill's Damage Over Time effect"
-                                               "Modifiers to Skill Effect Duration also apply to this Skill's Soul Gain Prevention"
-                                               "4% increased Area of Effect"
-                                               "80% reduced Movement Speed"
-                                               "Debuff can have up to 20 layers of Damage"
-                                               "Hindered Enemies take 20% increased Chaos Damage"],
-                                :secDescrText "Apply a powerful debuff to enemies around you which deals chaos damage over time. Then applies two additional layers in a larger area, growing greatly in size each time. Enemies are also substantially hindered for a shorter secondary duration, slowing their movement."},
-                         :typeLine "Vaal Blight",
-                         :corrupted true,
-                         :frameType 4,
-                         :support false,
-                         :name "",
-                         :w 1,
-                         :explicitMods ["Deals 1.7 Base Chaos Damage per second"
-                                        "Base duration is 2.50 seconds"
-                                        "Base secondary duration is 0.80 seconds"
-                                        "Modifiers to Spell Damage apply to this Skill's Damage Over Time effect"
-                                        "4% increased Area of Effect"
-                                        "80% reduced Movement Speed"
-                                        "Debuff can have up to 20 layers of Damage"],
-                         :icon "https://web.poecdn.com/image/Art/2DItems/Gems/VaalGems/VaalBlightGem.png?scale=1&scaleIndex=1&w=1&h=1&v=6526a746f623ed6b1f9d85b11d44f39a",
-                         :ilvl 0,
-                         :h 1,
-                         :secDescrText "Apply a debuff to enemies in front of you which deals chaos damage over time. Enemies who aren't already debuffed by Blight are also hindered for a shorter secondary duration, slowing their movement. Continued channelling adds layers of damage to the debuff, each with their own duration.",
-                         :id "5cc848a5603d064c4141c008b6fe04f952b5e77397a9a243fd4896047df9ab38",
-                         :inventoryId "Stash2",
-                         :x 1,
-                         :identified true,
-                         :league "Betrayal",
-                         :descrText "Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.",
-                         :verified false}))))))
+           (item->str vaal-blight-api)))))
 
 (deftest price-strings
   (testing "price->str"
     (is (= "~b/o 1 exa" (price->str [:bo 1 :exa])))
     (is (= "~price 3 alt" (price->str [:price 3 :alt])))
     (is (= "~price 10/3 chrom" (price->str [:price 10/3 :chrom])))
-    (is (thrown? java.lang.Exception (clojure.spec.alpha/check-asserts true) (price->str [:asdf 10/3 :alt])))
-    
-    )
+    (is (thrown? java.lang.Exception (clojure.spec.alpha/check-asserts true) (price->str [:asdf 10/3 :alt]))))
+
   (testing "str->price"
     (is (= [:bo 1 :exa] (str->price "~b/o 1 exa")))
     (is (= [:price 3 :alt] (str->price "~price 3 alt")))
     (is (= [:price 10/3 :chrom] (str->price  "~price 10/3 chrom")))
-    (is (= nil (str->price "not a price")))
-    ))
+    (is (= nil (str->price "not a price")))))
