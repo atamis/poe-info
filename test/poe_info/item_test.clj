@@ -586,7 +586,6 @@ Fractured Item")
    :league "Synthesis",
    :verified false})
 
-
 (deftest fixing-stash-index
   (testing "happy"
     (is (= 0 (stash-index {:inventoryId "Stash1"}))))
@@ -700,3 +699,9 @@ Item Level: 83
     (is (= [:price 3 :alt] (str->price "~price 3 alt")))
     (is (= [:price 10/3 :chrom] (str->price  "~price 10/3 chrom")))
     (is (= nil (str->price "not a price")))))
+
+(deftest whisper-text-test
+  (testing "whisper text"
+    (is (=
+         "@LabbJugg Hi, I would like to buy your Dragon Bane listed for 10 chaos in Synthesis (stash tab \"frac1\"; position: left 8, top: 1)"
+         (make-whisper "LabbJugg" [:bo 10 :chaos] "frac1" corrupted-fractured-weapon-api)))))

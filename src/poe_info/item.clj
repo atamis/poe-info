@@ -124,12 +124,8 @@
                           (if (= name "Experience")
                             (reformat-experience value)
                             value)
-                          (when (< 0 aug?) " (augmented)")))
-                       ))
-                (clojure.string/join ", ")
-                )
-           )
-      )))
+                          (when (< 0 aug?) " (augmented)")))))
+                (clojure.string/join ", "))))))
 
 (defn requirement->str
   "Converts a requirement description to a string for an item block."
@@ -139,13 +135,10 @@
 (defn vaal-manip
   [item]
   (let [vaal-name (:typeLine item)
-        base-name (-> item :vaal :baseTypeName)
-        ]
+        base-name (-> item :vaal :baseTypeName)]
     (-> item
         (assoc :typeLine base-name)
-        (assoc-in [:vaal :typeLine] vaal-name)
-        ))
-  )
+        (assoc-in [:vaal :typeLine] vaal-name))))
 
 (defn add-fractured
   [mods]
@@ -193,10 +186,8 @@
 
       [(when (:corrupted item) "Corrupted")]
 
-      [(when (:fractured item) "Fractured Item")]
+      [(when (:fractured item) "Fractured Item")]]
 
-
-      ]
      (map #(filter (complement nil?) %))
      (filter (complement empty?))
      (interpose item-str-sep)
@@ -245,3 +236,15 @@
                      currency-s)]
       [policy amt currency])
     nil))
+
+(defn human-readable-price
+  [[_ amt currency :as price]]
+  (s/assert ::price price)
+  (str amt " " (name currency)))
+
+(defn make-whisper
+  [username price stash {item-name :name :keys [league x y]}]
+  (let [left (inc x)
+        top (inc y)
+        price (if (s/valid? ::price price) (human-readable-price price) price)]
+    (format "@%s Hi, I would like to buy your %s listed for %s in %s (stash tab \"%s\"; position: left %d, top: %d)" username item-name price league stash left top)))
