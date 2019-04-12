@@ -6,6 +6,22 @@
 ;; To collapse all
 ;; z m
 
+
+;; TODO: These item classes
+;; fractured corrupted abyss jewel
+;; unset ring
+;; currency with stack values (shift click to unstack when stack size > 1)
+;; abyss sockets
+;; prophecies
+;; unided items maybe?
+;; corrupted maps (with quality)
+;; shield
+;; flask quality
+;; vaal gem with quality
+;; talisman (have tier)
+;; synthesized (Hate Ward Synthesised Crypt Armor in b14)
+;; shaped/elder items
+
 (def ^:const conq-potency
   {:y 4,
    :properties [{:name "Limited to", :values [["1" 0]], :displayMode 0}],
@@ -569,6 +585,7 @@ Fractured Item")
    :identified true,
    :league "Synthesis",
    :verified false})
+
 
 (deftest fixing-stash-index
   (testing "happy"
