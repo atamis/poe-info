@@ -4,6 +4,7 @@
             [clojure.data.json :as json]
             [clojure.string :as string]
             [java-time :as jtime]
+            [clojure.java.io :as io]
 
             [poe-info.util :as util]
             [poe-info.item :as item]
@@ -25,8 +26,8 @@
 (defn archive-tabs
   [username cs]
   (let [sanitize #(-> %
-                      (clojure.string/replace #" " "_")
-                      (clojure.string/replace #"[^a-zA-Z0-9\-\_]" ""))
+                      (string/replace #" " "_")
+                      (string/replace #"[^a-zA-Z0-9\-\_]" ""))
         tabs (->> (client/get (api/stash-item-url username)
                               {:as :json :cookie-store cs})
                   :body
@@ -37,11 +38,21 @@
                             (update :name sanitize))))]
     (doseq [{:keys [name index]} tabs]
       (let [filename (format "cache/archive_%d_%s.json" index name)]
-        (clojure.java.io/make-parents filename) ; really only 1 is necessary
+        (io/make-parents filename) ; really only 1 is necessary
         (as-> (client/get (api/stash-item-url username index) {:cookie-store cs}) $
           (:body $)
           (spit filename $))
         (println filename)))))
+
+(defn load-cache
+  []
+  (def cached-items
+    (->> (io/file "cache/")
+         file-seq
+         (filter #(.endsWith (.getName %) ".json"))
+         (map #(with-open [f (io/reader %)]
+                 (json/read f :key-fn keyword)))
+         (mapcat :items))))
 
 (defn histogram-identified
   "Histogram of whether items are identified or not."
