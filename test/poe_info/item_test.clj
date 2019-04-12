@@ -21,6 +21,10 @@
 ;; talisman (have tier)
 ;; synthesized (Hate Ward Synthesised Crypt Armor in b14)
 ;; shaped/elder items
+;; unidentified corrupted maps
+
+;; TODO:
+;; whisper buy gems with quality
 
 (def ^:const conq-potency
   {:y 4,
@@ -585,6 +589,60 @@ Fractured Item")
    :identified true,
    :league "Synthesis",
    :verified false})
+(def ^:const unided-weapon-data
+  "Rarity: Rare
+Jewelled Foil
+--------
+One Handed Sword
+Physical Damage: 32-60
+Critical Strike Chance: 5.50%
+Attacks per Second: 1.60
+Weapon Range: 12
+--------
+Requirements:
+Dexterity: 212
+--------
+Sockets: G-G G
+--------
+Item Level: 81
+--------
++25% to Global Critical Strike Multiplier
+--------
+Unidentified"
+  )
+(def ^:const unided-weapon-api
+  {:y 6,
+   :implicitMods ["+25% to Global Critical Strike Multiplier"],
+   :properties
+   [{:name "One Handed Sword", :values [], :displayMode 0}
+    {:name "Physical Damage", :values [["32-60" 0]], :displayMode 0, :type 9}
+    {:name "Critical Strike Chance",
+     :values [["5.50%" 0]],
+     :displayMode 0,
+     :type 12}
+    {:name "Attacks per Second", :values [["1.60" 0]], :displayMode 0, :type 13}
+    {:name "Weapon Range", :values [["12" 0]], :displayMode 0, :type 14}],
+   :category {:weapons ["onesword"]},
+   :requirements [{:name "Dexterity", :values [["212" 0]], :displayMode 1}],
+   :typeLine "Jewelled Foil",
+   :frameType 2,
+   :name "",
+   :w 1,
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Weapons/OneHandWeapons/Rapiers/Rapier7.png?scale=1&w=1&h=4&v=d4a9ff1bbae62362d78bc8d5a4484446",
+   :ilvl 81,
+   :sockets
+   [{:group 0, :attr "D", :sColour "G"}
+    {:group 0, :attr "D", :sColour "G"}
+    {:group 1, :attr "D", :sColour "G"}],
+   :socketedItems [],
+   :h 4,
+   :id "2d7fd894bbfb87a97105b9b40f29f35b705df8083c41ada0547912ece189f4aa",
+   :inventoryId "Stash2",
+   :x 3,
+   :identified false,
+   :league "Synthesis",
+   :verified false})
 
 (deftest fixing-stash-index
   (testing "happy"
@@ -687,6 +745,14 @@ Item Level: 83
     (is (= corrupted-fractured-weapon-data
            (item->str corrupted-fractured-weapon-api)))))
 
+(deftest unided-weapon-test
+  (testing "Jewelled Foil"
+    (is (= unided-weapon-data
+           (item->str unided-weapon-api)
+           ))
+    )
+  )
+
 (deftest price-strings
   (testing "price->str"
     (is (= "~b/o 1 exa" (price->str [:bo 1 :exa])))
@@ -703,5 +769,10 @@ Item Level: 83
 (deftest whisper-text-test
   (testing "whisper text"
     (is (=
-         "@LabbJugg Hi, I would like to buy your Dragon Bane listed for 10 chaos in Synthesis (stash tab \"frac1\"; position: left 8, top: 1)"
-         (make-whisper "LabbJugg" [:bo 10 :chaos] "frac1" corrupted-fractured-weapon-api)))))
+         "@LabbJugg Hi, I would like to buy your Dragon Bane Dragoon Sword listed for 10 chaos in Synthesis (stash tab \"frac1\"; position: left 8, top 1)"
+         (make-whisper "LabbJugg" [:bo 10 :chaos] "frac1" corrupted-fractured-weapon-api)))
+    (is (=
+         "@LabbJugg Hi, I would like to buy your Jewelled Foil listed for 1 chaos in Synthesis (stash tab \"44\"; position: left 4, top 7)"
+         (make-whisper "LabbJugg" [:bo 1 :chaos] "44" unided-weapon-api)
+         ))
+    ))

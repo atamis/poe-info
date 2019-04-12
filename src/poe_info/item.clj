@@ -184,6 +184,9 @@
 
       [(when (:flavourText item) (map string/trim (:flavourText item)))]
 
+      ;; Gems do not have an :identified tag, but are always identified
+      [(when (= false (:identified item)) "Unidentified")]
+
       [(when (:corrupted item) "Corrupted")]
 
       [(when (:fractured item) "Fractured Item")]]
@@ -243,8 +246,48 @@
   (str amt " " (name currency)))
 
 (defn make-whisper
-  [username price stash {item-name :name :keys [league x y]}]
+  [username price stash {item-name :name :keys [typeLine league x y]}]
   (let [left (inc x)
         top (inc y)
-        price (if (s/valid? ::price price) (human-readable-price price) price)]
-    (format "@%s Hi, I would like to buy your %s listed for %s in %s (stash tab \"%s\"; position: left %d, top: %d)" username item-name price league stash left top)))
+        price (if (s/valid? ::price price) (human-readable-price price) price)
+        item-name (string/trim (string/join " " (filter some? [item-name typeLine])))]
+    (format "@%s Hi, I would like to buy your %s listed for %s in %s (stash tab \"%s\"; position: left %d, top %d)" username item-name price league stash left top)))
+
+
+;; Experimentally determined type ranges
+
+
+(def category-ranges
+  [{:accessories ["amulet"]}
+   {:accessories ["belt"]}
+   {:accessories ["ring"]}
+   {:armour ["boots"]}
+   {:armour ["chest"]}
+   {:armour ["gloves"]}
+   {:armour ["helmet"]}
+   {:armour ["quiver"]}
+   {:armour ["shield"]}
+   {:cards []}
+   {:currency []}
+   {:currency ["fossil"]}
+   {:currency ["resonator"]}
+   {:flasks []}
+   {:gems ["activegem"]}
+   {:gems ["supportgem"]}
+   {:jewels []}
+   {:jewels ["abyss"]}
+   {:maps []}
+   {:maps ["fragment"]}
+   {:maps ["fragment" "scarab"]}
+   {:weapons ["bow"]}
+   {:weapons ["claw"]}
+   {:weapons ["dagger"]}
+   {:weapons ["oneaxe"]}
+   {:weapons ["onemace"]}
+   {:weapons ["onesword"]}
+   {:weapons ["staff"]}
+   {:weapons ["twoaxe"]}
+   {:weapons ["twomace"]}
+   {:weapons ["twosword"]}
+   {:weapons ["wand"]}
+   {:weapons ["sceptre" "onemace"]}])
