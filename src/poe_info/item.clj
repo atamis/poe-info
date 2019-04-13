@@ -43,7 +43,8 @@
    1 :magic
    2 :rare
    3 :unique
-   4 :gem})
+   4 :gem
+   8 :prophecy})
 
 (defn stash-index
   "If the item is in a stash tab, returns in the integer index for that stash.
@@ -69,7 +70,9 @@
    :magic "Magic"
    :rare "Rare"
    :unique "Unique"
-   :gem "Gem"})
+   :gem "Gem"
+   :prophecy "Normal" ;; Lol
+   })
 
 (defn frametype->str
   "Combines frametype->rarity and rarity->str"
@@ -84,6 +87,9 @@
   (if (= s "")
     nil
     s))
+
+(s/def ::block (s/every string?))
+(s/def ::blocks (s/every ::block))
 
 ;; TODO: check abyss sockets.
 (defn sockets->str
@@ -144,59 +150,97 @@
   [mods]
   (map #(str % " (fractured)") mods))
 
+(defn concat-blocks
+  [blocks new-blocks]
+  (into [] (concat blocks new-blocks))
+  )
+
+(defn unided?
+  [item]
+  ;; Gems are identified, but don't have the :identified field,
+  ;; so nil doesn't mean unidentified.
+  (= false (:identified item)))
+
+(defn item-ilvl?
+  [item]
+  (and (:ilvl item) (not= (:ilvl item) 0)))
+
+(defn item->header-block
+  [item]
+  {:post [(s/valid? ::block %)]}
+  (cond-> []
+    (:frameType item) (conj (str "Rarity: " (frametype->str (:frameType item))))
+    (and (:name item) (not= "" (:name item))) (conj (:name item))
+    (some? (:typeLine item)) (conj (:typeLine item))))
+
+(defn item->properties-block
+  [item]
+  {:post [(s/valid? ::block %)]}
+  (as-> (:properties item) $
+    (concat $ (:additionalProperties item))
+    (map property->mod $)
+    (into [] $)
+    (concat $ (:utilityMods item))))
+
+(defn item->requirements-block
+  [item]
+  {:post [(s/valid? ::block %)]}
+  (apply vector
+         "Requirements:"
+         (map requirement->str (:requirements item))))
+
+(defn item->explicit-block
+  [item]
+  {:post [(s/valid? ::block %)]}
+  (concat
+   (when (:fractured item) (add-fractured (:fracturedMods item)))
+   (:explicitMods item)))
+
+(defn prophecy->blocks
+  [item]
+  {:post [(s/valid? ::blocks %)]}
+  [(item->header-block item)
+   (:flavourText item)
+   [(:prophecyText item)]
+   [(:descrText item)]])
+
+(defn item->blocks
+  [item]
+  {:post [(s/valid? ::blocks %)]}
+  (cond-> []
+    true                 (conj (item->header-block item))
+    (:properties item)   (conj (item->properties-block item))
+    (:requirements item) (conj (item->requirements-block item))
+    (:secDescrText item) (conj [(:secDescrText item)])
+    (:sockets item)      (conj [(str "Sockets: " (sockets->str (:sockets item)))])
+    (item-ilvl? item)    (conj [(str "Item Level: " (:ilvl item))])
+    (:implicitMods item) (conj (:implicitMods item))
+    (:explicitMods item) (conj (item->explicit-block item))
+    (:vaal item)         (concat-blocks (item->blocks (:vaal item)))
+    (:descrText item)    (conj [(:descrText item)])
+    (:flavourText item)  (conj (map string/trim (:flavourText item)))
+    (:prophecyText item) (conj [(:prophecyText item)])
+    (unided? item)       (conj ["Unidentified"])
+    (:corrupted item)    (conj ["Corrupted"])
+    (:fractured item)    (conj ["Fractured Item"])))
+
+(defn item-block-dispatch
+  [item]
+  {:post [(s/valid? ::blocks %)]}
+  (case (rarity item)
+    :prophecy (prophecy->blocks item)
+    (item->blocks item)))
+
 ;; TODO Fix this.
 (defn item->str
   "Converts an item description from the API to an item block like the game generates."
   [item]
-  ; blocks, interpose separators, flatten, and filter.
+  ; blocks, interpose separators, flatten, concat lines.
   (let [item (if (:vaal item) (vaal-manip item) item)]
     (->>
-     [[(when (:frameType item) (str "Rarity: " (frametype->str (:frameType item))))
-
-       (empty->nil (:name item))
-       (:typeLine item)]
-
-      [(when (:properties item)
-         [(map property->mod (:properties item))
-          (when (:additionalProperties item) (map property->mod (:additionalProperties item)))])
-
-       (:utilityMods item)]
-
-      [(when (:requirements item)
-         ["Requirements:"
-          (map requirement->str (:requirements item))])]
-
-      [(:secDescrText item)]
-
-      [(when (:sockets item)
-         (str "Sockets: " (sockets->str (:sockets item))))]
-
-      [(when (and (:ilvl item) (not= (:ilvl item) 0))  (str "Item Level: " (:ilvl item)))]
-
-      [(:implicitMods item)]
-
-      [(when (:fractured item) (add-fractured (:fracturedMods item)))
-       (:explicitMods item)]
-
-      [(when (:vaal item) (item->str (:vaal item)))]
-
-      [(:descrText item)]
-
-      [(when (:flavourText item) (map string/trim (:flavourText item)))]
-
-      ;; Gems do not have an :identified tag, but are always identified
-      [(when (= false (:identified item)) "Unidentified")]
-
-      [(when (:corrupted item) "Corrupted")]
-
-      [(when (:fractured item) "Fractured Item")]]
-
-     (map #(filter (complement nil?) %))
-     (filter (complement empty?))
+     (item-block-dispatch item)
      (interpose item-str-sep)
      flatten
-                                        ;(map empty->nil)
-     (filter (complement nil?))
      (string/join "\n"))))
 
 (def currencies #{:chrom
@@ -257,7 +301,7 @@
 ;; Experimentally determined type ranges
 
 
-(def category-ranges
+(def category-range
   [{:accessories ["amulet"]}
    {:accessories ["belt"]}
    {:accessories ["ring"]}

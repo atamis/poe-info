@@ -13,7 +13,6 @@
 ;; currency with stack values (shift click to unstack when stack size > 1)
 ;; abyss sockets
 ;; prophecies
-;; unided items maybe?
 ;; corrupted maps (with quality)
 ;; shield
 ;; flask quality
@@ -25,6 +24,9 @@
 
 ;; TODO:
 ;; whisper buy gems with quality
+;; whisper buy things with no price
+
+(clojure.spec.alpha/check-asserts true)
 
 (def ^:const conq-potency
   {:y 4,
@@ -608,8 +610,7 @@ Item Level: 81
 --------
 +25% to Global Critical Strike Multiplier
 --------
-Unidentified"
-  )
+Unidentified")
 (def ^:const unided-weapon-api
   {:y 6,
    :implicitMods ["+25% to Global Critical Strike Multiplier"],
@@ -642,6 +643,38 @@ Unidentified"
    :x 3,
    :identified false,
    :league "Synthesis",
+   :verified false})
+(def ^:const prophecy-data
+  "Rarity: Normal
+The Jeweller's Touch
+--------
+The Jeweller leaves five fingerprints and connects them with a single thread.
+--------
+You will create a fully-linked five-socket item with a single Jeweller's Orb
+--------
+Right-click to add this prophecy to your character.")
+(def ^:const prophecy-api
+  {:y 10,
+   :category {:currency []},
+   :typeLine "The Jeweller's Touch",
+   :flavourText
+   ["The Jeweller leaves five fingerprints and connects them with a single thread."],
+   :frameType 8,
+   :name "",
+   :w 1,
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Currency/ProphecyOrbRed.png?scale=1&w=1&h=1&v=dc9105d2b038a79c7c316fc2ba30cef0",
+   :ilvl 0,
+   :prophecyText
+   "You will create a fully-linked five-socket item with a single Jeweller's Orb",
+   :note "~b/o 22 chaos",
+   :h 1,
+   :id "42186252336d0a4c47e8b518283cd8cb58e5a9017cef026de72bf36a1b7c6042",
+   :inventoryId "Stash15",
+   :x 7,
+   :identified true,
+   :league "Synthesis",
+   :descrText "Right-click to add this prophecy to your character.",
    :verified false})
 
 (deftest fixing-stash-index
@@ -748,10 +781,12 @@ Item Level: 83
 (deftest unided-weapon-test
   (testing "Jewelled Foil"
     (is (= unided-weapon-data
-           (item->str unided-weapon-api)
-           ))
-    )
-  )
+           (item->str unided-weapon-api)))))
+
+(deftest prophecy-test
+  (testing "The Jeweller's Touch"
+    (is (= prophecy-data
+           (item->str prophecy-api)))))
 
 (deftest price-strings
   (testing "price->str"
@@ -773,6 +808,6 @@ Item Level: 83
          (make-whisper "LabbJugg" [:bo 10 :chaos] "frac1" corrupted-fractured-weapon-api)))
     (is (=
          "@LabbJugg Hi, I would like to buy your Jewelled Foil listed for 1 chaos in Synthesis (stash tab \"44\"; position: left 4, top 7)"
-         (make-whisper "LabbJugg" [:bo 1 :chaos] "44" unided-weapon-api)
-         ))
-    ))
+         (make-whisper "LabbJugg" [:bo 1 :chaos] "44" unided-weapon-api)))))
+
+(clojure.spec.alpha/check-asserts true)
