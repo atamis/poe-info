@@ -676,6 +676,54 @@ Right-click to add this prophecy to your character.")
    :league "Synthesis",
    :descrText "Right-click to add this prophecy to your character.",
    :verified false})
+(def ^:const unset-ring-data
+  "Rarity: Rare
+Vengeance Circle
+Unset Ring
+--------
+Requirements:
+Level: 57
+--------
+Sockets: B
+--------
+Item Level: 74
+--------
+Has 1 Socket
+--------
+Adds 7 to 12 Physical Damage to Attacks
++229 to Accuracy Rating
++52 to maximum Mana
++43% to Fire Resistance
++33% to Lightning Resistance
+13% increased Damage (crafted)")
+(def ^:const unset-ring-api
+  {:y 7,
+   :implicitMods ["Has 1 Socket"],
+   :category {:accessories ["ring"]},
+   :requirements [{:name "Level", :values [["57" 0]], :displayMode 0}],
+   :typeLine "Unset Ring",
+   :frameType 2,
+   :name "Vengeance Circle",
+   :w 1,
+   :explicitMods
+   ["Adds 7 to 12 Physical Damage to Attacks"
+    "+229 to Accuracy Rating"
+    "+52 to maximum Mana"
+    "+43% to Fire Resistance"
+    "+33% to Lightning Resistance"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Rings/Empty-Socket.png?scale=1&w=1&h=1&v=3671f6d79d7190b43879b830e63fc078",
+   :ilvl 74,
+   :sockets [{:group 0, :attr "I", :sColour "B"}],
+   :socketedItems [],
+   :h 1,
+   :id "9b5461389547fc887196db181acdb0d451e6024faa1e29a55e8f9245d520835b",
+   :craftedMods ["13% increased Damage"],
+   :inventoryId "Stash11",
+   :x 9,
+   :identified true,
+   :league "Synthesis",
+   :verified false})
 
 (deftest fixing-stash-index
   (testing "happy"
@@ -787,6 +835,11 @@ Item Level: 83
   (testing "The Jeweller's Touch"
     (is (= prophecy-data
            (item->str prophecy-api)))))
+
+(deftest unset-ring-test
+  (testing "Vengeance Circle Unset Ring"
+    (is (= unset-ring-data
+           (item->str unset-ring-api)))))
 
 (deftest price-strings
   (testing "price->str"

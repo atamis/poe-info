@@ -150,10 +150,13 @@
   [mods]
   (map #(str % " (fractured)") mods))
 
+(defn add-crafted
+  [mods]
+  (map #(str % " (crafted)") mods))
+
 (defn concat-blocks
   [blocks new-blocks]
-  (into [] (concat blocks new-blocks))
-  )
+  (into [] (concat blocks new-blocks)))
 
 (defn unided?
   [item]
@@ -194,7 +197,8 @@
   {:post [(s/valid? ::block %)]}
   (concat
    (when (:fractured item) (add-fractured (:fracturedMods item)))
-   (:explicitMods item)))
+   (:explicitMods item)
+   (when-let [mods (:craftedMods item)] (add-crafted mods))))
 
 (defn prophecy->blocks
   [item]
@@ -302,6 +306,7 @@
 
 
 (def category-range
+  ""
   [{:accessories ["amulet"]}
    {:accessories ["belt"]}
    {:accessories ["ring"]}
@@ -335,3 +340,19 @@
    {:weapons ["twosword"]}
    {:weapons ["wand"]}
    {:weapons ["sceptre" "onemace"]}])
+
+(def ring-typeline-range
+  ["Moonstone Ring"
+   "Two-Stone Ring"
+   "Sapphire Ring"
+   "Paua Ring"
+   "Topaz Ring"
+   "Amethyst Ring"
+   "Coral Ring"
+   "Prismatic Ring"
+   "Diamond Ring"
+   "Iron Ring"
+   "Unset Ring"
+   "Gold Ring"
+   "Ruby Ring"
+   "Steel Ring"])
