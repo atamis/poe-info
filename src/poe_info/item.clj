@@ -44,6 +44,7 @@
    2 :rare
    3 :unique
    4 :gem
+   5 :currency
    8 :prophecy})
 
 (defn stash-index
@@ -71,6 +72,7 @@
    :rare "Rare"
    :unique "Unique"
    :gem "Gem"
+   :currency "Currency"
    :prophecy "Normal" ;; Lol
    })
 
@@ -112,6 +114,13 @@
        (map #(Integer/parseInt %))
        (apply format "%,d/%,d")))
 
+(defn property-special-case
+  [name value]
+  (case name
+    "Experience" (reformat-experience value)
+    "Stack Size" (reformat-experience value)
+    value))
+
 (defn property->mod
   "Convert a property to a mod string. Deals specially with value replacement, value-less properties, and experience reformatting."
   [{name :name values :values :as property}]
@@ -127,9 +136,7 @@
                 (map (fn [value]
                        (let [[value aug?] value]
                          (str
-                          (if (= name "Experience")
-                            (reformat-experience value)
-                            value)
+                          (property-special-case name value)
                           (when (< 0 aug?) " (augmented)")))))
                 (clojure.string/join ", "))))))
 
@@ -163,6 +170,10 @@
   ;; Gems are identified, but don't have the :identified field,
   ;; so nil doesn't mean unidentified.
   (= false (:identified item)))
+
+(defn unstackable?
+  [item]
+  (and (:stackSize item) (< 1 (:stackSize item))))
 
 (defn item-ilvl?
   [item]
@@ -200,6 +211,13 @@
    (:explicitMods item)
    (when-let [mods (:craftedMods item)] (add-crafted mods))))
 
+(defn item->descr-text-block
+  [item]
+  {:post [(s/valid? ::block %)]}
+  (concat
+   [(:descrText item)]
+   (when (unstackable? item) ["Shift click to unstack."])))
+
 (defn prophecy->blocks
   [item]
   {:post [(s/valid? ::blocks %)]}
@@ -221,12 +239,14 @@
     (:implicitMods item) (conj (:implicitMods item))
     (:explicitMods item) (conj (item->explicit-block item))
     (:vaal item)         (concat-blocks (item->blocks (:vaal item)))
-    (:descrText item)    (conj [(:descrText item)])
+    (:descrText item)    (conj (item->descr-text-block item))
     (:flavourText item)  (conj (map string/trim (:flavourText item)))
     (:prophecyText item) (conj [(:prophecyText item)])
     (unided? item)       (conj ["Unidentified"])
     (:corrupted item)    (conj ["Corrupted"])
-    (:fractured item)    (conj ["Fractured Item"])))
+    (:fractured item)    (conj ["Fractured Item"])
+    ;;(unstackable? item)  (conj ["Shift click to unstack"])
+    ))
 
 (defn item-block-dispatch
   [item]

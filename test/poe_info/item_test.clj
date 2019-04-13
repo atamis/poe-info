@@ -724,6 +724,100 @@ Adds 7 to 12 Physical Damage to Attacks
    :identified true,
    :league "Synthesis",
    :verified false})
+(def ^:const exalted-orb-data
+  "Rarity: Currency
+Exalted Orb
+--------
+Stack Size: 1/10
+--------
+Enchants a rare item with a new random modifier
+--------
+Right click this item then left click a rare item to apply it. Rare items can have up to six random modifiers.")
+(def ^:const exalted-orb-api
+  {:y 0,
+   :properties [{:name "Stack Size", :values [["1/10" 0]], :displayMode 0}],
+   :category {:currency []},
+   :typeLine "Exalted Orb",
+   :frameType 5,
+   :name "",
+   :w 1,
+   :explicitMods ["Enchants a rare item with a new random modifier"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Currency/CurrencyAddModToRare.png?scale=1&w=1&h=1&v=1745ebafbd533b6f91bccf588ab5efc5",
+   :ilvl 0,
+   :stackSize 1,
+   :maxStackSize 5000,
+   :h 1,
+   :id "88836669f8db2c24187ea30c80d8a935b9d9bb552e67c7fa5e6a6ca41ffd3eb8",
+   :inventoryId "Stash1",
+   :x 11,
+   :identified true,
+   :league "Synthesis",
+   :descrText
+   "Right click this item then left click a rare item to apply it. Rare items can have up to six random modifiers.",
+   :verified false})
+(def ^:const jewellers-big-stack-data
+  "Rarity: Currency
+Jeweller's Orb
+--------
+Stack Size: 4,554/20
+--------
+Reforges the number of sockets on an item
+--------
+Right click this item then left click a socketed item to apply it. The item's quality increases the chances of obtaining more sockets.
+Shift click to unstack.")
+(def ^:const jewellers-big-stack-api
+  {:y 0,
+   :properties [{:name "Stack Size", :values [["4554/20" 0]], :displayMode 0}],
+   :category {:currency []},
+   :typeLine "Jeweller's Orb",
+   :frameType 5,
+   :name "",
+   :w 1,
+   :explicitMods ["Reforges the number of sockets on an item"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Currency/CurrencyRerollSocketNumbers.png?scale=1&w=1&h=1&v=2946b0825af70f796b8f15051d75164d",
+   :ilvl 0,
+   :stackSize 4554,
+   :maxStackSize 5000,
+   :h 1,
+   :id "0b7e7d6221e1164479e380683e20f6411a891a416d293c6a3e20cf8e77d3b1c1",
+   :inventoryId "Stash1",
+   :x 19,
+   :identified true,
+   :league "Synthesis",
+   :descrText
+   "Right click this item then left click a socketed item to apply it. The item's quality increases the chances of obtaining more sockets.",
+   :verified false})
+(def ^:const currency-shard-data
+  "Rarity: Currency
+Chaos Shard
+--------
+Stack Size: 2/20
+--------
+A stack of 20 shards becomes a Chaos Orb.
+Shift click to unstack.")
+(def ^:const currency-shard-api
+  {:y 0,
+   :properties [{:name "Stack Size", :values [["2/20" 0]], :displayMode 0}],
+   :category {:currency []},
+   :typeLine "Chaos Shard",
+   :frameType 5,
+   :name "",
+   :w 1,
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Currency/ChaosShard.png?scale=1&w=1&h=1&v=c206269aeda3a6a7b5a8ac110045afca",
+   :ilvl 0,
+   :stackSize 2,
+   :maxStackSize 20,
+   :h 1,
+   :id "d156f4d12888bce4a6d833823805d8df3b83bb3ab2faa9ee7a02d95af39bbd83",
+   :inventoryId "Stash1",
+   :x 49,
+   :identified true,
+   :league "Synthesis",
+   :descrText "A stack of 20 shards becomes a Chaos Orb.",
+   :verified false})
 
 (deftest fixing-stash-index
   (testing "happy"
@@ -840,6 +934,21 @@ Item Level: 83
   (testing "Vengeance Circle Unset Ring"
     (is (= unset-ring-data
            (item->str unset-ring-api)))))
+
+(deftest exalted-orb-test
+  (testing "Exalted Orb"
+    (is (= exalted-orb-data
+           (item->str exalted-orb-api)))))
+
+(deftest jewellers-big-stack-test
+  (testing "Jeweller's Orb"
+    (is (= jewellers-big-stack-data
+           (item->str jewellers-big-stack-api)))))
+
+(deftest currency-shard-test
+  (testing "Chaos Shard"
+    (is (= currency-shard-data
+           (item->str currency-shard-api)))))
 
 (deftest price-strings
   (testing "price->str"
