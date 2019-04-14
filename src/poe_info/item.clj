@@ -81,6 +81,22 @@
   [ft]
   (rarity->str (frametype->rarity ft)))
 
+(defn item-quality
+  "Find the quality of the item, or nil if the item has no quality."
+  [item]
+  (if-let [qual-prop (->> item
+                          :properties
+                          (filter #(= (:name %) "Quality"))
+                          first)]
+    (as-> qual-prop $
+      (:values $)
+      (first $)
+      (first $)
+      (re-find #"\+(.+)%" $)
+      (second $)
+      (Integer/parseInt $))
+    0))
+
 (def item-str-sep "Used to separate blocks in item descriptions" "--------")
 
 (defn empty->nil
@@ -94,7 +110,6 @@
   "Concatenate the name and base to make the item's full name."
   [{:keys [typeLine name]}]
   (string/trim (string/join " " (filter some? [name typeLine]))))
-
 
 (s/def ::block (s/every string?))
 (s/def ::blocks (s/every ::block))

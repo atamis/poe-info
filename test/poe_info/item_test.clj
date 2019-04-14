@@ -1032,46 +1032,44 @@ Curse Reflection
 \"As long as I see death in my mirror, so will Wraeclast.\"
 - Atziri, Queen of the Vaal")
 (def ^:const atziris-mirror-api
-{:y 10,
- :implicitMods ["6% increased Movement Speed"],
- :properties
- [{:name "Quality", :values [["+5%" 1]], :displayMode 0, :type 6}
-  {:name "Chance to Block", :values [["25%" 0]], :displayMode 0, :type 15}
-  {:name "Evasion Rating", :values [["902" 1]], :displayMode 0, :type 17}],
- :category {:armour ["shield"]},
- :requirements
- [{:name "Level", :values [["54" 0]], :displayMode 0}
-  {:name "Dex", :values [["130" 0]], :displayMode 1}],
- :typeLine "Golden Buckler",
- :flavourText
- ["\"As long as I see death in my mirror, so will Wraeclast.\"\r"
-  "- Atziri, Queen of the Vaal"],
- :frameType 3,
- :name "Atziri's Mirror",
- :w 2,
- :explicitMods
- ["+50 to Intelligence"
-  "186% increased Evasion Rating"
-  "+29% to all Elemental Resistances"
-  "50% reduced Duration of Curses on you"
-  "Curse Reflection"
-  "+10% Chance to Block Attack Damage while not Cursed"
-  "+20% Chance to Block Spell Damage while Cursed"],
- :icon
- "https://web.poecdn.com/image/Art/2DItems/Armours/Shields/ShieldDex5Unique.png?scale=1&w=2&h=2&v=f9a1a33ba289aa3c90592c257a5d7714",
- :ilvl 70,
- :sockets
- [{:group 0, :attr "D", :sColour "G"} {:group 1, :attr "D", :sColour "G"}],
- :socketedItems [],
- :h 2,
- :id "334c198bc927411a45341dff8d4fba39db9a3e8d5489a694b97bdbbf9d3552ea",
- :inventoryId "Stash6",
- :x 4,
- :identified true,
- :league "Synthesis",
- :verified false}
-  )
-
+  {:y 10,
+   :implicitMods ["6% increased Movement Speed"],
+   :properties
+   [{:name "Quality", :values [["+5%" 1]], :displayMode 0, :type 6}
+    {:name "Chance to Block", :values [["25%" 0]], :displayMode 0, :type 15}
+    {:name "Evasion Rating", :values [["902" 1]], :displayMode 0, :type 17}],
+   :category {:armour ["shield"]},
+   :requirements
+   [{:name "Level", :values [["54" 0]], :displayMode 0}
+    {:name "Dex", :values [["130" 0]], :displayMode 1}],
+   :typeLine "Golden Buckler",
+   :flavourText
+   ["\"As long as I see death in my mirror, so will Wraeclast.\"\r"
+    "- Atziri, Queen of the Vaal"],
+   :frameType 3,
+   :name "Atziri's Mirror",
+   :w 2,
+   :explicitMods
+   ["+50 to Intelligence"
+    "186% increased Evasion Rating"
+    "+29% to all Elemental Resistances"
+    "50% reduced Duration of Curses on you"
+    "Curse Reflection"
+    "+10% Chance to Block Attack Damage while not Cursed"
+    "+20% Chance to Block Spell Damage while Cursed"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Armours/Shields/ShieldDex5Unique.png?scale=1&w=2&h=2&v=f9a1a33ba289aa3c90592c257a5d7714",
+   :ilvl 70,
+   :sockets
+   [{:group 0, :attr "D", :sColour "G"} {:group 1, :attr "D", :sColour "G"}],
+   :socketedItems [],
+   :h 2,
+   :id "334c198bc927411a45341dff8d4fba39db9a3e8d5489a694b97bdbbf9d3552ea",
+   :inventoryId "Stash6",
+   :x 4,
+   :identified true,
+   :league "Synthesis",
+   :verified false})
 
 (def ^:cost item-cases
   "Map of item suite cases in the form apie -> data, or
@@ -1095,8 +1093,7 @@ Curse Reflection
    lightpoacher-api lightpoacher-data
    tombfist-api tombfist-data
    darkness-enthroned-api darkness-enthroned-data
-   atziris-mirror-api atziris-mirror-data
-   })
+   atziris-mirror-api atziris-mirror-data})
 
 (deftest test-item-cases
   (doseq [[item data] item-cases]
@@ -1167,3 +1164,8 @@ Curse Reflection
          "@LabbJugg Hi, I would like to buy your Jewelled Foil listed for 1 chaos in Synthesis (stash tab \"44\"; position: left 4, top 7)"
          (make-whisper "LabbJugg" [:bo 1 :chaos] "44" unided-weapon-api)))))
 
+(deftest item-quality-test
+  (testing "With quality"
+    (is (= 5 (item-quality atziris-mirror-api))))
+  (testing "Without quality"
+    (is (= 0 (item-quality darkness-enthroned-api)))))
