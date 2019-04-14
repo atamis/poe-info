@@ -1070,6 +1070,76 @@ Curse Reflection
    :identified true,
    :league "Synthesis",
    :verified false})
+(def ^:const witchfire-data
+"Rarity: Unique
+Witchfire Brew
+Stibnite Flask
+--------
+Quality: +26% (augmented)
+Lasts 6.30 (augmented) Seconds
+Consumes 15 (augmented) of 30 Charges on use
+Currently has 0 Charges
+100% increased Evasion Rating
+--------
+Requirements:
+Level: 48
+--------
+Item Level: 75
+--------
+Creates a Smoke Cloud on Use
+--------
+50% increased Charges used
+26% increased Damage Over Time during Flask Effect
+Grants Level 21 Despair Curse Aura during Flask Effect
+--------
+\"Think of those that cursed us, judged us,
+and burned our sisters upon the pyre.
+Think of their names as you drink,
+and even their children will feel what we do to them today.\"
+-Vadinya, to her coven
+--------
+Right click to drink. Can only hold charges while in belt. Refills as you kill monsters."
+  )
+(def ^:const witchfire-api
+{:y 8,
+ :implicitMods ["Creates a Smoke Cloud on Use"],
+ :properties
+ [{:name "Quality", :values [["+26%" 1]], :displayMode 0, :type 6}
+  {:name "Lasts %0 Seconds", :values [["6.30" 1]], :displayMode 3}
+  {:name "Consumes %0 of %1 Charges on use",
+   :values [["15" 1] ["30" 0]],
+   :displayMode 3}
+  {:name "Currently has %0 Charges", :values [["0" 0]], :displayMode 3}],
+ :category {:flasks []},
+ :requirements [{:name "Level", :values [["48" 0]], :displayMode 0}],
+ :typeLine "Stibnite Flask",
+ :flavourText
+ ["\"Think of those that cursed us, judged us, \r"
+  "and burned our sisters upon the pyre. \r"
+  "Think of their names as you drink, \r"
+  "and even their children will feel what we do to them today.\" \r"
+  "-Vadinya, to her coven"],
+ :frameType 3,
+ :name "Witchfire Brew",
+ :w 1,
+ :utilityMods ["100% increased Evasion Rating"],
+ :explicitMods
+ ["50% increased Charges used"
+  "26% increased Damage Over Time during Flask Effect"
+  "Grants Level 21 Despair Curse Aura during Flask Effect"],
+ :icon
+ "https://web.poecdn.com/gen/image/WzksNCx7ImYiOiJBcnRcLzJESXRlbXNcL0ZsYXNrc1wvV2l0Y2hGaXJlQnJldyIsInNwIjowLjYwODUsImxldmVsIjowfV0/198a094502/Item.png",
+ :ilvl 75,
+ :h 2,
+ :id "364ca547f692405ad118c005c5393f4bc57aae474034cf2dfccc0ad240a73348",
+ :inventoryId "Stash12",
+ :x 3,
+ :identified true,
+ :league "Synthesis",
+ :descrText
+ "Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.",
+ :verified false}
+  )
 
 (def ^:cost item-cases
   "Map of item suite cases in the form apie -> data, or
@@ -1090,10 +1160,12 @@ Curse Reflection
    exalted-orb-api                exalted-orb-data
    jewellers-big-stack-api        jewellers-big-stack-data
    currency-shard-api             currency-shard-data
-   lightpoacher-api lightpoacher-data
-   tombfist-api tombfist-data
-   darkness-enthroned-api darkness-enthroned-data
-   atziris-mirror-api atziris-mirror-data})
+   lightpoacher-api               lightpoacher-data
+   tombfist-api                   tombfist-data
+   darkness-enthroned-api         darkness-enthroned-data
+   atziris-mirror-api             atziris-mirror-data
+   witchfire-api witchfire-data
+   })
 
 (deftest test-item-cases
   (doseq [[item data] item-cases]

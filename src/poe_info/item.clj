@@ -144,22 +144,23 @@
 
 (defn property->mod
   "Convert a property to a mod string. Deals specially with value replacement, value-less properties, and experience reformatting."
-  [{name :name values :values :as property}]
-  (if (string/includes? name "%")
-    (reduce (fn [s [idx [val _]]]
-              (string/replace s (str "%" idx) val))
-            name
-            (util/enumerate values))
-    (if (empty? values)
-      name
-      (str name ": "
-           (->> values
-                (map (fn [value]
-                       (let [[value aug?] value]
-                         (str
-                          (property-special-case name value)
-                          (when (< 0 aug?) " (augmented)")))))
-                (clojure.string/join ", "))))))
+  [{:keys [name values] :as property}]
+  (let [add-aug (fn [value]
+                  (let [[value aug?] value]
+                    (str
+                     (property-special-case name value)
+                     (when (< 0 aug?) " (augmented)"))))]
+    (if (string/includes? name "%")
+      (reduce (fn [s [idx [val _ :as sub-prop]]]
+                (string/replace s (str "%" idx) (add-aug sub-prop)))
+              name
+              (util/enumerate values))
+      (if (empty? values)
+        name
+        (str name ": "
+             (->> values
+                  (map add-aug)
+                  (clojure.string/join ", ")))))))
 
 (defn requirement->str
   "Converts a requirement description to a string for an item block."
@@ -260,8 +261,8 @@
     (:implicitMods item) (conj (:implicitMods item))
     (:explicitMods item) (conj (item->explicit-block item))
     (:vaal item)         (concat-blocks (item->blocks (:vaal item)))
-    (:descrText item)    (conj (item->descr-text-block item))
     (:flavourText item)  (conj (map string/trim (:flavourText item)))
+    (:descrText item)    (conj (item->descr-text-block item))
     (:prophecyText item) (conj [(:prophecyText item)])
     (unided? item)       (conj ["Unidentified"])
     (:corrupted item)    (conj ["Corrupted"])
