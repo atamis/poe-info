@@ -1461,6 +1461,60 @@ Corrupted"
   "Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.",
   :verified false}
   )
+(def ^:const abyss-jewel-data
+  "Rarity: Rare
+Ancient Weaver
+Murderous Eye Jewel
+--------
+Abyss
+--------
+Requirements:
+Level: 49
+--------
+Item Level: 76
+--------
+Adds 18 to 27 Fire Damage to Staff Attacks (fractured)
+Adds 10 to 17 Cold Damage to Staff Attacks
++10 to Strength and Intelligence
++2% Chance to Block Attack Damage if you were Damaged by a Hit Recently
+--------
+Place into an Abyssal Socket on an Item or into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.
+--------
+Corrupted
+--------
+Fractured Item"
+  )
+(def ^:const abyss-jewel-api
+  "This is a corrupted fractured abyss jewel, so it hits a lot of different categories."
+{:y 0,
+ :properties [{:name "Abyss", :values [], :displayMode 0}],
+ :category {:jewels ["abyss"]},
+ :requirements [{:name "Level", :values [["49" 0]], :displayMode 0}],
+ :typeLine "Murderous Eye Jewel",
+ :corrupted true,
+ :frameType 2,
+ :name "Ancient Weaver",
+ :w 1,
+ :explicitMods
+ ["Adds 10 to 17 Cold Damage to Staff Attacks"
+  "+10 to Strength and Intelligence"
+  "+2% Chance to Block Attack Damage if you were Damaged by a Hit Recently"],
+ :fracturedMods ["Adds 18 to 27 Fire Damage to Staff Attacks"],
+ :icon
+ "https://web.poecdn.com/image/Art/2DItems/Jewels/MurderousEye.png?scale=1&w=1&h=1&fractured=1&v=6679365e95eb89fd626cf59fa2b57c99",
+ :ilvl 76,
+ :h 1,
+ :id "181a0f111bcff2452c0140a9731fd8466e20a24bc3f5a539a671946ded11e067",
+ :fractured true,
+ :inventoryId "Stash40",
+ :abyssJewel true,
+ :x 5,
+ :identified true,
+ :league "Synthesis",
+ :descrText
+ "Place into an Abyssal Socket on an Item or into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.",
+ :verified false}
+  )
 
 (def ^:cost item-cases
   "Map of item suite cases in the form apie -> data, or
@@ -1491,7 +1545,8 @@ Corrupted"
    corrupted-map-api              corrupted-map-data
    rare-map-api                   rare-map-data
    whakawairua-tuahu-api          whakawairua-tuahu-data
-   quality-vaal-gem-api quality-vaal-gem-data
+   quality-vaal-gem-api           quality-vaal-gem-data
+   abyss-jewel-api               abyss-jewel-data
    })
 
 (deftest test-item-cases
