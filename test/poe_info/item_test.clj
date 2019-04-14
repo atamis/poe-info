@@ -1370,6 +1370,97 @@ Travel to this Map by using it in the Templar Laboratory or a personal Map Devic
    :descrText
    "Travel to this Map by using it in the Templar Laboratory or a personal Map Device. Maps can only be used once.",
    :verified false})
+(def ^:const quality-vaal-gem-data
+  "Rarity: Gem
+Spectral Throw
+--------
+Vaal, Attack, Projectile
+Level: 1
+Mana Cost: 7
+Effectiveness of Added Damage: 54%
+Quality: +20% (augmented)
+Experience: 1/70
+--------
+Requirements:
+Level: 1
+--------
+Throws a spectral copy of your melee weapon. It flies out and then returns to you, in a spinning attack that strikes enemies in its path.
+--------
+Deals 54% of Base Damage
+10% increased Attack Speed
+--------
+Vaal Spectral Throw
+--------
+Souls Per Use: 10
+Can Store 3 Uses
+Soul Gain Prevention: 6 sec
+Effectiveness of Added Damage: 91%
+--------
+Throws a spectral copy of your melee weapon. It spirals out in a spinning attack that strikes enemies in its path.
+--------
+Deals 91% of Base Damage
+Fires 4 additional Projectiles
+10% increased Attack Speed
+Can't be Evaded
+--------
+Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.
+--------
+Corrupted"
+  )
+(def ^:const quality-vaal-gem-api
+{:y 10,
+  :properties
+  [{:name "Vaal, Attack, Projectile", :values [], :displayMode 0}
+   {:name "Level", :values [["1" 0]], :displayMode 0, :type 5}
+   {:name "Mana Cost", :values [["7" 0]], :displayMode 0}
+   {:name "Effectiveness of Added Damage", :values [["54%" 0]], :displayMode 0}
+   {:name "Quality", :values [["+20%" 1]], :displayMode 0, :type 6}],
+  :category {:gems ["activegem"]},
+  :additionalProperties
+  [{:name "Experience",
+    :values [["1/70" 0]],
+    :displayMode 2,
+    :progress 0.014285714365541935,
+    :type 20}],
+  :requirements [{:name "Level", :values [["1" 0]], :displayMode 0}],
+  :vaal
+  {:baseTypeName "Spectral Throw",
+   :properties
+   [{:name "Souls Per Use", :values [["10" 0]], :displayMode 0}
+    {:name "Can Store %0 Uses", :values [["3" 0]], :displayMode 3}
+    {:name "Soul Gain Prevention", :values [["6 sec" 0]], :displayMode 0}
+    {:name "Effectiveness of Added Damage",
+     :values [["91%" 0]],
+     :displayMode 0}],
+   :explicitMods
+   ["Deals 91% of Base Damage"
+    "Fires 4 additional Projectiles"
+    "10% increased Attack Speed"
+    "Can't be Evaded"],
+   :secDescrText
+   "Throws a spectral copy of your melee weapon. It spirals out in a spinning attack that strikes enemies in its path."},
+  :typeLine "Vaal Spectral Throw",
+  :corrupted true,
+  :frameType 4,
+  :support false,
+  :name "",
+  :w 1,
+  :explicitMods ["Deals 54% of Base Damage" "10% increased Attack Speed"],
+  :icon
+  "https://web.poecdn.com/image/Art/2DItems/Gems/VaalGems/VaalGhostlyThrow.png?scale=1&w=1&h=1&v=5bca0e233696a6917ef179426cabfbd3",
+  :ilvl 0,
+  :h 1,
+  :secDescrText
+  "Throws a spectral copy of your melee weapon. It flies out and then returns to you, in a spinning attack that strikes enemies in its path.",
+  :id "f3add3dc01ec22a6ca5e9654631fee10324e5b116df7177dbcea8b9355d554f8",
+  :inventoryId "Stash2",
+  :x 2,
+  :identified true,
+  :league "Synthesis",
+  :descrText
+  "Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.",
+  :verified false}
+  )
 
 (def ^:cost item-cases
   "Map of item suite cases in the form apie -> data, or
@@ -1399,7 +1490,9 @@ Travel to this Map by using it in the Templar Laboratory or a personal Map Devic
    corrupted-unid-map-api         corrupted-unid-map-data
    corrupted-map-api              corrupted-map-data
    rare-map-api                   rare-map-data
-   whakawairua-tuahu-api          whakawairua-tuahu-data})
+   whakawairua-tuahu-api          whakawairua-tuahu-data
+   quality-vaal-gem-api quality-vaal-gem-data
+   })
 
 (deftest test-item-cases
   (doseq [[item data] item-cases]
