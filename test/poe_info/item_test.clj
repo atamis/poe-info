@@ -3,6 +3,7 @@
             [clojure.test :refer :all]
             [poe-info.item :as item]))
 
+
 ;; To collapse all
 ;; z m
 
@@ -25,6 +26,7 @@
 ;; TODO:
 ;; whisper buy gems with quality
 ;; whisper buy things with no price
+
 
 (clojure.spec.alpha/check-asserts true)
 
@@ -180,6 +182,18 @@ Right click to drink. Can only hold charges while in belt. Refills as you kill m
    :league "Betrayal",
    :descrText "Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.",
    :verified false})
+(def ^:const fecund-vanguard-belt-data
+  "Rarity: Magic
+Fecund Vanguard Belt
+--------
+Requirements:
+Level: 78
+--------
+Item Level: 83
+--------
++273 to Armour and Evasion Rating
+--------
++92 to maximum Life")
 (def ^:const fecund-vanguard-belt-api
   {:y            2,
    :implicitMods ["+273 to Armour and Evasion Rating"],
@@ -819,6 +833,31 @@ Shift click to unstack.")
    :descrText "A stack of 20 shards becomes a Chaos Orb.",
    :verified false})
 
+(def ^:cost item-cases
+  "Map of item suite cases in the form apie -> data, or
+   API map representation -> string representation, or
+  input -> output."
+  {maelstrom-star-api             maelstrom-star-data
+   saphire-flask-api              saphire-flask-data
+   fecund-vanguard-belt-api       fecund-vanguard-belt-data
+   laviangas-wisdom-api           laviangas-wisdom-data
+   item-rarity-gem-api            item-rarity-gem-data
+   corrupted-ring-api             corrupted-ring-data
+   vaal-blight-api                vaal-blight-data
+   fractured-armor-api            fractured-armor-data
+   corrupted-fractured-weapon-api corrupted-fractured-weapon-data
+   unided-weapon-api              unided-weapon-data
+   prophecy-api                   prophecy-data
+   unset-ring-api                 unset-ring-data
+   exalted-orb-api                exalted-orb-data
+   jewellers-big-stack-api        jewellers-big-stack-data
+   currency-shard-api             currency-shard-data})
+
+(deftest test-item-cases
+  (doseq [[item data] item-cases]
+    (testing (full-item-name item)
+      (is (= data (item->str item))))))
+
 (deftest fixing-stash-index
   (testing "happy"
     (is (= 0 (stash-index {:inventoryId "Stash1"}))))
@@ -860,95 +899,6 @@ Shift click to unstack.")
            (reformat-experience "1/285815")))
 
     (is (= "11,111,111/2,222,222" (reformat-experience "11111111/2222222")))))
-
-(deftest maelstrom-star-test
-  (testing "Maelstrom Star Cobalt Jewel"
-    (is (=
-         maelstrom-star-data
-         (item->str maelstrom-star-api)))))
-
-(deftest sapphire-flask-test
-  (testing "Sapphire Flask"
-    (is (=
-         saphire-flask-data
-         (item->str saphire-flask-api)))))
-
-(deftest fecund-vanguard-belt
-  (testing "Fecund Vanguard Belt"
-    (is (= "Rarity: Magic
-Fecund Vanguard Belt
---------
-Requirements:
-Level: 78
---------
-Item Level: 83
---------
-+273 to Armour and Evasion Rating
---------
-+92 to maximum Life"
-
-           (item->str fecund-vanguard-belt-api)))))
-
-(deftest laviangas-wisdom
-  (testing "Lavianga's Wisdom"
-    (is (= laviangas-wisdom-data
-           (item->str laviangas-wisdom-api)))))
-
-(deftest item-rarity-gem
-  (testing "Item Rarity Support"
-    (is (= item-rarity-gem-data
-           (item->str item-rarity-gem-api)))))
-
-(deftest corrupted-ring
-  (testing "Kraken Coil Two-Stone Ring"
-    (is (= corrupted-ring-data
-
-           (item->str corrupted-ring-api)))))
-
-(deftest vaal-gem
-  (testing "Vaal Blight"
-    (is (= vaal-blight-data
-           (item->str vaal-blight-api)))))
-
-(deftest fractured-armor
-  (testing "Rift Veil Astral Plate"
-    (is (= fractured-armor-data
-           (item->str fractured-armor-api)))))
-
-(deftest corrupted-fractured-weapon
-  (testing "Dragon Bane Dragoon Sword"
-    (is (= corrupted-fractured-weapon-data
-           (item->str corrupted-fractured-weapon-api)))))
-
-(deftest unided-weapon-test
-  (testing "Jewelled Foil"
-    (is (= unided-weapon-data
-           (item->str unided-weapon-api)))))
-
-(deftest prophecy-test
-  (testing "The Jeweller's Touch"
-    (is (= prophecy-data
-           (item->str prophecy-api)))))
-
-(deftest unset-ring-test
-  (testing "Vengeance Circle Unset Ring"
-    (is (= unset-ring-data
-           (item->str unset-ring-api)))))
-
-(deftest exalted-orb-test
-  (testing "Exalted Orb"
-    (is (= exalted-orb-data
-           (item->str exalted-orb-api)))))
-
-(deftest jewellers-big-stack-test
-  (testing "Jeweller's Orb"
-    (is (= jewellers-big-stack-data
-           (item->str jewellers-big-stack-api)))))
-
-(deftest currency-shard-test
-  (testing "Chaos Shard"
-    (is (= currency-shard-data
-           (item->str currency-shard-api)))))
 
 (deftest price-strings
   (testing "price->str"

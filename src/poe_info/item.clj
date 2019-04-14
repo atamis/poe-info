@@ -90,6 +90,12 @@
     nil
     s))
 
+(defn full-item-name
+  "Concatenate the name and base to make the item's full name."
+  [{:keys [typeLine name]}]
+  (string/trim (string/join " " (filter some? [name typeLine]))))
+
+
 (s/def ::block (s/every string?))
 (s/def ::blocks (s/every ::block))
 
@@ -314,11 +320,14 @@
   (str amt " " (name currency)))
 
 (defn make-whisper
-  [username price stash {item-name :name :keys [typeLine league x y]}]
+  [username
+   price
+   stash
+   {:keys [league x y] :as item}]
   (let [left (inc x)
         top (inc y)
         price (if (s/valid? ::price price) (human-readable-price price) price)
-        item-name (string/trim (string/join " " (filter some? [item-name typeLine])))]
+        item-name (full-item-name item)]
     (format "@%s Hi, I would like to buy your %s listed for %s in %s (stash tab \"%s\"; position: left %d, top %d)" username item-name price league stash left top)))
 
 
