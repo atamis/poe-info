@@ -832,6 +832,176 @@ Shift click to unstack.")
    :league "Synthesis",
    :descrText "A stack of 20 shards becomes a Chaos Orb.",
    :verified false})
+(def ^:const lightpoacher-data
+  "Rarity: Unique
+Lightpoacher
+Great Crown
+--------
+Quality: +10% (augmented)
+Armour: 157 (augmented)
+Energy Shield: 31 (augmented)
+--------
+Requirements:
+Level: 53
+Str: 59
+Int: 59
+--------
+Sockets: R R A A
+--------
+Item Level: 80
+--------
+Has 2 Abyssal Sockets
+Trigger Level 20 Spirit Burst when you Use a Skill while you have a Spirit Charge
++13% to all Elemental Resistances
++1 to Maximum Spirit Charges per Abyss Jewel affecting you
+20% chance to gain a Spirit Charge on Kill
+Recover 4% of Life when you lose a Spirit Charge
+--------
+The eyes of the living hold a glimmer of hope.
+Don't waste it.")
+(def ^:const lightpoacher-api
+  {:y 10,
+   :properties
+   [{:name "Quality", :values [["+10%" 1]], :displayMode 0, :type 6}
+    {:name "Armour", :values [["157" 1]], :displayMode 0, :type 16}
+    {:name "Energy Shield", :values [["31" 1]], :displayMode 0, :type 18}],
+   :category {:armour ["helmet"]},
+   :requirements
+   [{:name "Level", :values [["53" 0]], :displayMode 0}
+    {:name "Str", :values [["59" 0]], :displayMode 1}
+    {:name "Int", :values [["59" 0]], :displayMode 1}],
+   :typeLine "Great Crown",
+   :flavourText
+   ["The eyes of the living hold a glimmer of hope.\r" "Don't waste it."],
+   :frameType 3,
+   :name "Lightpoacher",
+   :w 2,
+   :explicitMods
+   ["Has 2 Abyssal Sockets"
+    "Trigger Level 20 Spirit Burst when you Use a Skill while you have a Spirit Charge"
+    "+13% to all Elemental Resistances"
+    "+1 to Maximum Spirit Charges per Abyss Jewel affecting you"
+    "20% chance to gain a Spirit Charge on Kill"
+    "Recover 4% of Life when you lose a Spirit Charge"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Armours/Helmets/AbyssHelmet.png?scale=1&w=2&h=2&v=c7383e609399bafe70ad70944133931b",
+   :ilvl 80,
+   :sockets
+   [{:group 0, :attr "S", :sColour "R"}
+    {:group 1, :attr "S", :sColour "R"}
+    {:group 2, :attr "A", :sColour "A"}
+    {:group 3, :attr "A", :sColour "A"}],
+   :socketedItems [],
+   :h 2,
+   :id "afa39569ddba8f46ec958d75b8e647cf1ef7d936ebfbcc91d71398db1c4a3f52",
+   :inventoryId "Stash7",
+   :x 6,
+   :identified true,
+   :league "Synthesis",
+   :verified false})
+(def ^:const tombfist-data
+  "Rarity: Unique
+Tombfist
+Steelscale Gauntlets
+--------
+Armour: 65
+Evasion Rating: 65
+--------
+Requirements:
+Level: 36
+Str: 29
+Dex: 29
+--------
+Sockets: R-R-G A
+--------
+Item Level: 78
+--------
+Has 1 Abyssal Socket
+6% increased maximum Life
+With a Murderous Eye Jewel Socketed, Intimidate Enemies for 4 seconds on Hit with Attacks
+With a Searching Eye Jewel Socketed, Maim Enemies for 4 seconds on Hit with Attacks
+--------
+\"Ever watched a man crush another man's skull?
+Hard to feel hope after that.\"")
+(def ^:const tombfist-api
+  {:y 5,
+   :properties
+   [{:name "Armour", :values [["65" 0]], :displayMode 0, :type 16}
+    {:name "Evasion Rating", :values [["65" 0]], :displayMode 0, :type 17}],
+   :category {:armour ["gloves"]},
+   :requirements
+   [{:name "Level", :values [["36" 0]], :displayMode 0}
+    {:name "Str", :values [["29" 0]], :displayMode 1}
+    {:name "Dex", :values [["29" 0]], :displayMode 1}],
+   :typeLine "Steelscale Gauntlets",
+   :flavourText
+   ["\"Ever watched a man crush another man's skull?\r"
+    "Hard to feel hope after that.\""],
+   :frameType 3,
+   :name "Tombfist",
+   :w 2,
+   :explicitMods
+   ["Has 1 Abyssal Socket"
+    "6% increased maximum Life"
+    "With a Murderous Eye Jewel Socketed, Intimidate Enemies for 4 seconds on Hit with Attacks"
+    "With a Searching Eye Jewel Socketed, Maim Enemies for 4 seconds on Hit with Attacks"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Armours/Gloves/AbyssGloves.png?scale=1&w=2&h=2&v=752cb15c222d082b9c8ec4cacf444422",
+   :ilvl 78,
+   :sockets
+   [{:group 0, :attr "S", :sColour "R"}
+    {:group 0, :attr "S", :sColour "R"}
+    {:group 0, :attr "D", :sColour "G"}
+    {:group 1, :attr "A", :sColour "A"}],
+   :socketedItems [],
+   :h 2,
+   :id "d2d002f82fef5db8fa30293111cff6c5ef576263c5ae54c1b4c800eaabfe489f",
+   :inventoryId "Stash7",
+   :x 2,
+   :identified true,
+   :league "Synthesis",
+   :verified false})
+(def ^:const darkness-enthroned-data
+  "Rarity: Unique
+Darkness Enthroned
+Stygian Vise
+--------
+Sockets: A A
+--------
+Item Level: 80
+--------
+Has 1 Abyssal Socket
+--------
+Has 1 Abyssal Socket
+50% increased Effect of Socketed Jewels
+--------
+Hold in your hand the darkness
+and never will the light blind you.")
+(def ^:const darkness-enthroned-api
+  {:y 7,
+   :implicitMods ["Has 1 Abyssal Socket"],
+   :category {:accessories ["belt"]},
+   :typeLine "Stygian Vise",
+   :flavourText
+   ["Hold in your hand the darkness\r" "and never will the light blind you."],
+   :frameType 3,
+   :name "Darkness Enthroned",
+   :w 2,
+   :explicitMods
+   ["Has 1 Abyssal Socket" "50% increased Effect of Socketed Jewels"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Belts/DarknessEnthroned.png?scale=1&w=2&h=1&v=da21305836a0b67861183f9b9c040a93",
+   :ilvl 80,
+   :sockets
+   [{:group 0, :attr "A", :sColour "A"} {:group 1, :attr "A", :sColour "A"}],
+   :socketedItems [],
+   :h 1,
+   :id "e54fe439e198f901a785e3e07e76cad5c79a551123c4ab276da2b9adc236ffc9",
+   :inventoryId "Stash7",
+   :x 0,
+   :identified true,
+   :league "Synthesis",
+   :verified false})
 
 (def ^:cost item-cases
   "Map of item suite cases in the form apie -> data, or
@@ -851,7 +1021,10 @@ Shift click to unstack.")
    unset-ring-api                 unset-ring-data
    exalted-orb-api                exalted-orb-data
    jewellers-big-stack-api        jewellers-big-stack-data
-   currency-shard-api             currency-shard-data})
+   currency-shard-api             currency-shard-data
+   lightpoacher-api lightpoacher-data
+   tombfist-api tombfist-data
+   darkness-enthroned-api darkness-enthroned-data})
 
 (deftest test-item-cases
   (doseq [[item data] item-cases]
