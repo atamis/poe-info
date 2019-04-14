@@ -42,7 +42,9 @@
         (as-> (client/get (api/stash-item-url username index) {:cookie-store cs}) $
           (:body $)
           (spit filename $))
-        (println filename)))))
+        (println filename)
+        (java.lang.Thread/sleep 10000)
+        ))))
 
 (defn load-cache
   []
