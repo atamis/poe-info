@@ -1071,7 +1071,7 @@ Curse Reflection
    :league "Synthesis",
    :verified false})
 (def ^:const witchfire-data
-"Rarity: Unique
+  "Rarity: Unique
 Witchfire Brew
 Stibnite Flask
 --------
@@ -1098,48 +1098,278 @@ Think of their names as you drink,
 and even their children will feel what we do to them today.\"
 -Vadinya, to her coven
 --------
-Right click to drink. Can only hold charges while in belt. Refills as you kill monsters."
-  )
+Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.")
 (def ^:const witchfire-api
-{:y 8,
- :implicitMods ["Creates a Smoke Cloud on Use"],
- :properties
- [{:name "Quality", :values [["+26%" 1]], :displayMode 0, :type 6}
-  {:name "Lasts %0 Seconds", :values [["6.30" 1]], :displayMode 3}
-  {:name "Consumes %0 of %1 Charges on use",
-   :values [["15" 1] ["30" 0]],
-   :displayMode 3}
-  {:name "Currently has %0 Charges", :values [["0" 0]], :displayMode 3}],
- :category {:flasks []},
- :requirements [{:name "Level", :values [["48" 0]], :displayMode 0}],
- :typeLine "Stibnite Flask",
- :flavourText
- ["\"Think of those that cursed us, judged us, \r"
-  "and burned our sisters upon the pyre. \r"
-  "Think of their names as you drink, \r"
-  "and even their children will feel what we do to them today.\" \r"
-  "-Vadinya, to her coven"],
- :frameType 3,
- :name "Witchfire Brew",
- :w 1,
- :utilityMods ["100% increased Evasion Rating"],
- :explicitMods
- ["50% increased Charges used"
-  "26% increased Damage Over Time during Flask Effect"
-  "Grants Level 21 Despair Curse Aura during Flask Effect"],
- :icon
- "https://web.poecdn.com/gen/image/WzksNCx7ImYiOiJBcnRcLzJESXRlbXNcL0ZsYXNrc1wvV2l0Y2hGaXJlQnJldyIsInNwIjowLjYwODUsImxldmVsIjowfV0/198a094502/Item.png",
- :ilvl 75,
- :h 2,
- :id "364ca547f692405ad118c005c5393f4bc57aae474034cf2dfccc0ad240a73348",
- :inventoryId "Stash12",
- :x 3,
- :identified true,
- :league "Synthesis",
- :descrText
- "Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.",
- :verified false}
-  )
+  {:y 8,
+   :implicitMods ["Creates a Smoke Cloud on Use"],
+   :properties
+   [{:name "Quality", :values [["+26%" 1]], :displayMode 0, :type 6}
+    {:name "Lasts %0 Seconds", :values [["6.30" 1]], :displayMode 3}
+    {:name "Consumes %0 of %1 Charges on use",
+     :values [["15" 1] ["30" 0]],
+     :displayMode 3}
+    {:name "Currently has %0 Charges", :values [["0" 0]], :displayMode 3}],
+   :category {:flasks []},
+   :requirements [{:name "Level", :values [["48" 0]], :displayMode 0}],
+   :typeLine "Stibnite Flask",
+   :flavourText
+   ["\"Think of those that cursed us, judged us, \r"
+    "and burned our sisters upon the pyre. \r"
+    "Think of their names as you drink, \r"
+    "and even their children will feel what we do to them today.\" \r"
+    "-Vadinya, to her coven"],
+   :frameType 3,
+   :name "Witchfire Brew",
+   :w 1,
+   :utilityMods ["100% increased Evasion Rating"],
+   :explicitMods
+   ["50% increased Charges used"
+    "26% increased Damage Over Time during Flask Effect"
+    "Grants Level 21 Despair Curse Aura during Flask Effect"],
+   :icon
+   "https://web.poecdn.com/gen/image/WzksNCx7ImYiOiJBcnRcLzJESXRlbXNcL0ZsYXNrc1wvV2l0Y2hGaXJlQnJldyIsInNwIjowLjYwODUsImxldmVsIjowfV0/198a094502/Item.png",
+   :ilvl 75,
+   :h 2,
+   :id "364ca547f692405ad118c005c5393f4bc57aae474034cf2dfccc0ad240a73348",
+   :inventoryId "Stash12",
+   :x 3,
+   :identified true,
+   :league "Synthesis",
+   :descrText
+   "Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.",
+   :verified false})
+(def ^:const qual-white-map-data
+  "Rarity: Normal
+Superior Plaza Map
+--------
+Map Tier: 14
+Item Quantity: +20% (augmented)
+Quality: +20% (augmented)
+--------
+Item Level: 81
+--------
+Travel to this Map by using it in the Templar Laboratory or a personal Map Device. Maps can only be used once.")
+(def ^:const qual-white-map-api
+  {:y 3,
+   :properties
+   [{:name "Map Tier", :values [["14" 0]], :displayMode 0, :type 1}
+    {:name "Item Quantity", :values [["+20%" 1]], :displayMode 0, :type 2}
+    {:name "Quality", :values [["+20%" 1]], :displayMode 0, :type 6}],
+   :category {:maps []},
+   :typeLine "Superior Plaza Map",
+   :frameType 0,
+   :name "",
+   :w 1,
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Maps/Atlas2Maps/New/Plaza.png?scale=1&w=1&h=1&mn=3&mt=14&v=9f06fb7975b9f77fb338e1c710f77153",
+   :ilvl 81,
+   :h 1,
+   :id "88a8a25dce7f6ea539f501908e7a9610b042d215c7f9a062b90e4dbe91eebf39",
+   :inventoryId "Stash6",
+   :x 11,
+   :identified true,
+   :league "Synthesis",
+   :descrText
+   "Travel to this Map by using it in the Templar Laboratory or a personal Map Device. Maps can only be used once.",
+   :verified false})
+(def ^:const corrupted-unid-map-data
+  "Rarity: Rare
+Superior Pit of the Chimera Map
+--------
+Map Tier: 16
+Item Quantity: +20% (augmented)
+Quality: +20% (augmented)
+--------
+Item Level: 83
+--------
+Unidentified
+--------
+Travel to this Map by using it in the Templar Laboratory or a personal Map Device. Maps can only be used once.
+--------
+Corrupted")
+(def ^:const corrupted-unid-map-api
+  {:y 2,
+   :properties
+   [{:name "Map Tier", :values [["16" 0]], :displayMode 0, :type 1}
+    {:name "Item Quantity", :values [["+20%" 1]], :displayMode 0, :type 2}
+    {:name "Quality", :values [["+20%" 1]], :displayMode 0, :type 6}],
+   :category {:maps []},
+   :typeLine "Superior Pit of the Chimera Map",
+   :corrupted true,
+   :frameType 2,
+   :name "",
+   :w 1,
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Maps/Atlas2Maps/New/Chimera.png?scale=1&w=1&h=1&mn=3&mt=0&v=ff4e81347a05767fd71e04b14924a8c0",
+   :ilvl 83,
+   :h 1,
+   :id "3d4db4b5b2b4b1e6f4bf1e0c6bf1dd9e32b5df95db67c4235a693d58fed17413",
+   :inventoryId "Stash6",
+   :x 10,
+   :identified false,
+   :league "Synthesis",
+   :descrText
+   "Travel to this Map by using it in the Templar Laboratory or a personal Map Device. Maps can only be used once.",
+   :verified false})
+(def ^:const corrupted-map-data
+  "Rarity: Rare
+Blood Roost
+Arsenal Map
+--------
+Map Tier: 11
+Item Quantity: +104% (augmented)
+Item Rarity: +62% (augmented)
+Monster Pack Size: +40% (augmented)
+--------
+Item Level: 78
+--------
+27% more Magic Monsters
+23% more Rare Monsters
+Players are Cursed with Temporal Chains
+43% more Monster Life
+Monsters have 100% increased Area of Effect
+Monsters deal 90% extra Damage as Cold
+Rare Monsters each have a Nemesis Mod
+Magic Monster Packs each have a Bloodline Mod
+Slaying Enemies close together has a 13% chance to attract monsters from Beyond
+Players cannot Regenerate Life, Mana or Energy Shield
+--------
+Travel to this Map by using it in the Templar Laboratory or a personal Map Device. Maps can only be used once.
+--------
+Corrupted")
+(def ^:const corrupted-map-api
+  {:y 4,
+   :properties
+   [{:name "Map Tier", :values [["11" 0]], :displayMode 0, :type 1}
+    {:name "Item Quantity", :values [["+104%" 1]], :displayMode 0, :type 2}
+    {:name "Item Rarity", :values [["+62%" 1]], :displayMode 0, :type 3}
+    {:name "Monster Pack Size", :values [["+40%" 1]], :displayMode 0, :type 4}],
+   :category {:maps []},
+   :typeLine "Arsenal Map",
+   :corrupted true,
+   :frameType 2,
+   :name "Blood Roost",
+   :w 1,
+   :explicitMods
+   ["27% more Magic Monsters"
+    "23% more Rare Monsters"
+    "Players are Cursed with Temporal Chains"
+    "43% more Monster Life"
+    "Monsters have 100% increased Area of Effect"
+    "Monsters deal 90% extra Damage as Cold"
+    "Rare Monsters each have a Nemesis Mod"
+    "Magic Monster Packs each have a Bloodline Mod"
+    "Slaying Enemies close together has a 13% chance to attract monsters from Beyond"
+    "Players cannot Regenerate Life, Mana or Energy Shield"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Maps/Atlas2Maps/New/Arsenal.png?scale=1&w=1&h=1&mn=3&mt=11&v=07aae23d9c7fa518864ce0466977a772",
+   :ilvl 78,
+   :h 1,
+   :id "53e307cb3a63f76ecc761f9f86425724688d9a5521e6032b14698b03062f2483",
+   :inventoryId "Stash6",
+   :x 10,
+   :identified true,
+   :league "Synthesis",
+   :descrText
+   "Travel to this Map by using it in the Templar Laboratory or a personal Map Device. Maps can only be used once.",
+   :verified false})
+(def ^:const rare-map-data
+  "Rarity: Rare
+Desecrated Secrets
+Palace Map
+--------
+Map Tier: 11
+Item Quantity: +66% (augmented)
+Item Rarity: +28% (augmented)
+Monster Pack Size: +18% (augmented)
+Quality: +20% (augmented)
+--------
+Item Level: 83
+--------
+Area is inhabited by 2 additional Rogue Exiles
+Players are Cursed with Vulnerability
+Monsters reflect 18% of Elemental Damage
+Unique Boss has 35% increased Life
+Unique Boss has 70% increased Area of Effect
+--------
+Travel to this Map by using it in the Templar Laboratory or a personal Map Device. Maps can only be used once.")
+(def ^:const rare-map-api
+  {:y 2,
+   :properties
+   [{:name "Map Tier", :values [["11" 0]], :displayMode 0, :type 1}
+    {:name "Item Quantity", :values [["+66%" 1]], :displayMode 0, :type 2}
+    {:name "Item Rarity", :values [["+28%" 1]], :displayMode 0, :type 3}
+    {:name "Monster Pack Size", :values [["+18%" 1]], :displayMode 0, :type 4}
+    {:name "Quality", :values [["+20%" 1]], :displayMode 0, :type 6}],
+   :category {:maps []},
+   :typeLine "Palace Map",
+   :frameType 2,
+   :name "Desecrated Secrets",
+   :w 1,
+   :explicitMods
+   ["Area is inhabited by 2 additional Rogue Exiles"
+    "Players are Cursed with Vulnerability"
+    "Monsters reflect 18% of Elemental Damage"
+    "Unique Boss has 35% increased Life"
+    "Unique Boss has 70% increased Area of Effect"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Maps/Atlas2Maps/New/Palace.png?scale=1&w=1&h=1&mn=3&mt=11&v=e32d570548554f453f7b4c371cfd19b3",
+   :ilvl 83,
+   :h 1,
+   :id "0480cf1ebcb60cff465390b0771ec279944d19bc12da1ad9a21f56dae4937c47",
+   :inventoryId "Stash6",
+   :x 11,
+   :identified true,
+   :league "Synthesis",
+   :descrText
+   "Travel to this Map by using it in the Templar Laboratory or a personal Map Device. Maps can only be used once.",
+   :verified false})
+(def ^:const whakawairua-tuahu-data
+  "Rarity: Unique
+Whakawairua Tuahu
+Strand Map
+--------
+Map Tier: 2
+Item Quantity: +40% (augmented)
+Item Rarity: +123% (augmented)
+--------
+Item Level: 80
+--------
+Area contains many Totems
+Curses have 50% reduced effect on Monsters
+Rare Monsters each have a Nemesis Mod
+--------
+We all began life in darkness, we shall all end it there.
+--------
+Travel to this Map by using it in the Templar Laboratory or a personal Map Device. Maps can only be used once.")
+(def ^:const whakawairua-tuahu-api
+  {:y 3,
+   :properties
+   [{:name "Map Tier", :values [["2" 0]], :displayMode 0, :type 1}
+    {:name "Item Quantity", :values [["+40%" 1]], :displayMode 0, :type 2}
+    {:name "Item Rarity", :values [["+123%" 1]], :displayMode 0, :type 3}],
+   :category {:maps []},
+   :typeLine "Strand Map",
+   :flavourText ["We all began life in darkness, we shall all end it there."],
+   :frameType 3,
+   :name "Whakawairua Tuahu",
+   :w 1,
+   :explicitMods
+   ["Area contains many Totems"
+    "Curses have 50% reduced effect on Monsters"
+    "Rare Monsters each have a Nemesis Mod"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Maps/UniqueMapEye.png?scale=1&w=1&h=1&v=6ab3c0f5b018f6553bd8400063918883",
+   :ilvl 80,
+   :h 1,
+   :id "55fe84963734e6c8d8463b76b10761179b7b81770db9e441343c0c4ef2f81602",
+   :inventoryId "Stash4",
+   :x 19,
+   :identified true,
+   :league "Synthesis",
+   :descrText
+   "Travel to this Map by using it in the Templar Laboratory or a personal Map Device. Maps can only be used once.",
+   :verified false})
 
 (def ^:cost item-cases
   "Map of item suite cases in the form apie -> data, or
@@ -1164,8 +1394,12 @@ Right click to drink. Can only hold charges while in belt. Refills as you kill m
    tombfist-api                   tombfist-data
    darkness-enthroned-api         darkness-enthroned-data
    atziris-mirror-api             atziris-mirror-data
-   witchfire-api witchfire-data
-   })
+   witchfire-api                  witchfire-data
+   qual-white-map-api             qual-white-map-data
+   corrupted-unid-map-api         corrupted-unid-map-data
+   corrupted-map-api              corrupted-map-data
+   rare-map-api                   rare-map-data
+   whakawairua-tuahu-api          whakawairua-tuahu-data})
 
 (deftest test-item-cases
   (doseq [[item data] item-cases]
