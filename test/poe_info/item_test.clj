@@ -30,6 +30,8 @@
 
 (clojure.spec.alpha/check-asserts true)
 
+;; Note: trailing spaces in string literals are "intentional",
+;; and shouldn't be removed.
 (def ^:const conq-potency
   {:y 4,
    :properties [{:name "Limited to", :values [["1" 0]], :displayMode 0}],
@@ -1092,10 +1094,10 @@ Creates a Smoke Cloud on Use
 26% increased Damage Over Time during Flask Effect
 Grants Level 21 Despair Curse Aura during Flask Effect
 --------
-\"Think of those that cursed us, judged us,
-and burned our sisters upon the pyre.
-Think of their names as you drink,
-and even their children will feel what we do to them today.\"
+\"Think of those that cursed us, judged us, 
+and burned our sisters upon the pyre. 
+Think of their names as you drink, 
+and even their children will feel what we do to them today.\" 
 -Vadinya, to her coven
 --------
 Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.")
@@ -1515,6 +1517,74 @@ Fractured Item"
  "Place into an Abyssal Socket on an Item or into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.",
  :verified false}
   )
+(def ^:const simple-frag-data
+"Rarity: Normal
+Sacrifice at Dawn
+--------
+Only those who aspire can dare to hope.
+--------
+Can be used in the Templar Laboratory or a personal Map Device."
+  )
+(def ^:const simple-frag-api
+  {:y 10,
+   :category {:maps ["fragment"]},
+   :typeLine "Sacrifice at Dawn",
+   :flavourText ["Only those who aspire can dare to hope."],
+   :frameType 0,
+   :name "",
+   :w 1,
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Maps/Vaal02.png?scale=1&w=1&h=1&v=3ead6455599ec6c303f54ba98d6f8eb2",
+   :ilvl 0,
+   :h 1,
+   :id "48709e29ef37980205a9d6bc220dd2cd5c328101bcd50c7c43f91436ca31a455",
+   :inventoryId "Stash2",
+   :x 11,
+   :identified true,
+   :league "Synthesis",
+   :descrText "Can be used in the Templar Laboratory or a personal Map Device.",
+   :verified false}
+  )
+(def ^:const divine-vessel-data
+"Rarity: Normal
+Divine Vessel
+--------
+Unique Boss deals 10% increased Damage
+Unique Boss has 10% increased Attack and Cast Speed
+Unique Boss has 10% increased Life
+Unique Boss has 20% increased Area of Effect
+--------
+Power is a curious thing. 
+It can be contained, hidden, locked away, 
+and yet it always breaks free.
+--------
+Can be used in the Templar Laboratory or a personal Map Device, allowing you to capture the Soul of the Map's Boss. The Vessel containing the captured Soul can be retrieved from the Map Device. You must be in the Map when the boss is defeated."
+  )
+(def ^:const divine-vessel-api
+  {:y 12,
+   :category {:maps ["fragment"]},
+   :typeLine "Divine Vessel",
+   :flavourText
+   ["Power is a curious thing. \r"
+    "It can be contained, hidden, locked away, \r"
+    "and yet it always breaks free."],
+   :frameType 0,
+   :name "",
+   :w 1,
+   :explicitMods
+   ["Unique Boss deals 10% increased Damage\r\nUnique Boss has 10% increased Attack and Cast Speed\r\nUnique Boss has 10% increased Life\r\nUnique Boss has 20% increased Area of Effect"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Maps/SinFlaskEmpty.png?scale=1&w=1&h=2&v=8b9f566d35bc00387e43f8ec4eefad31",
+   :ilvl 0,
+   :h 2,
+   :id "31422ece1c160fbaf311d87045b5fa804e923db3610fbbd5aa5bd5cb20a78126",
+   :inventoryId "Stash3",
+   :x 1,
+   :identified true,
+   :league "Synthesis",
+   :descrText
+   "Can be used in the Templar Laboratory or a personal Map Device, allowing you to capture the Soul of the Map's Boss. The Vessel containing the captured Soul can be retrieved from the Map Device. You must be in the Map when the boss is defeated.",
+   :verified false})
 
 (def ^:cost item-cases
   "Map of item suite cases in the form apie -> data, or
@@ -1546,7 +1616,9 @@ Fractured Item"
    rare-map-api                   rare-map-data
    whakawairua-tuahu-api          whakawairua-tuahu-data
    quality-vaal-gem-api           quality-vaal-gem-data
-   abyss-jewel-api               abyss-jewel-data
+   abyss-jewel-api                abyss-jewel-data
+   simple-frag-api                simple-frag-data
+   divine-vessel-api              divine-vessel-data
    })
 
 (deftest test-item-cases

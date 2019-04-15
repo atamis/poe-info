@@ -114,7 +114,6 @@
 (s/def ::block (s/every string?))
 (s/def ::blocks (s/every ::block))
 
-;; TODO: check abyss sockets.
 (defn sockets->str
   "Convert a complex socket description from the item API into the simplified description in item blocks."
   [sockets]
@@ -134,6 +133,11 @@
   (->> (string/split s #"/")
        (map #(Integer/parseInt %))
        (apply format "%,d/%,d")))
+
+(defn sanitize-flavour-text
+  [s]
+  (string/replace s "\r" "")
+  )
 
 (defn property-special-case
   [name value]
@@ -230,7 +234,7 @@
   {:post [(s/valid? ::block %)]}
   (concat
    (when (:fractured item) (add-fractured (:fracturedMods item)))
-   (:explicitMods item)
+   (map #(string/replace % "\r\n" "\n") (:explicitMods item))
    (when-let [mods (:craftedMods item)] (add-crafted mods))))
 
 (defn item->descr-text-block
@@ -261,7 +265,7 @@
     (:implicitMods item) (conj (:implicitMods item))
     (:explicitMods item) (conj (item->explicit-block item))
     (:vaal item)         (concat-blocks (item->blocks (:vaal item)))
-    (:flavourText item)  (conj (map string/trim (:flavourText item)))
+    (:flavourText item)  (conj (map sanitize-flavour-text (:flavourText item)))
     (unided? item)       (conj ["Unidentified"])
     (:descrText item)    (conj (item->descr-text-block item))
     (:prophecyText item) (conj [(:prophecyText item)])
@@ -401,6 +405,9 @@
    "Gold Ring"
    "Ruby Ring"
    "Steel Ring"])
+
+;; Note: :note is only when set explicitly. Implicit notes are
+;; not included.
 
 (def item-key-range
   "All the item keys from a large (although not exhaustive) sample of items."
