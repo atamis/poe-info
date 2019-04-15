@@ -1764,7 +1764,6 @@ Shaper Item")
    :identified true,
    :league "Synthesis",
    :verified false})
-
 (def ^:const elder-data
   "Rarity: Rare
 Rune Suit
@@ -1892,6 +1891,63 @@ Nothing is eternal.\"
    :identified true,
    :league "Synthesis",
    :verified false})
+(def ^:const essence-data
+  "Rarity: Currency
+Essence of Hysteria
+--------
+Stack Size: 2/9
+--------
+Upgrades a normal item to rare or reforges a rare item, guaranteeing one property
+
+Weapon: 10% chance to Cast Level 20 Fire Burst on Hit
+Gloves: Socketed Gems deal 175 to 225 additional Fire Damage
+Boots: Drops Burning Ground while moving, dealing 2500 Fire Damage per second
+Body Armour: 10% increased Area of Effect
+Helmet: Socketed Gems have 50% chance to Ignite
+Shield: Adds 40 to 80 Fire Damage if you've Blocked Recently
+Quiver: Gain 10% of Physical Damage as Extra Fire Damage
+Amulet: 40% increased total Recovery per second from Life Leech
+Ring: Gain 10% of Physical Damage as Extra Fire Damage
+Belt: Damage Penetrates 5% Elemental Resistances during any Flask Effect
+--------
+Right click this item then left click a normal or rare item to apply it.
+Shift click to unstack.")
+(def ^:const essence-api
+{:y 0,
+ :properties [{:name "Stack Size", :values [["2/9" 0]], :displayMode 0}],
+ :category {:currency []},
+ :typeLine "Essence of Hysteria",
+ :frameType 5,
+ :name "",
+ :w 1,
+ :explicitMods
+ ["Upgrades a normal item to rare or reforges a rare item, guaranteeing one property"
+  ""
+  "Weapon: 10% chance to Cast Level 20 Fire Burst on Hit"
+  "Gloves: Socketed Gems deal 175 to 225 additional Fire Damage"
+  "Boots: Drops Burning Ground while moving, dealing 2500 Fire Damage per second"
+  "Body Armour: 10% increased Area of Effect"
+  "Helmet: Socketed Gems have 50% chance to Ignite"
+  "Shield: Adds 40 to 80 Fire Damage if you've Blocked Recently"
+  "Quiver: Gain 10% of Physical Damage as Extra Fire Damage"
+  "Amulet: 40% increased total Recovery per second from Life Leech"
+  "Ring: Gain 10% of Physical Damage as Extra Fire Damage"
+  "Belt: Damage Penetrates 5% Elemental Resistances during any Flask Effect"],
+ :icon
+ "https://web.poecdn.com/image/Art/2DItems/Currency/Essence/Terror1.png?scale=1&w=1&h=1&v=b6310bff75f61da7446462b7abdbb0b7",
+ :ilvl 0,
+ :stackSize 2,
+ :maxStackSize 5000,
+ :h 1,
+ :id "ca7dba13219c261a0407147a81012c0902196f3b902d4494fee2594a9d153af3",
+ :inventoryId "Stash9",
+ :x 100,
+ :identified true,
+ :league "Synthesis",
+ :descrText
+ "Right click this item then left click a normal or rare item to apply it.",
+ :verified false}
+  )
 
 (def ^:cost item-cases
   "Map of item suite cases in the form apie -> data, or
@@ -1931,7 +1987,9 @@ Nothing is eternal.\"
    shaped-api                     shaped-data
    elder-api                      elder-data
    div-arrogance-api div-arrogance-data
-   div-crumble-api div-crumble-data})
+   div-crumble-api div-crumble-data
+   essence-api essence-data
+   })
 
 (deftest test-item-cases
   (doseq [[item data] item-cases]
