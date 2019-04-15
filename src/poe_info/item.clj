@@ -274,6 +274,8 @@
     (:fractured item)    (conj ["Fractured Item"])
     ;; This might be somehwere else.
     (:synthesised item) (conj ["Synthesised Item"])
+    (:shaper item) (conj ["Shaper Item"])
+    (:elder item) (conj ["Elder Item"])
     ))
 
 (defn item-block-dispatch

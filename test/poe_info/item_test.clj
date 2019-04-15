@@ -1714,6 +1714,123 @@ Synthesised Item"
  :verified false,
  :synthesised true}
   )
+(def ^:const shaped-data
+  "Rarity: Rare
+Hypnotic Nails
+Assassin's Mitts
+--------
+Evasion Rating: 104
+Energy Shield: 20
+--------
+Requirements:
+Level: 58
+Dex: 45
+Int: 45
+--------
+Sockets: B-B-G-B
+--------
+Item Level: 79
+--------
+Socketed Gems are supported by Level 16 Blind
++19 to Intelligence
+Adds 3 to 7 Physical Damage to Attacks
++165 to Accuracy Rating
+6% Global chance to Blind Enemies on hit
+--------
+Shaper Item"
+  )
+(def ^:const shaped-api
+{:y 13,
+ :properties
+ [{:name "Evasion Rating", :values [["104" 0]], :displayMode 0, :type 17}
+  {:name "Energy Shield", :values [["20" 0]], :displayMode 0, :type 18}],
+ :category {:armour ["gloves"]},
+ :requirements
+ [{:name "Level", :values [["58" 0]], :displayMode 0}
+  {:name "Dex", :values [["45" 0]], :displayMode 1}
+  {:name "Int", :values [["45" 0]], :displayMode 1}],
+ :typeLine "Assassin's Mitts",
+ :frameType 2,
+ :name "Hypnotic Nails",
+ :w 2,
+ :explicitMods
+ ["Socketed Gems are supported by Level 16 Blind"
+  "+19 to Intelligence"
+  "Adds 3 to 7 Physical Damage to Attacks"
+  "+165 to Accuracy Rating"
+  "6% Global chance to Blind Enemies on hit"],
+ :icon
+ "https://web.poecdn.com/image/Art/2DItems/Armours/Gloves/GlovesDexInt2.png?scale=1&w=2&h=2&v=8301a0119606f022ec99a9723749003d",
+ :ilvl 79,
+ :sockets
+ [{:group 0, :attr "I", :sColour "B"}
+  {:group 0, :attr "I", :sColour "B"}
+  {:group 0, :attr "D", :sColour "G"}
+  {:group 0, :attr "I", :sColour "B"}],
+ :socketedItems [],
+ :shaper true,
+ :h 2,
+ :id "72395aaea6ae4d111e451aca842148f526153943937edca9d8dfd7bbb38b15d5",
+ :inventoryId "Stash2",
+ :x 2,
+ :identified true,
+ :league "Synthesis",
+ :verified false}
+  )
+
+(def ^:const elder-data
+  "Rarity: Rare
+Rune Suit
+Silk Robe
+--------
+Energy Shield: 65
+--------
+Requirements:
+Level: 64
+Int: 91
+--------
+Sockets: B
+--------
+Item Level: 81
+--------
+8% increased maximum Life
++73 to maximum Mana
++28% to Cold Resistance
++40% to Lightning Resistance
+--------
+Elder Item"
+  )
+(def ^:const elder-api
+  {:y 0,
+   :properties
+   [{:name "Energy Shield", :values [["65" 0]], :displayMode 0, :type 18}],
+   :category {:armour ["chest"]},
+   :requirements
+   [{:name "Level", :values [["64" 0]], :displayMode 0}
+    {:name "Int", :values [["91" 0]], :displayMode 1}],
+   :typeLine "Silk Robe",
+   :frameType 2,
+   :name "Rune Suit",
+   :w 2,
+   :elder true,
+   :explicitMods
+   ["8% increased maximum Life"
+    "+73 to maximum Mana"
+    "+28% to Cold Resistance"
+    "+40% to Lightning Resistance"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Armours/BodyArmours/BodyInt2C.png?scale=1&w=2&h=3&v=3230b59077d8340c5b49196cce65e956",
+   :ilvl 81,
+   :sockets [{:group 0, :attr "I", :sColour "B"}],
+   :socketedItems [],
+   :h 3,
+   :id "f77de848b15b109d6ef2992f80aedaeb16fef6e6198b1cd7e8ad207450aff636",
+   :inventoryId "Stash32",
+   :x 5,
+   :identified true,
+   :league "Synthesis",
+   :verified false}
+  )
 
 (def ^:cost item-cases
   "Map of item suite cases in the form apie -> data, or
@@ -1749,7 +1866,9 @@ Synthesised Item"
    simple-frag-api                simple-frag-data
    divine-vessel-api              divine-vessel-data
    talisman-api                   talisman-data
-   synthed-api synthed-data
+   synthed-api                    synthed-data
+   shaped-api                     shaped-data
+   elder-api                      elder-data
    })
 
 (deftest test-item-cases
