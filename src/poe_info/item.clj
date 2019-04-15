@@ -272,7 +272,8 @@
     (:prophecyText item) (conj [(:prophecyText item)])
     (:corrupted item)    (conj ["Corrupted"])
     (:fractured item)    (conj ["Fractured Item"])
-    ;;(unstackable? item)  (conj ["Shift click to unstack"])
+    ;; This might be somehwere else.
+    (:synthesised item) (conj ["Synthesised Item"])
     ))
 
 (defn item-block-dispatch

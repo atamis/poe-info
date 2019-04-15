@@ -1647,6 +1647,73 @@ Corrupted"
    :league "Synthesis",
    :verified false}
   )
+(def ^:const synthed-data
+"Rarity: Rare
+Hate Ward
+Synthesised Crypt Armour
+--------
+Quality: +4% (augmented)
+Evasion Rating: 341 (augmented)
+Energy Shield: 74 (augmented)
+--------
+Requirements:
+Level: 56
+Dex: 82
+Int: 82
+--------
+Sockets: G B-G
+--------
+Item Level: 73
+--------
+Reflects 15 Physical Damage to Melee Attackers
+--------
++40 to Intelligence
++20 to Evasion Rating
++11 to maximum Energy Shield
++38% to Fire Resistance
++36% to Cold Resistance
+--------
+Synthesised Item"
+  )
+(def ^:const synthed-api
+{:y 0,
+ :implicitMods ["Reflects 15 Physical Damage to Melee Attackers"],
+ :properties
+ [{:name "Quality", :values [["+4%" 1]], :displayMode 0, :type 6}
+  {:name "Evasion Rating", :values [["341" 1]], :displayMode 0, :type 17}
+  {:name "Energy Shield", :values [["74" 1]], :displayMode 0, :type 18}],
+ :category {:armour ["chest"]},
+ :requirements
+ [{:name "Level", :values [["56" 0]], :displayMode 0}
+  {:name "Dex", :values [["82" 0]], :displayMode 1}
+  {:name "Int", :values [["82" 0]], :displayMode 1}],
+ :typeLine "Synthesised Crypt Armour",
+ :frameType 2,
+ :name "Hate Ward",
+ :w 2,
+ :explicitMods
+ ["+40 to Intelligence"
+  "+20 to Evasion Rating"
+  "+11 to maximum Energy Shield"
+  "+38% to Fire Resistance"
+  "+36% to Cold Resistance"],
+ :icon
+ "https://web.poecdn.com/image/Art/2DItems/Armours/BodyArmours/BodyDexInt4C.png?scale=1&w=2&h=3&synthesised=1&v=648a82d9c23d1c8e7546b8c3637bbb63",
+ :ilvl 73,
+ :sockets
+ [{:group 0, :attr "D", :sColour "G"}
+  {:group 1, :attr "I", :sColour "B"}
+  {:group 1, :attr "D", :sColour "G"}],
+ :socketedItems [],
+ :h 3,
+ :id "19940e6f85b04edaf809ccac8a305721f57606b7a2fb5a05a25e4dbd5e0dd4f2",
+ :inventoryId "Stash36",
+ :x 6,
+ :identified true,
+ :league "Synthesis",
+ :verified false,
+ :synthesised true}
+  )
 
 (def ^:cost item-cases
   "Map of item suite cases in the form apie -> data, or
@@ -1682,6 +1749,7 @@ Corrupted"
    simple-frag-api                simple-frag-data
    divine-vessel-api              divine-vessel-data
    talisman-api                   talisman-data
+   synthed-api synthed-data
    })
 
 (deftest test-item-cases
