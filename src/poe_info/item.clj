@@ -262,6 +262,7 @@
     (:secDescrText item) (conj [(:secDescrText item)])
     (:sockets item)      (conj [(str "Sockets: " (sockets->str (:sockets item)))])
     (item-ilvl? item)    (conj [(str "Item Level: " (:ilvl item))])
+    (:talismanTier item) (conj [(str "Talisman Tier: " (:talismanTier item))])
     (:implicitMods item) (conj (:implicitMods item))
     (:explicitMods item) (conj (item->explicit-block item))
     (:vaal item)         (concat-blocks (item->blocks (:vaal item)))

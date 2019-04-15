@@ -1585,6 +1585,68 @@ Can be used in the Templar Laboratory or a personal Map Device, allowing you to 
    :descrText
    "Can be used in the Templar Laboratory or a personal Map Device, allowing you to capture the Soul of the Map's Boss. The Vessel containing the captured Soul can be retrieved from the Map Device. You must be in the Map when the boss is defeated.",
    :verified false})
+(def ^:const talisman-data
+"Rarity: Rare
+Phoenix Gorget
+Mandible Talisman
+--------
+Requirements:
+Level: 43
+--------
+Item Level: 74
+--------
+Talisman Tier: 1
+--------
+9% increased Attack and Cast Speed
+--------
++85 to maximum Life
++44 to maximum Mana
++13% to all Elemental Resistances
++23% to Fire Resistance
++21% to Cold Resistance (crafted)
+--------
+The First Ones hold us
+between two sharpened blades.
+That should we stray too far from the path,
+we find ourselves severed.
+- The Wolven King
+--------
+Corrupted"
+  )
+(def ^:const talisman-api
+  {:y 23,
+   :implicitMods ["9% increased Attack and Cast Speed"],
+   :category {:accessories ["amulet"]},
+   :requirements [{:name "Level", :values [["43" 0]], :displayMode 0}],
+   :typeLine "Mandible Talisman",
+   :flavourText
+   ["The First Ones hold us\r"
+    "between two sharpened blades.\r"
+    "That should we stray too far from the path,\r"
+    "we find ourselves severed.\r"
+    "- The Wolven King"],
+   :corrupted true,
+   :frameType 2,
+   :name "Phoenix Gorget",
+   :w 1,
+   :explicitMods
+   ["+85 to maximum Life"
+    "+44 to maximum Mana"
+    "+13% to all Elemental Resistances"
+    "+23% to Fire Resistance"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Amulets/NewTalisman.png?scale=1&w=1&h=1&v=ad5f0ea8fe142ed1e4c264661f29a8e6",
+   :ilvl 74,
+   :talismanTier 1,
+   :h 1,
+   :id "586068b7cc0ae312a799cfdf17f7bffe4e0455969e81b4adacae629cada07222",
+   :craftedMods ["+21% to Cold Resistance"],
+   :inventoryId "Stash3",
+   :x 23,
+   :identified true,
+   :league "Synthesis",
+   :verified false}
+  )
 
 (def ^:cost item-cases
   "Map of item suite cases in the form apie -> data, or
@@ -1619,6 +1681,7 @@ Can be used in the Templar Laboratory or a personal Map Device, allowing you to 
    abyss-jewel-api                abyss-jewel-data
    simple-frag-api                simple-frag-data
    divine-vessel-api              divine-vessel-data
+   talisman-api                   talisman-data
    })
 
 (deftest test-item-cases
