@@ -45,6 +45,7 @@
    3 :unique
    4 :gem
    5 :currency
+   6 :divination
    8 :prophecy})
 
 (defn stash-index
@@ -73,6 +74,7 @@
    :unique "Unique"
    :gem "Gem"
    :currency "Currency"
+   :divination "Divination Card"
    :prophecy "Normal" ;; Lol
    })
 
@@ -133,11 +135,6 @@
   (->> (string/split s #"/")
        (map #(Integer/parseInt %))
        (apply format "%,d/%,d")))
-
-(defn sanitize-flavour-text
-  [s]
-  (string/replace s "\r" "")
-  )
 
 (defn property-special-case
   [name value]
@@ -205,6 +202,23 @@
   [item]
   (and (:ilvl item) (not= (:ilvl item) 0)))
 
+(defn div-card-tag-handler
+  [_tag text]
+  text)
+
+;; This gets called on explicit mods individually, and on
+;; concatenated flavour text because for some god awful reason,
+;; flavour text's tags can span newlines.
+
+
+(defn text-tag-handler
+  [mod]
+  (-> mod
+      (string/replace "\r" "")
+      (string/replace
+       #"<([^\>]+)>\{([^\}]+)\}"
+       #(apply div-card-tag-handler (rest %)))))
+
 (defn item->header-block
   [item]
   {:post [(s/valid? ::block %)]}
@@ -234,7 +248,7 @@
   {:post [(s/valid? ::block %)]}
   (concat
    (when (:fractured item) (add-fractured (:fracturedMods item)))
-   (map #(string/replace % "\r\n" "\n") (:explicitMods item))
+   (map text-tag-handler (:explicitMods item))
    (when-let [mods (:craftedMods item)] (add-crafted mods))))
 
 (defn item->descr-text-block
@@ -266,7 +280,7 @@
     (:implicitMods item) (conj (:implicitMods item))
     (:explicitMods item) (conj (item->explicit-block item))
     (:vaal item)         (concat-blocks (item->blocks (:vaal item)))
-    (:flavourText item)  (conj (map sanitize-flavour-text (:flavourText item)))
+    (:flavourText item)  (conj [(text-tag-handler (string/join "\n" (:flavourText item)))])
     (unided? item)       (conj ["Unidentified"])
     (:descrText item)    (conj (item->descr-text-block item))
     (:prophecyText item) (conj [(:prophecyText item)])
@@ -276,7 +290,11 @@
     (:synthesised item) (conj ["Synthesised Item"])
     (:shaper item) (conj ["Shaper Item"])
     (:elder item) (conj ["Elder Item"])
-    ))
+    ;; For some reason, divination cards have their unshift
+    ;; message in a separate block, while currency doesn't.
+    (and (= (rarity item)
+            :divination)
+         (unstackable? item)) (conj ["Shift click to unstack."])))
 
 (defn item-block-dispatch
   [item]

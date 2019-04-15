@@ -1407,62 +1407,60 @@ Can't be Evaded
 --------
 Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.
 --------
-Corrupted"
-  )
+Corrupted")
 (def ^:const quality-vaal-gem-api
-{:y 10,
-  :properties
-  [{:name "Vaal, Attack, Projectile", :values [], :displayMode 0}
-   {:name "Level", :values [["1" 0]], :displayMode 0, :type 5}
-   {:name "Mana Cost", :values [["7" 0]], :displayMode 0}
-   {:name "Effectiveness of Added Damage", :values [["54%" 0]], :displayMode 0}
-   {:name "Quality", :values [["+20%" 1]], :displayMode 0, :type 6}],
-  :category {:gems ["activegem"]},
-  :additionalProperties
-  [{:name "Experience",
-    :values [["1/70" 0]],
-    :displayMode 2,
-    :progress 0.014285714365541935,
-    :type 20}],
-  :requirements [{:name "Level", :values [["1" 0]], :displayMode 0}],
-  :vaal
-  {:baseTypeName "Spectral Throw",
+  {:y 10,
    :properties
-   [{:name "Souls Per Use", :values [["10" 0]], :displayMode 0}
-    {:name "Can Store %0 Uses", :values [["3" 0]], :displayMode 3}
-    {:name "Soul Gain Prevention", :values [["6 sec" 0]], :displayMode 0}
-    {:name "Effectiveness of Added Damage",
-     :values [["91%" 0]],
-     :displayMode 0}],
-   :explicitMods
-   ["Deals 91% of Base Damage"
-    "Fires 4 additional Projectiles"
-    "10% increased Attack Speed"
-    "Can't be Evaded"],
+   [{:name "Vaal, Attack, Projectile", :values [], :displayMode 0}
+    {:name "Level", :values [["1" 0]], :displayMode 0, :type 5}
+    {:name "Mana Cost", :values [["7" 0]], :displayMode 0}
+    {:name "Effectiveness of Added Damage", :values [["54%" 0]], :displayMode 0}
+    {:name "Quality", :values [["+20%" 1]], :displayMode 0, :type 6}],
+   :category {:gems ["activegem"]},
+   :additionalProperties
+   [{:name "Experience",
+     :values [["1/70" 0]],
+     :displayMode 2,
+     :progress 0.014285714365541935,
+     :type 20}],
+   :requirements [{:name "Level", :values [["1" 0]], :displayMode 0}],
+   :vaal
+   {:baseTypeName "Spectral Throw",
+    :properties
+    [{:name "Souls Per Use", :values [["10" 0]], :displayMode 0}
+     {:name "Can Store %0 Uses", :values [["3" 0]], :displayMode 3}
+     {:name "Soul Gain Prevention", :values [["6 sec" 0]], :displayMode 0}
+     {:name "Effectiveness of Added Damage",
+      :values [["91%" 0]],
+      :displayMode 0}],
+    :explicitMods
+    ["Deals 91% of Base Damage"
+     "Fires 4 additional Projectiles"
+     "10% increased Attack Speed"
+     "Can't be Evaded"],
+    :secDescrText
+    "Throws a spectral copy of your melee weapon. It spirals out in a spinning attack that strikes enemies in its path."},
+   :typeLine "Vaal Spectral Throw",
+   :corrupted true,
+   :frameType 4,
+   :support false,
+   :name "",
+   :w 1,
+   :explicitMods ["Deals 54% of Base Damage" "10% increased Attack Speed"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Gems/VaalGems/VaalGhostlyThrow.png?scale=1&w=1&h=1&v=5bca0e233696a6917ef179426cabfbd3",
+   :ilvl 0,
+   :h 1,
    :secDescrText
-   "Throws a spectral copy of your melee weapon. It spirals out in a spinning attack that strikes enemies in its path."},
-  :typeLine "Vaal Spectral Throw",
-  :corrupted true,
-  :frameType 4,
-  :support false,
-  :name "",
-  :w 1,
-  :explicitMods ["Deals 54% of Base Damage" "10% increased Attack Speed"],
-  :icon
-  "https://web.poecdn.com/image/Art/2DItems/Gems/VaalGems/VaalGhostlyThrow.png?scale=1&w=1&h=1&v=5bca0e233696a6917ef179426cabfbd3",
-  :ilvl 0,
-  :h 1,
-  :secDescrText
-  "Throws a spectral copy of your melee weapon. It flies out and then returns to you, in a spinning attack that strikes enemies in its path.",
-  :id "f3add3dc01ec22a6ca5e9654631fee10324e5b116df7177dbcea8b9355d554f8",
-  :inventoryId "Stash2",
-  :x 2,
-  :identified true,
-  :league "Synthesis",
-  :descrText
-  "Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.",
-  :verified false}
-  )
+   "Throws a spectral copy of your melee weapon. It flies out and then returns to you, in a spinning attack that strikes enemies in its path.",
+   :id "f3add3dc01ec22a6ca5e9654631fee10324e5b116df7177dbcea8b9355d554f8",
+   :inventoryId "Stash2",
+   :x 2,
+   :identified true,
+   :league "Synthesis",
+   :descrText
+   "Place into an item socket of the right colour to gain this skill. Right click to remove from a socket.",
+   :verified false})
 (def ^:const abyss-jewel-data
   "Rarity: Rare
 Ancient Weaver
@@ -1484,47 +1482,44 @@ Place into an Abyssal Socket on an Item or into an allocated Jewel Socket on the
 --------
 Corrupted
 --------
-Fractured Item"
-  )
+Fractured Item")
 (def ^:const abyss-jewel-api
   "This is a corrupted fractured abyss jewel, so it hits a lot of different categories."
-{:y 0,
- :properties [{:name "Abyss", :values [], :displayMode 0}],
- :category {:jewels ["abyss"]},
- :requirements [{:name "Level", :values [["49" 0]], :displayMode 0}],
- :typeLine "Murderous Eye Jewel",
- :corrupted true,
- :frameType 2,
- :name "Ancient Weaver",
- :w 1,
- :explicitMods
- ["Adds 10 to 17 Cold Damage to Staff Attacks"
-  "+10 to Strength and Intelligence"
-  "+2% Chance to Block Attack Damage if you were Damaged by a Hit Recently"],
- :fracturedMods ["Adds 18 to 27 Fire Damage to Staff Attacks"],
- :icon
- "https://web.poecdn.com/image/Art/2DItems/Jewels/MurderousEye.png?scale=1&w=1&h=1&fractured=1&v=6679365e95eb89fd626cf59fa2b57c99",
- :ilvl 76,
- :h 1,
- :id "181a0f111bcff2452c0140a9731fd8466e20a24bc3f5a539a671946ded11e067",
- :fractured true,
- :inventoryId "Stash40",
- :abyssJewel true,
- :x 5,
- :identified true,
- :league "Synthesis",
- :descrText
- "Place into an Abyssal Socket on an Item or into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.",
- :verified false}
-  )
+  {:y 0,
+   :properties [{:name "Abyss", :values [], :displayMode 0}],
+   :category {:jewels ["abyss"]},
+   :requirements [{:name "Level", :values [["49" 0]], :displayMode 0}],
+   :typeLine "Murderous Eye Jewel",
+   :corrupted true,
+   :frameType 2,
+   :name "Ancient Weaver",
+   :w 1,
+   :explicitMods
+   ["Adds 10 to 17 Cold Damage to Staff Attacks"
+    "+10 to Strength and Intelligence"
+    "+2% Chance to Block Attack Damage if you were Damaged by a Hit Recently"],
+   :fracturedMods ["Adds 18 to 27 Fire Damage to Staff Attacks"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Jewels/MurderousEye.png?scale=1&w=1&h=1&fractured=1&v=6679365e95eb89fd626cf59fa2b57c99",
+   :ilvl 76,
+   :h 1,
+   :id "181a0f111bcff2452c0140a9731fd8466e20a24bc3f5a539a671946ded11e067",
+   :fractured true,
+   :inventoryId "Stash40",
+   :abyssJewel true,
+   :x 5,
+   :identified true,
+   :league "Synthesis",
+   :descrText
+   "Place into an Abyssal Socket on an Item or into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.",
+   :verified false})
 (def ^:const simple-frag-data
-"Rarity: Normal
+  "Rarity: Normal
 Sacrifice at Dawn
 --------
 Only those who aspire can dare to hope.
 --------
-Can be used in the Templar Laboratory or a personal Map Device."
-  )
+Can be used in the Templar Laboratory or a personal Map Device.")
 (def ^:const simple-frag-api
   {:y 10,
    :category {:maps ["fragment"]},
@@ -1543,10 +1538,9 @@ Can be used in the Templar Laboratory or a personal Map Device."
    :identified true,
    :league "Synthesis",
    :descrText "Can be used in the Templar Laboratory or a personal Map Device.",
-   :verified false}
-  )
+   :verified false})
 (def ^:const divine-vessel-data
-"Rarity: Normal
+  "Rarity: Normal
 Divine Vessel
 --------
 Unique Boss deals 10% increased Damage
@@ -1558,8 +1552,7 @@ Power is a curious thing.
 It can be contained, hidden, locked away, 
 and yet it always breaks free.
 --------
-Can be used in the Templar Laboratory or a personal Map Device, allowing you to capture the Soul of the Map's Boss. The Vessel containing the captured Soul can be retrieved from the Map Device. You must be in the Map when the boss is defeated."
-  )
+Can be used in the Templar Laboratory or a personal Map Device, allowing you to capture the Soul of the Map's Boss. The Vessel containing the captured Soul can be retrieved from the Map Device. You must be in the Map when the boss is defeated.")
 (def ^:const divine-vessel-api
   {:y 12,
    :category {:maps ["fragment"]},
@@ -1586,7 +1579,7 @@ Can be used in the Templar Laboratory or a personal Map Device, allowing you to 
    "Can be used in the Templar Laboratory or a personal Map Device, allowing you to capture the Soul of the Map's Boss. The Vessel containing the captured Soul can be retrieved from the Map Device. You must be in the Map when the boss is defeated.",
    :verified false})
 (def ^:const talisman-data
-"Rarity: Rare
+  "Rarity: Rare
 Phoenix Gorget
 Mandible Talisman
 --------
@@ -1611,8 +1604,7 @@ That should we stray too far from the path,
 we find ourselves severed.
 - The Wolven King
 --------
-Corrupted"
-  )
+Corrupted")
 (def ^:const talisman-api
   {:y 23,
    :implicitMods ["9% increased Attack and Cast Speed"],
@@ -1645,10 +1637,9 @@ Corrupted"
    :x 23,
    :identified true,
    :league "Synthesis",
-   :verified false}
-  )
+   :verified false})
 (def ^:const synthed-data
-"Rarity: Rare
+  "Rarity: Rare
 Hate Ward
 Synthesised Crypt Armour
 --------
@@ -1673,47 +1664,45 @@ Reflects 15 Physical Damage to Melee Attackers
 +38% to Fire Resistance
 +36% to Cold Resistance
 --------
-Synthesised Item"
-  )
+Synthesised Item")
 (def ^:const synthed-api
-{:y 0,
- :implicitMods ["Reflects 15 Physical Damage to Melee Attackers"],
- :properties
- [{:name "Quality", :values [["+4%" 1]], :displayMode 0, :type 6}
-  {:name "Evasion Rating", :values [["341" 1]], :displayMode 0, :type 17}
-  {:name "Energy Shield", :values [["74" 1]], :displayMode 0, :type 18}],
- :category {:armour ["chest"]},
- :requirements
- [{:name "Level", :values [["56" 0]], :displayMode 0}
-  {:name "Dex", :values [["82" 0]], :displayMode 1}
-  {:name "Int", :values [["82" 0]], :displayMode 1}],
- :typeLine "Synthesised Crypt Armour",
- :frameType 2,
- :name "Hate Ward",
- :w 2,
- :explicitMods
- ["+40 to Intelligence"
-  "+20 to Evasion Rating"
-  "+11 to maximum Energy Shield"
-  "+38% to Fire Resistance"
-  "+36% to Cold Resistance"],
- :icon
- "https://web.poecdn.com/image/Art/2DItems/Armours/BodyArmours/BodyDexInt4C.png?scale=1&w=2&h=3&synthesised=1&v=648a82d9c23d1c8e7546b8c3637bbb63",
- :ilvl 73,
- :sockets
- [{:group 0, :attr "D", :sColour "G"}
-  {:group 1, :attr "I", :sColour "B"}
-  {:group 1, :attr "D", :sColour "G"}],
- :socketedItems [],
- :h 3,
- :id "19940e6f85b04edaf809ccac8a305721f57606b7a2fb5a05a25e4dbd5e0dd4f2",
- :inventoryId "Stash36",
- :x 6,
- :identified true,
- :league "Synthesis",
- :verified false,
- :synthesised true}
-  )
+  {:y 0,
+   :implicitMods ["Reflects 15 Physical Damage to Melee Attackers"],
+   :properties
+   [{:name "Quality", :values [["+4%" 1]], :displayMode 0, :type 6}
+    {:name "Evasion Rating", :values [["341" 1]], :displayMode 0, :type 17}
+    {:name "Energy Shield", :values [["74" 1]], :displayMode 0, :type 18}],
+   :category {:armour ["chest"]},
+   :requirements
+   [{:name "Level", :values [["56" 0]], :displayMode 0}
+    {:name "Dex", :values [["82" 0]], :displayMode 1}
+    {:name "Int", :values [["82" 0]], :displayMode 1}],
+   :typeLine "Synthesised Crypt Armour",
+   :frameType 2,
+   :name "Hate Ward",
+   :w 2,
+   :explicitMods
+   ["+40 to Intelligence"
+    "+20 to Evasion Rating"
+    "+11 to maximum Energy Shield"
+    "+38% to Fire Resistance"
+    "+36% to Cold Resistance"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Armours/BodyArmours/BodyDexInt4C.png?scale=1&w=2&h=3&synthesised=1&v=648a82d9c23d1c8e7546b8c3637bbb63",
+   :ilvl 73,
+   :sockets
+   [{:group 0, :attr "D", :sColour "G"}
+    {:group 1, :attr "I", :sColour "B"}
+    {:group 1, :attr "D", :sColour "G"}],
+   :socketedItems [],
+   :h 3,
+   :id "19940e6f85b04edaf809ccac8a305721f57606b7a2fb5a05a25e4dbd5e0dd4f2",
+   :inventoryId "Stash36",
+   :x 6,
+   :identified true,
+   :league "Synthesis",
+   :verified false,
+   :synthesised true})
 (def ^:const shaped-data
   "Rarity: Rare
 Hypnotic Nails
@@ -1737,46 +1726,44 @@ Adds 3 to 7 Physical Damage to Attacks
 +165 to Accuracy Rating
 6% Global chance to Blind Enemies on hit
 --------
-Shaper Item"
-  )
+Shaper Item")
 (def ^:const shaped-api
-{:y 13,
- :properties
- [{:name "Evasion Rating", :values [["104" 0]], :displayMode 0, :type 17}
-  {:name "Energy Shield", :values [["20" 0]], :displayMode 0, :type 18}],
- :category {:armour ["gloves"]},
- :requirements
- [{:name "Level", :values [["58" 0]], :displayMode 0}
-  {:name "Dex", :values [["45" 0]], :displayMode 1}
-  {:name "Int", :values [["45" 0]], :displayMode 1}],
- :typeLine "Assassin's Mitts",
- :frameType 2,
- :name "Hypnotic Nails",
- :w 2,
- :explicitMods
- ["Socketed Gems are supported by Level 16 Blind"
-  "+19 to Intelligence"
-  "Adds 3 to 7 Physical Damage to Attacks"
-  "+165 to Accuracy Rating"
-  "6% Global chance to Blind Enemies on hit"],
- :icon
- "https://web.poecdn.com/image/Art/2DItems/Armours/Gloves/GlovesDexInt2.png?scale=1&w=2&h=2&v=8301a0119606f022ec99a9723749003d",
- :ilvl 79,
- :sockets
- [{:group 0, :attr "I", :sColour "B"}
-  {:group 0, :attr "I", :sColour "B"}
-  {:group 0, :attr "D", :sColour "G"}
-  {:group 0, :attr "I", :sColour "B"}],
- :socketedItems [],
- :shaper true,
- :h 2,
- :id "72395aaea6ae4d111e451aca842148f526153943937edca9d8dfd7bbb38b15d5",
- :inventoryId "Stash2",
- :x 2,
- :identified true,
- :league "Synthesis",
- :verified false}
-  )
+  {:y 13,
+   :properties
+   [{:name "Evasion Rating", :values [["104" 0]], :displayMode 0, :type 17}
+    {:name "Energy Shield", :values [["20" 0]], :displayMode 0, :type 18}],
+   :category {:armour ["gloves"]},
+   :requirements
+   [{:name "Level", :values [["58" 0]], :displayMode 0}
+    {:name "Dex", :values [["45" 0]], :displayMode 1}
+    {:name "Int", :values [["45" 0]], :displayMode 1}],
+   :typeLine "Assassin's Mitts",
+   :frameType 2,
+   :name "Hypnotic Nails",
+   :w 2,
+   :explicitMods
+   ["Socketed Gems are supported by Level 16 Blind"
+    "+19 to Intelligence"
+    "Adds 3 to 7 Physical Damage to Attacks"
+    "+165 to Accuracy Rating"
+    "6% Global chance to Blind Enemies on hit"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Armours/Gloves/GlovesDexInt2.png?scale=1&w=2&h=2&v=8301a0119606f022ec99a9723749003d",
+   :ilvl 79,
+   :sockets
+   [{:group 0, :attr "I", :sColour "B"}
+    {:group 0, :attr "I", :sColour "B"}
+    {:group 0, :attr "D", :sColour "G"}
+    {:group 0, :attr "I", :sColour "B"}],
+   :socketedItems [],
+   :shaper true,
+   :h 2,
+   :id "72395aaea6ae4d111e451aca842148f526153943937edca9d8dfd7bbb38b15d5",
+   :inventoryId "Stash2",
+   :x 2,
+   :identified true,
+   :league "Synthesis",
+   :verified false})
 
 (def ^:const elder-data
   "Rarity: Rare
@@ -1798,8 +1785,7 @@ Item Level: 81
 +28% to Cold Resistance
 +40% to Lightning Resistance
 --------
-Elder Item"
-  )
+Elder Item")
 (def ^:const elder-api
   {:y 0,
    :properties
@@ -1829,8 +1815,83 @@ Elder Item"
    :x 5,
    :identified true,
    :league "Synthesis",
-   :verified false}
-  )
+   :verified false})
+(def ^:const div-arrogance-data
+  "Rarity: Divination Card
+Arrogance of the Vaal
+--------
+Stack Size: 4/8
+--------
+Item
+ Two-Implicit
+ Corrupted
+--------
+Discovery can lead to beauty, or it can lead to ruin.
+--------
+Shift click to unstack.")
+(def ^:const div-arrogance-api
+  {:y 0,
+   :properties [{:name "Stack Size", :values [["4/8" 0]], :displayMode 0}],
+   :category {:cards []},
+   :typeLine "Arrogance of the Vaal",
+   :flavourText ["Discovery can lead to beauty, or it can lead to ruin."],
+   :artFilename "ArroganceoftheVaal",
+   :frameType 6,
+   :name "",
+   :w 1,
+   :explicitMods
+   ["<uniqueitem>{Item}\r\n <corrupted>{Two-Implicit}\r\n <corrupted>{Corrupted}"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Divination/InventoryIcon.png?scale=1&w=1&h=1&v=a8ae131b97fad3c64de0e6d9f250d743",
+   :ilvl 0,
+   :stackSize 4,
+   :maxStackSize 8,
+   :h 1,
+   :id "ca1a7c967b224b00d6161d694e9e1d3e2bb1b0146138363f2d731192c2a83a0d",
+   :inventoryId "Stash10",
+   :x 241,
+   :identified true,
+   :league "Synthesis",
+   :verified false})
+(def ^:const div-crumble-data
+  "Rarity: Divination Card
+Destined to Crumble
+--------
+Stack Size: 1/5
+--------
+Body Armour
+Item Level: 100
+--------
+\"Let us not forget the most important lesson the Vaal taught us:
+Nothing is eternal.\"
+- Siosa Foaga, Imperial Scholar")
+(def ^:const div-crumble-api
+  {:y 0,
+   :properties [{:name "Stack Size", :values [["1/5" 0]], :displayMode 0}],
+   :category {:cards []},
+   :typeLine "Destined to Crumble",
+   :flavourText
+   ["<size:30>{\"Let us not forget the most important lesson the Vaal taught us:\r"
+    "Nothing is eternal.\"\r"
+    "- Siosa Foaga, Imperial Scholar}"],
+   :artFilename "DestinedtoCrumble",
+   :frameType 6,
+   :name "",
+   :w 1,
+   :explicitMods
+   ["<rareitem>{Body Armour}\r\n<default>{Item Level:} <normal>{100}"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Divination/InventoryIcon.png?scale=1&w=1&h=1&v=a8ae131b97fad3c64de0e6d9f250d743",
+   :ilvl 0,
+   :stackSize 1,
+   :maxStackSize 5,
+   :h 1,
+   :id "f0095bed0c65fc6dc58299ef3a79c83682923bd61d821fa1e3d18501390a5d43",
+   :inventoryId "Stash10",
+   :x 138,
+   :identified true,
+   :league "Synthesis",
+   :verified false})
 
 (def ^:cost item-cases
   "Map of item suite cases in the form apie -> data, or
@@ -1869,7 +1930,8 @@ Elder Item"
    synthed-api                    synthed-data
    shaped-api                     shaped-data
    elder-api                      elder-data
-   })
+   div-arrogance-api div-arrogance-data
+   div-crumble-api div-crumble-data})
 
 (deftest test-item-cases
   (doseq [[item data] item-cases]
