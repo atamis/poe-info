@@ -1,7 +1,26 @@
 (ns poe-info.api
   (:require [clj-http.client :as client]
             [clj-http.cookies :as cookies]
-            [org.bovinegenius.exploding-fish :as uri]))
+            [org.bovinegenius.exploding-fish :as uri]
+
+            [poe-info.item :as item]))
+
+(defn stash-items-context
+  "Takes the body of a stash tab API call, adds context to each item, and returns the items"
+  [username response-body]
+  (let [stash-index (-> response-body
+                        :items
+                        first
+                        item/stash-index)
+        context (-> response-body
+                    :tabs
+                    (nth stash-index)
+                    (select-keys [:n :colour :i :type])
+                    (clojure.set/rename-keys {:n :name :i :index})
+                    (assoc :username username)
+                    )]
+
+    (map #(assoc % :context context) (:items response-body))))
 
 ;; Private API
 
@@ -105,5 +124,11 @@
                    :i (b64-encode item-data)}
                   :as :json}
         opts (merge defaults opts)]
-    (client/post "https://poeprices.info/api"
-                 opts)))
+    (if (:async? opts)
+      (client/post "https://poeprices.info/api"
+                   opts
+                   (:respond-callback opts)
+                   (:raise-callback opts)
+                   )
+      (client/post "https://poeprices.info/api"
+                   opts))))

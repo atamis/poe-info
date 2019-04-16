@@ -5,13 +5,16 @@
             [clojure.string :as string]
             [java-time :as jtime]
             [clojure.java.io :as io]
+            [kinsky.client      :as kf]
 
             [poe-info.util :as util]
             [poe-info.item :as item]
             [poe-info.constants :as constants]
             [poe-info.gems :as gems]
             [poe-info.config :as config]
-            [poe-info.api :as api])
+            [poe-info.api :as api]
+            [poe-info.pipeline :as pipeline]
+            )
   (:gen-class))
 
 (comment
@@ -83,24 +86,30 @@
   "Count how many items are in tab indexes 1, 2, 3. Loads data from config.edn."
   [& args]
 
-  (def cs (api/make-cs (config/config :poesessid)))
-  (def username (config/config :username))
+  (case (first args)
+    "consumer" (pipeline/print-consumer)
+    "tab-requester" (pipeline/tab-requester)
+    "item-pricer" (pipeline/item-pricer)
+    (do
 
-  (def stashes [1 2 3])
+      (def cs (api/make-cs (config/config :poesessid)))
+      (def username (config/config :username))
 
-  (def items
-    (->>
-     stashes
-     (map #(api/stash-item-url username %))
-     (map #(client/get % {:cookie-store cs :as :json}))
-     (mapcat #(get-in % [:body :items]))))
+      (def stashes [1 2 3])
 
-  (clojure.pprint/pprint
-   {:count (count items)
-    :identified (histogram-identified items)
-    :percent-full (percent-full stashes items)
-    :div-cards (count-div-cards items)
-    :identified-rares (histogram-identified-rares items)}))
+      (def items
+        (->>
+         stashes
+         (map #(api/stash-item-url username %))
+         (map #(client/get % {:cookie-store cs :as :json}))
+         (mapcat #(get-in % [:body :items]))))
+
+      (clojure.pprint/pprint
+       {:count (count items)
+        :identified (histogram-identified items)
+        :percent-full (percent-full stashes items)
+        :div-cards (count-div-cards items)
+        :identified-rares (histogram-identified-rares items)}))))
 
 (comment
   (->> items (filter #(= (:category %) {:currency []})) (map :typeLine) util/histogram))

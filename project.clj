@@ -10,6 +10,7 @@
                  [clojure.java-time "0.3.2"]
                  [org.clojure/core.match "0.3.0"]
                  [org.bovinegenius/exploding-fish "0.3.6"]
+                 [spootnik/kinsky "0.1.23"]
                  ]
   :main ^:skip-aot poe-info.core
   :plugins [[lein-codox "0.10.5"]]

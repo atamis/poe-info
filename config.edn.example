@@ -1,3 +1,6 @@
 {:username "username"
- :poesessid "poesessid"}
+ :poesessid "poesessid"
+ :kafka "localhost:9092"
+ :watched-tabs [1, 2, 3]
+}
 
