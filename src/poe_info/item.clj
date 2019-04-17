@@ -336,6 +336,12 @@
 
 (def ^:no-doc currency-strings (->> currencies (map name) (into #{})))
 
+(defn str->currency
+  [s]
+  (if (contains? currency-strings s)
+    (keyword s)
+    s))
+
 (s/def ::price (s/tuple #{:bo :price} number? currencies))
 
 (defn price->str
@@ -350,9 +356,7 @@
   (if-let [[_ policy-s amt-s currency-s] (re-find #"~(b/o|price) (.+) (.+)" s)]
     (let [policy ({"b/o" :bo "price" :price} policy-s)
           amt (clojure.edn/read-string amt-s)
-          currency (if (contains? currency-strings currency-s)
-                     (keyword currency-s)
-                     currency-s)]
+          currency (str->currency currency-s)]
       [policy amt currency])
     nil))
 
@@ -372,6 +376,19 @@
         item-name (full-item-name item)]
     (format "@%s Hi, I would like to buy your %s listed for %s in %s (stash tab \"%s\"; position: left %d, top %d)" username item-name price league stash left top)))
 
+(defn item-price
+  [{{:keys [name]}:context :keys [note]}]
+  (if note
+    (str->price note)
+    (when name
+      (str->price name))))
+
+(defn price-difference
+  [& prices]
+  (let [amounts (map second prices)
+        currencies (map #(nth % 2) prices)]
+    (when (apply = currencies)
+      (apply - amounts))))
 
 ;; Experimentally determined type ranges
 

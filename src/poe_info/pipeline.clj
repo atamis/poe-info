@@ -3,14 +3,21 @@
             [kinsky.client :as client]
             [clojure.core.async :as a :refer [go <! >!]]
             [clj-http.client :as http]
+            [monger.core :as mg]
+            [monger.collection :as mc]
 
             [poe-info.config :as config]
             [poe-info.api :as api]
-            [poe-info.item :as item]))
+            [poe-info.item :as item])
+  (:import org.bson.types.ObjectId)
+  )
 
 (def unpriced-items-topic "unpriced-items")
 (def persistence-topic "persistence")
 (def price-change-topic "price-change")
+(def price-difference-topic "price-diff")
+
+(def table-name "items")
 
 
 ;; http client requests tabs, adds context to items, pushes
@@ -65,12 +72,10 @@
                   :key (:id item)
                   :value item}) $)
           (a/onto-chan prod $ false)
-          (a/<!! $))
-        )
+          (a/<!! $)))
       (println "Done")
       (java.lang.Thread/sleep 10000)
-      (recur)
-      )))
+      (recur))))
 
 (defn item-pricer-pipeline
   [record result]
@@ -91,8 +96,7 @@
                                          (-> resp :body))})
                (a/close! result)))
            :raise-callback #(a/go (println %)
-                                  (a/close! result)
-                                  )))
+                                  (a/close! result))))
       (a/close! result))))
 
 (defn item-pricer
@@ -102,14 +106,67 @@
                     (merge cfg
                            {:topic unpriced-items-topic
                             :duplex? true
-                            :group.id "item-pricer"
+                            :group.id "item-pricer2"
                             :auto.offset.reset "earliest"})
                     :keyword :json)]
 
-    (a/pipeline-async
-     8 ;; parallellism
-     prod
-     item-pricer-pipeline
-     ch
-     false ;; close the channel?
-     )))
+    (a/go-loop []
+      (when-let [record (a/<! ch)]
+
+        (let [result (a/chan 1)]
+          (item-pricer-pipeline record result)
+          (when-let [val (<! result)]
+            (>! prod val))
+          (<! (a/timeout 5000))))
+
+      (recur))
+
+    #_(a/pipeline-async
+       1 ;; parallellism
+       prod
+       item-pricer-pipeline
+       ch
+       false ;; close the channel?
+       )))
+
+(defn prediction->price
+  [{{:keys [min max currency]} :price-prediction}]
+  (when (and min max currency)
+    [:bo (/ (+ min max) 2) (item/str->currency currency)]))
+
+(defn add-id
+  [{:keys [id] :as item}]
+  (when item
+    (assoc item :_id id)))
+
+(defn persister
+  []
+  (let [[ch cntrl] (async/consumer
+                    (merge cfg
+                           {:topic persistence-topic
+                            :group.id (str (gensym)) #_"persister"
+                            :auto.offset.reset "earliest"})
+                    :keyword :json)
+        prod (async/producer cfg :keyword :json)
+        {:keys [conn db]} (mg/connect-via-uri (config/config :mongo-uri))]
+    (a/go-loop []
+      (when-let [record (a/<! ch)]
+        (when-let [new-item (add-id (:value record))]
+          ;; This doesn't really work
+          (when-let [predicted-price (prediction->price new-item)]
+            (let [list-price (item/item-price new-item)
+                  price-diff (item/price-difference list-price
+                                                    predicted-price)]
+              (when (and price-diff (< 1 (java.lang.Math/abs price-diff)))
+                (>! prod {:topic price-difference-topic
+                          :key (:id new-item)
+                          :value {:id (:id new-item)
+                                  :predicted predicted-price
+                                  :list-price list-price
+                                  :difference price-diff}}))))
+
+          (mc/update-by-id db table-name (:_id new-item)
+                     new-item {:upsert true}))
+        (println record)
+        ;; If we get nil, the channel has closed for some reason.
+        (recur)))))

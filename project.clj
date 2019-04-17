@@ -11,6 +11,7 @@
                  [org.clojure/core.match "0.3.0"]
                  [org.bovinegenius/exploding-fish "0.3.6"]
                  [spootnik/kinsky "0.1.23"]
+                 [com.novemberain/monger "3.5.0"]
                  ]
   :main ^:skip-aot poe-info.core
   :plugins [[lein-codox "0.10.5"]]

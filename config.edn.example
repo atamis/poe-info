@@ -1,6 +1,7 @@
 {:username "username"
  :poesessid "poesessid"
  :kafka "localhost:9092"
+ :mongo-uri "mongodb://localhost/poe-info"
  :watched-tabs [1, 2, 3]
 }
 

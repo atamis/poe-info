@@ -90,6 +90,7 @@
     "consumer" (pipeline/print-consumer)
     "tab-requester" (pipeline/tab-requester)
     "item-pricer" (pipeline/item-pricer)
+    "persister" (pipeline/persister)
     (do
 
       (def cs (api/make-cs (config/config :poesessid)))
