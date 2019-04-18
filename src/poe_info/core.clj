@@ -14,6 +14,7 @@
             [poe-info.config :as config]
             [poe-info.api :as api]
             [poe-info.pipeline :as pipeline]
+            [poe-info.public-pipeline :as public-pipeline]
             )
   (:gen-class))
 
@@ -91,6 +92,10 @@
     "tab-requester" (pipeline/tab-requester)
     "item-pricer" (pipeline/item-pricer)
     "persister" (pipeline/persister)
+    "public-requester-dummy" (public-pipeline/dummy-requester)
+    "public-requester" (public-pipeline/stash-requester (second args))
+    "public-processor" (public-pipeline/stash-processors 8)
+    "public-persister" (public-pipeline/persister)
     (do
 
       (def cs (api/make-cs (config/config :poesessid)))

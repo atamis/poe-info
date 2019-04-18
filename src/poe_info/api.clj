@@ -100,6 +100,13 @@
         (uri/query-map params)
         str)))
 
+(defn public-stash-tabs-url
+  ([] (public-stash-tabs-url nil))
+  ([id]
+   (-> (uri/uri "http://api.pathofexile.com/public-stash-tabs")
+       (uri/query-map (if id {:id id} {}))
+       (str))))
+
 (defn league-rules-url
   "Get a list of all possible league rules."
   []

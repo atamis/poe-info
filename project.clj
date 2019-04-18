@@ -12,6 +12,10 @@
                  [org.bovinegenius/exploding-fish "0.3.6"]
                  [spootnik/kinsky "0.1.23"]
                  [com.novemberain/monger "3.5.0"]
+                 [com.taoensso/timbre "4.10.0"]
+                 [aleph "0.4.6"]
+                 [manifold "0.1.8"]
+                 [byte-streams "0.2.4"]
                  ]
   :main ^:skip-aot poe-info.core
   :plugins [[lein-codox "0.10.5"]]
