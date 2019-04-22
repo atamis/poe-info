@@ -96,6 +96,8 @@
     "public-requester" (public-pipeline/stash-requester (second args))
     "public-processor" (public-pipeline/stash-processors 8)
     "public-persister" (public-pipeline/persister)
+    "public-current-persister" (public-pipeline/current-items-persister)
+    "public-current-persisters" (public-pipeline/current-persisters 12)
     (do
 
       (def cs (api/make-cs (config/config :poesessid)))
