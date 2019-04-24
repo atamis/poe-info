@@ -2043,13 +2043,20 @@ Shift click to unstack.")
   (t/testing "price->str"
     (t/is (= "~b/o 1 exa" (i/price->str [:bo 1 :exa])))
     (t/is (= "~price 3 alt" (i/price->str [:price 3 :alt])))
-    (t/is (= "~price 10/3 chrom" (i/price->str [:price #?(:clj 10/3 :cljs 3.33) :chrom])))
-    (t/is (thrown? java.lang.Exception (clojure.spec.alpha/check-asserts true) (i/price->str [:asdf #?(:clj 10/3 :cljs 3.33) :alt]))))
+    (t/is (= #?(:clj "~price 10/3 chrom"
+                :cljs "~price 3.33 chrom")
+             (i/price->str [:price #?(:clj 10/3 :cljs 3.33) :chrom])))
+    (t/is (thrown? #?(:clj java.lang.Exception
+                      :cljs js/Error)
+                   (s/check-asserts true)
+                   (i/price->str [:asdf #?(:clj 10/3 :cljs 3.33) :alt]))))
 
   (t/testing "str->price"
     (t/is (= [:bo 1 :exa] (i/str->price "~b/o 1 exa")))
     (t/is (= [:price 3 :alt] (i/str->price "~price 3 alt")))
-    (t/is (= [:price #?(:clj 10/3 :cljs 3.33) :chrom] (i/str->price  "~price 10/3 chrom")))
+    (t/is (= [:price #?(:clj 10/3 :cljs 3.33) :chrom] (i/str->price
+                                                       #?(:clj "~price 10/3 chrom"
+                                                          :cljs "~price 3.33 chrom"))))
     (t/is (= nil (i/str->price "not a price")))))
 
 (t/deftest whisper-text-test

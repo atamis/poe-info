@@ -3,6 +3,8 @@
    [clojure.string :as string]
    [#?(:clj clojure.spec.alpha
        :cljs cljs.spec.alpha) :as s]
+   [#?(:clj clojure.edn
+       :cljs cljs.reader) :as reader]
 
    [poe-info.util :as util]))
 
@@ -133,9 +135,11 @@
   "Take a string representing gem experience and add commas to separate number groups."
   ;; This is necessary because the game gives experience numbers with commas, and the API doesn't have commas.
   [s]
-  (->> (string/split s #"/")
-       (map util/parse-int)
-       (apply util/fmt "%,d/%,d")))
+  (let [[cur total :as nums] (->> (string/split s #"/")
+                         (map util/parse-int))]
+    #?(:clj (util/fmt "%,d/%,d" cur total)
+       :cljs (apply util/fmt "%s/%s"
+                    (map #(.toLocaleString % "en") nums)))))
 
 (defn property-special-case
   [name value]
@@ -356,8 +360,7 @@
   [s]
   (if-let [[_ policy-s amt-s currency-s] (re-find #"~(b/o|price) (.+) (.+)" s)]
     (let [policy ({"b/o" :bo "price" :price} policy-s)
-          amt (#?(:clj clojure.edn/read-string
-                  :cljs cljs.reader/read-string) amt-s)
+          amt (reader/read-string amt-s)
           currency (str->currency currency-s)]
       [policy amt currency])
     nil))
