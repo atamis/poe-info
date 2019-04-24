@@ -1,7 +1,8 @@
 (ns poe-info.item
   (:require
    [clojure.string :as string]
-   [clojure.spec.alpha :as s]
+   [#?(:clj clojure.spec.alpha
+       :cljs cljs.spec.alpha) :as s]
 
    [poe-info.util :as util]))
 
@@ -54,7 +55,7 @@
   [{:keys [inventoryId]}]
   (let [[_ s] (re-find #"Stash(.+)"  inventoryId)]
     (when s
-      (dec (Integer/parseInt s)))))
+      (dec (util/parse-int s)))))
 
 (defn rarity
   [{:keys [frameType]}]
@@ -96,7 +97,7 @@
       (first $)
       (re-find #"\+(.+)%" $)
       (second $)
-      (Integer/parseInt $))
+      (util/parse-int $))
     0))
 
 (def item-str-sep "Used to separate blocks in item descriptions" "--------")
@@ -133,8 +134,8 @@
   ;; This is necessary because the game gives experience numbers with commas, and the API doesn't have commas.
   [s]
   (->> (string/split s #"/")
-       (map #(Integer/parseInt %))
-       (apply format "%,d/%,d")))
+       (map util/parse-int)
+       (apply util/fmt "%,d/%,d")))
 
 (defn property-special-case
   [name value]
@@ -349,13 +350,14 @@
   [[policy amt currency :as price]]
   (s/assert ::price price)
   (let [policy-str {:bo "b/o" :price "price"}]
-    (format "~%s %s %s" (policy-str policy) (str amt) (name currency))))
+    (util/fmt "~%s %s %s" (policy-str policy) (str amt) (name currency))))
 
 (defn str->price
   [s]
   (if-let [[_ policy-s amt-s currency-s] (re-find #"~(b/o|price) (.+) (.+)" s)]
     (let [policy ({"b/o" :bo "price" :price} policy-s)
-          amt (clojure.edn/read-string amt-s)
+          amt (#?(:clj clojure.edn/read-string
+                  :cljs cljs.reader/read-string) amt-s)
           currency (str->currency currency-s)]
       [policy amt currency])
     nil))
@@ -374,7 +376,7 @@
         top (inc y)
         price (if (s/valid? ::price price) (human-readable-price price) price)
         item-name (full-item-name item)]
-    (format "@%s Hi, I would like to buy your %s listed for %s in %s (stash tab \"%s\"; position: left %d, top %d)" username item-name price league stash left top)))
+    (util/fmt "@%s Hi, I would like to buy your %s listed for %s in %s (stash tab \"%s\"; position: left %d, top %d)" username item-name price league stash left top)))
 
 (defn item-price
   [{{:keys [name]}:context :keys [note]}]

@@ -1,7 +1,10 @@
 (ns poe-info.item-test
-  (:require [poe-info.item :refer :all]
-            [clojure.test :refer :all]
-            [poe-info.item :as item]))
+  (:require [poe-info.item :as i]
+            #?(:clj [clojure.test :as t]
+               :cljs [cljs.test :as t :include-macros true])
+            [#?(:clj clojure.spec.alpha
+                :cljs cljs.spec.alpha) :as s]
+            ))
 
 
 ;; To collapse all
@@ -28,7 +31,7 @@
 ;; whisper buy things with no price
 
 
-(clojure.spec.alpha/check-asserts true)
+(s/check-asserts true)
 
 ;; Note: trailing spaces in string literals are "intentional",
 ;; and shouldn't be removed.
@@ -1989,77 +1992,77 @@ Shift click to unstack.")
    div-crumble-api div-crumble-data
    essence-api essence-data})
 
-(deftest test-item-cases
+(t/deftest test-item-cases
   (doseq [[item data] item-cases]
-    (testing (full-item-name item)
-      (is (= data (item->str item))))))
+    (t/testing (i/full-item-name item)
+      (t/is (= data (i/item->str item))))))
 
-(deftest fixing-stash-index
-  (testing "happy"
-    (is (= 0 (stash-index {:inventoryId "Stash1"}))))
+(t/deftest fixing-stash-index
+  (t/testing "happy"
+    (t/is (= 0 (i/stash-index {:inventoryId "Stash1"}))))
 
-  (testing "full"
-    (is (= 10 (stash-index conq-potency)))
-    (is (= nil (stash-index worn-flask)))))
+  (t/testing "full"
+    (t/is (= 10 (i/stash-index conq-potency)))
+    (t/is (= nil (i/stash-index worn-flask)))))
 
-(deftest rarity-test
-  (is (= :unique (rarity conq-potency)))
-  (is (= :rare (rarity maelstrom-star)))
-  #_(testing "rarity"))
+(t/deftest rarity-test
+  (t/is (= :unique (i/rarity conq-potency)))
+  (t/is (= :rare (i/rarity maelstrom-star)))
+  #_(t/testing "rarity"))
 
-(deftest frametype->str-test
-  (testing "all"
-    (is (= "Rare" (frametype->str 2)))))
+(t/deftest frametype->str-test
+  (t/testing "all"
+    (t/is (= "Rare" (i/frametype->str 2)))))
 
-(deftest properties
-  (testing "flasks"
-    (is (= "Consumes 30 of 60 Charges on use"
-           (property->mod {:name "Consumes %0 of %1 Charges on use",
+(t/deftest properties
+  (t/testing "flasks"
+    (t/is (= "Consumes 30 of 60 Charges on use"
+           (i/property->mod {:name "Consumes %0 of %1 Charges on use",
                            :values [["30" 0] ["60" 0]],
                            :displayMode 3})))
-    (is (= "Lasts 4.00 Seconds" (property->mod {:name "Lasts %0 Seconds",
+    (t/is (= "Lasts 4.00 Seconds" (i/property->mod {:name "Lasts %0 Seconds",
                                                 :values [["4.00" 0]],
                                                 :displayMode 3}))))
 
-  (testing "weapon mods"
-    (is (= "One Handed Mace"
-           (property->mod {:name "One Handed Mace", :values [], :displayMode 0})))
-    (is (= "Physical Damage: 32-74 (augmented)"
-           (property->mod {:name "Physical Damage", :values [["32-74" 1]], :displayMode 0, :type 9})))
-    (is (= "Critical Strike Chance: 5.00%"
-           (property->mod {:name "Critical Strike Chance", :values [["5.00%" 0]], :displayMode 0, :type 12})))))
+  (t/testing "weapon mods"
+    (t/is (= "One Handed Mace"
+           (i/property->mod {:name "One Handed Mace", :values [], :displayMode 0})))
+    (t/is (= "Physical Damage: 32-74 (augmented)"
+           (i/property->mod {:name "Physical Damage", :values [["32-74" 1]], :displayMode 0, :type 9})))
+    (t/is (= "Critical Strike Chance: 5.00%"
+           (i/property->mod {:name "Critical Strike Chance", :values [["5.00%" 0]], :displayMode 0, :type 12})))))
 
-(deftest experience-reformat
-  (testing "Experience number reformatting"
-    (is (= "1/285,815"
-           (reformat-experience "1/285815")))
+(t/deftest experience-reformat
+  (t/testing "Experience number reformatting"
+    (t/is (= "1/285,815"
+           (i/reformat-experience "1/285815")))
 
-    (is (= "11,111,111/2,222,222" (reformat-experience "11111111/2222222")))))
+    (t/is (= "11,111,111/2,222,222" (i/reformat-experience "11111111/2222222")))))
 
-(deftest price-strings
-  (testing "price->str"
-    (is (= "~b/o 1 exa" (price->str [:bo 1 :exa])))
-    (is (= "~price 3 alt" (price->str [:price 3 :alt])))
-    (is (= "~price 10/3 chrom" (price->str [:price 10/3 :chrom])))
-    (is (thrown? java.lang.Exception (clojure.spec.alpha/check-asserts true) (price->str [:asdf 10/3 :alt]))))
+(t/deftest price-strings
+  (t/testing "price->str"
+    (t/is (= "~b/o 1 exa" (i/price->str [:bo 1 :exa])))
+    (t/is (= "~price 3 alt" (i/price->str [:price 3 :alt])))
+    (t/is (= "~price 10/3 chrom" (i/price->str [:price #?(:clj 10/3 :cljs 3.33) :chrom])))
+    (t/is (thrown? java.lang.Exception (clojure.spec.alpha/check-asserts true) (i/price->str [:asdf #?(:clj 10/3 :cljs 3.33) :alt]))))
 
-  (testing "str->price"
-    (is (= [:bo 1 :exa] (str->price "~b/o 1 exa")))
-    (is (= [:price 3 :alt] (str->price "~price 3 alt")))
-    (is (= [:price 10/3 :chrom] (str->price  "~price 10/3 chrom")))
-    (is (= nil (str->price "not a price")))))
+  (t/testing "str->price"
+    (t/is (= [:bo 1 :exa] (i/str->price "~b/o 1 exa")))
+    (t/is (= [:price 3 :alt] (i/str->price "~price 3 alt")))
+    (t/is (= [:price #?(:clj 10/3 :cljs 3.33) :chrom] (i/str->price  "~price 10/3 chrom")))
+    (t/is (= nil (i/str->price "not a price")))))
 
-(deftest whisper-text-test
-  (testing "whisper text"
-    (is (=
+(t/deftest whisper-text-test
+  (t/testing "whisper text"
+    (t/is (=
          "@LabbJugg Hi, I would like to buy your Dragon Bane Dragoon Sword listed for 10 chaos in Synthesis (stash tab \"frac1\"; position: left 8, top 1)"
-         (make-whisper "LabbJugg" [:bo 10 :chaos] "frac1" corrupted-fractured-weapon-api)))
-    (is (=
+         (i/make-whisper "LabbJugg" [:bo 10 :chaos] "frac1" corrupted-fractured-weapon-api)))
+    (t/is (=
          "@LabbJugg Hi, I would like to buy your Jewelled Foil listed for 1 chaos in Synthesis (stash tab \"44\"; position: left 4, top 7)"
-         (make-whisper "LabbJugg" [:bo 1 :chaos] "44" unided-weapon-api)))))
+         (i/make-whisper "LabbJugg" [:bo 1 :chaos] "44" unided-weapon-api)))))
 
-(deftest item-quality-test
-  (testing "With quality"
-    (is (= 5 (item-quality atziris-mirror-api))))
-  (testing "Without quality"
-    (is (= 0 (item-quality darkness-enthroned-api)))))
+(t/deftest item-quality-test
+  (t/testing "With quality"
+    (t/is (= 5 (i/item-quality atziris-mirror-api))))
+  (t/testing "Without quality"
+    (t/is (= 0 (i/item-quality darkness-enthroned-api)))))

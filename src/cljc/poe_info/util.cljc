@@ -1,4 +1,19 @@
-(ns poe-info.util)
+(ns poe-info.util
+  #?(:cljs
+     (:require
+      [goog.string :as gstring]
+      [goog.string.format]))
+  )
+
+(def fmt
+  #?(:clj clojure.core/format
+     :cljs gstring/format))
+
+(defn parse-int
+  [s]
+  #?(:clj (Integer/parseInt s)
+     :cljs (js/parseInt s))
+  )
 
 (defn key-map
   [f seq]
