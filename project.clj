@@ -12,12 +12,6 @@
                  [clojure.java-time "0.3.2"]
                  [org.clojure/core.match "0.3.0"]
                  [org.bovinegenius/exploding-fish "0.3.6"]
-                 [spootnik/kinsky "0.1.23"]
-                 [com.novemberain/monger "3.5.0"]
-                 [com.taoensso/timbre "4.10.0"]
-                 [aleph "0.4.6"]
-                 [manifold "0.1.8"]
-                 [byte-streams "0.2.4"]
                  ]
 
   :source-paths ["src/clj/" "src/cljc" "src/cljs/"]
