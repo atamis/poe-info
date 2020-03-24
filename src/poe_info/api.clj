@@ -2,7 +2,6 @@
   (:require [clj-http.client :as client]
             [clj-http.cookies :as cookies]
             [org.bovinegenius.exploding-fish :as uri]
-
             [poe-info.item :as item]))
 
 (defn stash-items-context
