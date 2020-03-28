@@ -224,6 +224,12 @@
        #"<([^\>]+)>\{([^\}]+)\}"
        #(apply div-card-tag-handler (rest %)))))
 
+(defn flavour-text-handler
+  [flavour-text]
+  (->> flavour-text
+       (string/join "\n")
+       text-tag-handler))
+
 (defn item->header-block
   [item]
   {:post [(s/valid? ::block %)]}
@@ -285,7 +291,7 @@
     (:implicitMods item) (conj (:implicitMods item))
     (:explicitMods item) (conj (item->explicit-block item))
     (:vaal item)         (concat-blocks (item->blocks (:vaal item)))
-    (:flavourText item)  (conj [(text-tag-handler (string/join "\n" (map string/trim (:flavourText item))))])
+    (:flavourText item)  (conj [(flavour-text-handler (:flavourText item))])
     (unided? item)       (conj ["Unidentified"])
     (:descrText item)    (conj (item->descr-text-block item))
     (:prophecyText item) (conj [(:prophecyText item)])
