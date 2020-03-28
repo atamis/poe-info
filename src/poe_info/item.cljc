@@ -285,7 +285,7 @@
     (:implicitMods item) (conj (:implicitMods item))
     (:explicitMods item) (conj (item->explicit-block item))
     (:vaal item)         (concat-blocks (item->blocks (:vaal item)))
-    (:flavourText item)  (conj [(text-tag-handler (string/join "\n" (:flavourText item)))])
+    (:flavourText item)  (conj [(text-tag-handler (string/join "\n" (map string/trim (:flavourText item))))])
     (unided? item)       (conj ["Unidentified"])
     (:descrText item)    (conj (item->descr-text-block item))
     (:prophecyText item) (conj [(:prophecyText item)])
