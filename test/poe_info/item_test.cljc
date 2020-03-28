@@ -1,11 +1,15 @@
 (ns poe-info.item-test
-  (:require [poe-info.item :as i]
-            #?(:clj [clojure.test :as t]
-               :cljs [cljs.test :as t :include-macros true])
-            [#?(:clj clojure.spec.alpha
-                :cljs cljs.spec.alpha) :as s]
-            ))
-
+  #?@
+   (:clj
+    [(:require
+      [clojure.spec.alpha :as s]
+      [clojure.test :as t]
+      [poe-info.item :as i])]
+    :cljs
+    [(:require
+      [cljs.spec.alpha :as s]
+      [cljs.test :as t :include-macros true]
+      [poe-info.item :as i])]))
 
 ;; To collapse all
 ;; z m
