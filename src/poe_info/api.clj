@@ -30,11 +30,15 @@
   ([username index]
    (-> "https://www.pathofexile.com/character-window/get-stash-items"
        uri/uri
-       (uri/query-map {:league "Synthesis"
+       (uri/query-map {:league "Delirium"
                        :tabIndex index
                        :accountName username
                        :tabs 1})
        str)))
+
+(defn get-stash-items
+  [cs username index]
+  (client/get (stash-item-url username index) {:cookie-store cs}))
 
 (defn my-account-url
   "THe URL for the my-account page."
