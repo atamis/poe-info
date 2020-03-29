@@ -29,6 +29,7 @@
 ;; synthesized (Hate Ward Synthesised Crypt Armor in b14)
 ;; shaped/elder items
 ;; unidentified corrupted maps
+;; Cluster jewel
 
 ;; TODO:
 ;; whisper buy gems with quality
@@ -1954,6 +1955,55 @@ Shift click to unstack.")
    :descrText
    "Right click this item then left click a normal or rare item to apply it.",
    :verified false})
+(def ^:const magic-cluster-data
+  "Rarity: Magic
+Cobalt Small Cluster Jewel of the Whelpling
+--------
+Requirements:
+Level: 54
+--------
+Item Level: 77
+--------
+Adds 3 Passive Skills (enchant)
+Added Small Passive Skills grant: +15% to Lightning Resistance (enchant)
+--------
+Added Small Passive Skills also grant: +2% to Fire Resistance
+Added Small Passive Skills also grant: +6 to Maximum Mana
+--------
+Place into an allocated Small, Medium or Large Jewel Socket on the Passive Skill Tree. Added passives do not interact with jewel radiuses. Right click to remove from the Socket.")
+(def ^:const magic-cluster-api
+  {:y 0,
+   :requirements [{:displayMode 0, :name "Level", :values [["54" 0]]}],
+   :typeLine "Cobalt Small Cluster Jewel of the Whelpling",
+   :enchantMods
+   ["Adds 3 Passive Skills"
+    "Added Small Passive Skills grant: +15% to Lightning Resistance"],
+   :frameType 1,
+   :name "",
+   :w 1,
+   :explicitMods
+   ["Added Small Passive Skills also grant: +2% to Fire Resistance"
+    "Added Small Passive Skills also grant: +6 to Maximum Mana"],
+   :icon
+   "https://web.poecdn.com/image/Art/2DItems/Jewels/NewGemBase1.png?w=1&h=1&scale=1&v=4f814e93a702f889fdac758b373c9e9d",
+   :ilvl 77,
+   :h 1,
+   :id
+   "3258110e924fb9e327c8426e139c1308e63c18aa0fbd302db13c5e5cc0b6addd",
+   :inventoryId "Stash3",
+   :context
+   {:colour {:r 221, :g 221, :b 221},
+    :type "QuadStash",
+    :name "y",
+    :index 2,
+    :username "indigo747"},
+   :x 2,
+   :identified true,
+   :league "Delirium",
+   :descrText
+   "Place into an allocated Small, Medium or Large Jewel Socket on the Passive Skill Tree. Added passives do not interact with jewel radiuses. Right click to remove from the Socket.",
+   :verified false})
+(i/item->enchant-block magic-cluster-api)
 
 (def ^:cost item-cases
   "Map of item suite cases in the form apie -> data, or
@@ -1992,9 +2042,11 @@ Shift click to unstack.")
    synthed-api                    synthed-data
    shaped-api                     shaped-data
    elder-api                      elder-data
-   div-arrogance-api div-arrogance-data
-   div-crumble-api div-crumble-data
-   essence-api essence-data})
+   div-arrogance-api              div-arrogance-data
+   div-crumble-api                div-crumble-data
+   essence-api                    essence-data
+   magic-cluster-api              magic-cluster-data
+   })
 
 (t/deftest test-item-cases
   (doseq [[item data] item-cases]

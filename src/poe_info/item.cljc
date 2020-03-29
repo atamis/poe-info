@@ -190,6 +190,10 @@
   [mods]
   (map #(str % " (crafted)") mods))
 
+(defn add-enchant
+  [mods]
+  (map #(str % " (enchant)") mods))
+
 (defn concat-blocks
   [blocks new-blocks]
   (into [] (concat blocks new-blocks)))
@@ -255,6 +259,12 @@
          "Requirements:"
          (map requirement->str (:requirements item))))
 
+(defn item->enchant-block
+  [item]
+  {:post [(s/valid? ::block %)]}
+  (vec (map text-tag-handler (add-enchant (:enchantMods item))))
+  )
+
 (defn item->explicit-block
   [item]
   {:post [(s/valid? ::block %)]}
@@ -289,6 +299,7 @@
     (:sockets item)      (conj [(str "Sockets: " (sockets->str (:sockets item)))])
     (item-ilvl? item)    (conj [(str "Item Level: " (:ilvl item))])
     (:talismanTier item) (conj [(str "Talisman Tier: " (:talismanTier item))])
+    (:enchantMods item)  (conj (item->enchant-block item))
     (:implicitMods item) (conj (:implicitMods item))
     (:explicitMods item) (conj (item->explicit-block item))
     (:vaal item)         (concat-blocks (item->blocks (:vaal item)))
