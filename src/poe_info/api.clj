@@ -92,6 +92,20 @@
                    "realm" realm}
      :method :post})))
 
+(defn prediction
+  "Gets a prediction form poeprices.info for an item and league. Takes the item
+  in API form and converts it to a string with `poe-info.item/item->str`. Parses
+  the json in request body."
+  [{:keys [league]} item]
+  (d/chain (http/request
+            {:url    "https://poeprices.info/api"
+             :method :post
+             :form-params {"l" league
+                           "i" (util/b64-encode (item/item->str item))}
+             :headers {"Accept" "application/json"}
+             :as :stream})
+           #(update % :body json/read-value mapper)))
+
 ;;; Old Functions
 
 (defn ^:deprecated stash-item-url
@@ -192,16 +206,13 @@
 
 ;; poeprices.info
 
-(defn b64-encode
-  "Base64 encodes a string, returning a string."
-  [s]
-  (.encodeToString (java.util.Base64/getEncoder) (.getBytes s)))
 
-(defn poeprices-prediction
+
+(defn ^:deprecated poeprices-prediction
   [league item-data & {:as opts}]
   (let [defaults {:form-params
                   {:l league
-                   :i (b64-encode item-data)}
+                   :i (util/b64-encode item-data)}
                   :as :json}
         opts (merge defaults opts)]
     (if (:async? opts)

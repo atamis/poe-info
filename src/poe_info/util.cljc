@@ -54,3 +54,8 @@
   (let [maps (filter identity maps)]
     (assert (every? map? maps))
    (apply merge-with deep-merge* maps)))
+
+(defn b64-encode
+  "Base64 encodes a string, returning a string."
+  [s]
+  (.encodeToString (java.util.Base64/getEncoder) (.getBytes s)))
