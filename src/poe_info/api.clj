@@ -27,18 +27,22 @@
 
 ;; Private API
 
+;; TODO Realm should be #{pc xbox sony}
+
 (def ^:private mapper
   (json/object-mapper
     {:encode-key-fn name
      :decode-key-fn keyword}))
 
 (defn make-client
+  "Make a client for a username, league, and session ID."
   [username league session-id]
   {:username username
    :league league
    :session-id session-id})
 
 (defn request
+  "Make an http-kit request in the context of the client"
   [{:keys [session-id] :as _client} r]
   (d/chain (http/request
             (util/deep-merge
@@ -47,10 +51,11 @@
               :method :get
               :as :stream}
              r))
-           #(update % :body json/read-value mapper)
-           ))
+           #(update % :body json/read-value mapper)))
 
 (defn stash-tab
+  "Get the contents of a stash tab (including private tabs) based on the
+  client's username, league, and tab index."
   [{:keys [username league] :as client} i]
   (d/chain (request
             client
@@ -62,6 +67,8 @@
            #(update % :body (partial stash-tab-add-context client))))
 
 (defn character-items
+  "Get a character's items based on the client's username, character name, and
+  realm."
   ([client character]
    (character-items client character "pc"))
   ([{:keys [username] :as client} character realm]
@@ -74,6 +81,7 @@
      :method :post})))
 
 (defn characters
+  "Get all the characters on an account (does not filter by league)."
   ([client]
    (characters client "pc"))
   ([{:keys [username] :as client} realm]
@@ -83,6 +91,8 @@
      :form-params {"accountName" username
                    "realm" realm}
      :method :post})))
+
+;;; Old Functions
 
 (defn ^:deprecated stash-item-url
   "Get the URL for the given username and tab index (default 0)."
