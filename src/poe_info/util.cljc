@@ -39,3 +39,18 @@
 
 (defn enumerate [s]
   (map vector (range) s))
+
+;; https://stackoverflow.com/questions/27130961/clojure-deep-merge-to-ignore-nil-values/27214324#27214324
+(defn deep-merge* [& maps]
+  (let [f (fn [old new]
+             (if (and (map? old) (map? new))
+                 (merge-with deep-merge* old new)
+                 new))]
+    (if (every? map? maps)
+      (apply merge-with f maps)
+     (last maps))))
+
+(defn deep-merge [& maps]
+  (let [maps (filter identity maps)]
+    (assert (every? map? maps))
+   (apply merge-with deep-merge* maps)))

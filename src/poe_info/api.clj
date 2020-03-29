@@ -1,12 +1,16 @@
 (ns poe-info.api
   (:require [clj-http.client :as client]
             [clj-http.cookies :as cookies]
+            [poe-info.util :as util]
             [org.bovinegenius.exploding-fish :as uri]
-            [poe-info.item :as item]))
+            [poe-info.item :as item]
+            [org.httpkit.client :as http]
+            [manifold.deferred :as d]
+            [jsonista.core :as json]))
 
-(defn stash-items-context
+(defn stash-tab-add-context
   "Takes the body of a stash tab API call, adds context to each item, and returns the items"
-  [username response-body]
+  [{:keys [username]} response-body]
   (let [stash-index (-> response-body
                         :items
                         first
@@ -19,10 +23,68 @@
                     (assoc :username username)
                     )]
 
-    (map #(assoc % :context context) (:items response-body))))
+    (update response-body
+            :items
+            (partial map #(assoc % :context context)))))
 
 ;; Private API
 
+(def ^:private mapper
+  (json/object-mapper
+    {:encode-key-fn name
+     :decode-key-fn keyword}))
+
+(defn make-client
+  [username league session-id]
+  {:username username
+   :league league
+   :session-id session-id})
+
+(defn request
+  [{:keys [session-id] :as _client} r]
+  (d/chain (http/request
+            (util/deep-merge
+             {:headers {"Cookie" (str "POESESSID=" session-id)
+                        "Accept" "application/json"}
+              :method :get
+              :as :stream}
+             r))
+           #(update % :body json/read-value mapper)
+           ))
+
+(defn stash-tab
+  [{:keys [username league] :as client} i]
+  (d/chain (request
+            client
+            {:url "https://www.pathofexile.com/character-window/get-stash-items"
+             :query-params {"league" league
+                            "tabIndex" i
+                            "accountName" username
+                            "tabs" 1}})
+           #(update % :body (partial stash-tab-add-context client))))
+
+(defn character-items
+  ([client character]
+   (character-items client character "pc"))
+  ([{:keys [username] :as client} character realm]
+   (request
+    client
+    {:url  "https://www.pathofexile.com/character-window/get-items"
+     :form-params {"accountName" username
+                   "character" character
+                   "realm" realm}
+     :method :post})))
+
+(defn characters
+  ([client]
+   (characters client "pc"))
+  ([{:keys [username] :as client} realm]
+   (request
+    client
+    {:url  "https://www.pathofexile.com/character-window/get-characters"
+     :form-params {"accountName" username
+                   "realm" realm}
+     :method :post})))
 
 (defn stash-item-url
   "Get the URL for the given username and tab index (default 0)."

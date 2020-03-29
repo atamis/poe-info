@@ -55,6 +55,7 @@
   "If the item is in a stash tab, returns in the integer index for that stash.
   Returns nil otherwise (like if the item was equipped on a character.)"
   [{:keys [inventoryId]}]
+  ;; TODO inventoryID has weird vluaes for items on characters
   (let [[_ s] (re-find #"Stash(.+)"  inventoryId)]
     (when s
       (dec (util/parse-int s)))))
