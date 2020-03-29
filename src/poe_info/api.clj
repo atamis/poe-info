@@ -20,9 +20,7 @@
                     (nth stash-index)
                     (select-keys [:n :colour :i :type])
                     (clojure.set/rename-keys {:n :name :i :index})
-                    (assoc :username username)
-                    )]
-
+                    (assoc :username username))]
     (update response-body
             :items
             (partial map #(assoc % :context context)))))
@@ -86,7 +84,7 @@
                    "realm" realm}
      :method :post})))
 
-(defn stash-item-url
+(defn ^:deprecated stash-item-url
   "Get the URL for the given username and tab index (default 0)."
   ([username] (stash-item-url username 0))
   ([username index]
@@ -98,21 +96,21 @@
                        :tabs 1})
        str)))
 
-(defn get-stash-items
+(defn ^:deprecated get-stash-items
   [cs username index]
   (client/get (stash-item-url username index) {:cookie-store cs}))
 
-(defn my-account-url
+(defn ^:deprecated my-account-url
   "THe URL for the my-account page."
   []
   "https://www.pathofexile.com/my-account")
 
-(defn find-sess-cookie
+(defn ^:deprecated find-sess-cookie
   "Return the cookie object that has the name POESESSID."
   [cs]
   (first (filter #(= (.getName %) "POESESSID") (.getCookies cs))))
 
-(defn make-cs
+(defn ^:deprecated make-cs
   "Make a cookie store with the POESESSID cookie set to the given id."
   [id]
   (def cs (clj-http.cookies/cookie-store))
@@ -125,7 +123,7 @@
 
   cs)
 
-(defn get-character-items
+(defn ^:deprecated get-character-items
   "cs is a cookie store, params is a map with the \"accountName\", \"realm\", and \"character\". This triggers a post request."
   [cs params & {:as opts}]
   (let [default {:form-params (select-keys params [:accountName, :realm, :character])
@@ -135,7 +133,7 @@
     (client/post "https://www.pathofexile.com/character-window/get-items"
                  options)))
 
-(defn get-characters
+(defn ^:deprecated get-characters
   [cs params & {:as opts}]
   (let [default {:form-params (select-keys params [:accountName :realm])
                  :cookie-store cs
