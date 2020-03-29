@@ -388,6 +388,13 @@
         item-name (full-item-name item)]
     (util/fmt "@%s Hi, I would like to buy your %s listed for %s in %s (stash tab \"%s\"; position: left %d, top %d)" username item-name price league stash left top)))
 
+(defn make-whisper-from-context
+  [price {:keys [context] :as item}]
+  (make-whisper (:username context)
+                price
+                (:name context)
+                item))
+
 (defn item-price
   [{{:keys [name]}:context :keys [note]}]
   (if note
