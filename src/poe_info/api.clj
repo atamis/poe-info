@@ -11,10 +11,10 @@
 (defn stash-tab-add-context
   "Takes the body of a stash tab API call, adds context to each item, and returns the items"
   [{:keys [username]} response-body]
-  (let [stash-index (-> response-body
-                        :items
-                        first
-                        item/stash-index)
+  (let [stash-index (some-> response-body
+                            :items
+                            first
+                            item/stash-index)
         context (-> response-body
                     :tabs
                     (nth stash-index)
