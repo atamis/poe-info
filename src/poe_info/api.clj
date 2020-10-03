@@ -10,11 +10,12 @@
 
 (defn stash-tab-add-context
   "Takes the body of a stash tab API call, adds context to each item, and returns the items"
-  [{:keys [username]} response-body]
-  (let [stash-index (some-> response-body
-                            :items
-                            first
-                            item/stash-index)
+  [{:keys [username]} index response-body]
+  (let [stash-index (or (some-> response-body
+                                :items
+                                first
+                                item/stash-index)
+                        index)
         context (-> response-body
                     :tabs
                     (nth stash-index)
@@ -64,7 +65,7 @@
                             "tabIndex" i
                             "accountName" username
                             "tabs" 1}})
-           #(update % :body (partial stash-tab-add-context client))))
+           #(update % :body (partial stash-tab-add-context client i))))
 
 (defn character-items
   "Get a character's items based on the client's username, character name, and
