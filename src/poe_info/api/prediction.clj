@@ -93,6 +93,12 @@
         currency (nth children 4)]
     [:price (edn/read-string price) (keyword currency)]))
 
+(defn avg-prices
+  "Average a list of prices. Only valid if all prices have the same currency."
+  ;; This seems to hold true for all predictions.
+  [prices]
+  (/ (reduce + (map second prices)) (count prices)))
+
 (defn parse-response
   [resp]
   ;; Min is in the first TD, max is in the second TD with some other stuff. The
@@ -109,7 +115,7 @@
         max  (parse-price-paragraph max-td)]
     {:min min
      :max max
-     :avg (/ (+ min max) 2)
+     :avg (avg-prices [min max])
      :raw-table table}))
 
 (defn raw-prediction
