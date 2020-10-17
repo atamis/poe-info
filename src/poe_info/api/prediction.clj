@@ -65,20 +65,24 @@
    :avg nil
    :raw-table (tooltip->price-table (parse-tooltip (tagsoup/parse (:body resp))))})
 
+(defn raw-prediction
+  [item]
+  (http/request
+   {:url "https://www.poeprices.info/submitstash"
+    :method :post
+    :as :stream
+    :form-params {"stashitemtext" (json/write-value-as-string
+                                   {"numTabs" 1
+                                    "tabs" [{"i" 0
+                                             "n" "tab"}]
+                                    "items" [item]})
+                  "auto2" "auto"
+                  "myshops" ""
+                  "useML" "useML"
+                  "submit" "SubmitStash"
+                  "myaccounts" ""}}))
+
 (defn json-prediction
   [item]
-  (d/chain (http/request
-            {:url "https://www.poeprices.info/submitstash"
-             :method :post
-             :as :stream
-             :form-params {"stashitemtext" (json/write-value-as-string
-                                            {"numTabs" 1
-                                             "tabs" [{"i" 0
-                                                      "n" "tab"}]
-                                             "items" [item]})
-                           "auto2" "auto"
-                           "myshops" ""
-                           "useML" "useML"
-                           "submit" "SubmitStash"
-                           "myaccounts" ""}})
+  (d/chain (raw-prediction item)
            parse-response))
