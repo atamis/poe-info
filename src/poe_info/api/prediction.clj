@@ -1,7 +1,8 @@
 (ns poe-info.api.prediction
-  (:require [org.httpkit.client :as http]
-            [manifold.deferred :as d]
+  (:require [clojure.edn :as edn]
             [jsonista.core :as json]
+            [manifold.deferred :as d]
+            [org.httpkit.client :as http]
             [pl.danieljanus.tagsoup :as tagsoup]))
 
 (defn element?
@@ -58,12 +59,28 @@
        last
        (get-tag :table)))
 
+(defn parse-price-paragraph
+    [p]
+    (let [children (tagsoup/children p)
+          price (nth children 2)
+          currency (nth children 4)]
+      [:price (edn/read-string price) (keyword currency)]))
+
 (defn parse-response
   [resp]
-  {:min nil
-   :max nil
-   :avg nil
-   :raw-table (tooltip->price-table (parse-tooltip (tagsoup/parse (:body resp))))})
+  (let [table (tooltip->price-table (parse-tooltip (tagsoup/parse (:body resp))))
+
+        tds (get-tags :td (get-tag :tr table))
+
+        min-td (first (get-tags :p (first tds)))
+        min  (parse-price-paragraph min-td)
+
+        max-td (first (get-tags :p (nth tds 2)))
+        max  (parse-price-paragraph max-td)]
+    {:min min
+     :max max
+     :avg (/ (+ min max) 2)
+     :raw-table table}))
 
 (defn raw-prediction
   [item]
